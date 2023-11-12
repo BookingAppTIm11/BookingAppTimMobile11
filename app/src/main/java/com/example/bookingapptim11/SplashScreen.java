@@ -1,10 +1,15 @@
 package com.example.bookingapptim11;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.Toast;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -21,18 +26,46 @@ public class SplashScreen extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        // Create a Handler to delay the navigation
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // Define the target activity you want to switch to
+
+        if(!isConnected()){
+            Toast.makeText(SplashScreen.this,"You are not connected to the internet", Toast.LENGTH_LONG).show();
+            AlertDialog dialog = connectDialog();
+            dialog.show();
+        }else{
+            new Handler().postDelayed(() -> {
                 Intent intent = new Intent(SplashScreen.this, HomeScreen.class);
                 startActivity(intent);
-
-                // Finish the current activity so that the user can't navigate back to it
                 finish();
-            }
-        }, 5000); // 5000 milliseconds (5 seconds)
+            }, 5000);
+        }
+    }
+    private boolean isConnected() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            NetworkInfo network = connectivityManager.getActiveNetworkInfo();
+            return network != null && network.isConnectedOrConnecting();
+        }
+        return false;
+    }
+
+    private AlertDialog connectDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("You are not connected to the internet! ")
+                .setPositiveButton("Connect", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        startActivity(new Intent(android.provider.Settings.ACTION_WIFI_SETTINGS));
+                    }
+                })
+                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        finish();
+                    }
+                })
+                .setCancelable(false);
+        return builder.create();
     }
     @Override
     protected void onDestroy() {
