@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class RegisterScreen extends AppCompatActivity {
+public class RegisterScreenActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +19,7 @@ public class RegisterScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Create an Intent to switch to the LoginScreen activity
-                Intent intent = new Intent(RegisterScreen.this, LoginScreen.class);
+                Intent intent = new Intent(RegisterScreenActivity.this, LoginScreenActivity.class);
                 startActivity(intent);
             }
         });

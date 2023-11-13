@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginScreen">
+    tools:context=".LoginScreenActivity">
 
 
     <EditText
@@ -44,7 +44,7 @@
         app:layout_constraintVertical_bias="0.487" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/buttonLogIn"
         android:layout_width="230dp"
         android:layout_height="46dp"
         android:layout_marginBottom="288dp"
@@ -69,7 +69,7 @@
         app:layout_constraintVertical_bias="0.66" />
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/textViewSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"

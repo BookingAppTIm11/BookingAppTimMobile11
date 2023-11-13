@@ -29,10 +29,10 @@
             android:name=".HomeScreen"
             android:exported="false" />
         <activity
-            android:name=".RegisterScreen"
+            android:name=".RegisterScreenActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginScreen"
+            android:name=".LoginScreenActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
