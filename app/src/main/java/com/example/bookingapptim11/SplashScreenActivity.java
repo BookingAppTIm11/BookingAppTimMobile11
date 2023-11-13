@@ -11,7 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Toast;
 
-public class SplashScreen extends AppCompatActivity {
+public class SplashScreenActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +28,12 @@ public class SplashScreen extends AppCompatActivity {
         super.onStart();
 
         if(!isConnected()){
-            Toast.makeText(SplashScreen.this,"You are not connected to the internet", Toast.LENGTH_LONG).show();
+            Toast.makeText(SplashScreenActivity.this,"You are not connected to the internet", Toast.LENGTH_LONG).show();
             AlertDialog dialog = connectDialog();
             dialog.show();
         }else{
             new Handler().postDelayed(() -> {
-                Intent intent = new Intent(SplashScreen.this, HomeScreen.class);
+                Intent intent = new Intent(SplashScreenActivity.this, HomeScreen.class);
                 startActivity(intent);
                 finish();
             }, 5000);
