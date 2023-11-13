@@ -14,16 +14,6 @@ public class LoginScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
-        Button registerBtn = findViewById(R.id.registerBtn);
-
-        registerBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Create an Intent to switch to the LoginScreen activity
-                Intent intent = new Intent(LoginScreen.this, RegisterScreen.class);
-                startActivity(intent);
-            }
-        });
     }
     @Override
     protected void onStop() {
