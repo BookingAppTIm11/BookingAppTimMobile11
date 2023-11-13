@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class RegisterScreenActivity extends AppCompatActivity {
 
@@ -13,12 +14,11 @@ public class RegisterScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_screen);
-        Button logInButton = findViewById(R.id.logInBtn);
 
-        logInButton.setOnClickListener(new View.OnClickListener() {
+        TextView logIn = findViewById(R.id.textViewLogIn);
+        logIn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                // Create an Intent to switch to the LoginScreen activity
+            public void onClick(View view) {
                 Intent intent = new Intent(RegisterScreenActivity.this, LoginScreenActivity.class);
                 startActivity(intent);
             }
