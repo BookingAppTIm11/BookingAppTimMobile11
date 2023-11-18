@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,18 @@ import java.util.List;
 import models.Amenity;
 
 public class AmenityCardAdapter  extends RecyclerView.Adapter<AmenityCardAdapter.ViewHolder> {
+
+    private OnItemClickListener mListener;
+
+    // Interface to handle item clicks
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    // Method to set click listener
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
+    }
 
     Context context;
     List<Amenity> list;
@@ -54,7 +67,22 @@ public class AmenityCardAdapter  extends RecyclerView.Adapter<AmenityCardAdapter
             amenityPrice = itemView.findViewById(R.id.priceTextView);
             amenityRating = itemView.findViewById(R.id.ratingTextView);
             amenityCapacity = itemView.findViewById(R.id.capacityTextView);
+
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mListener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            mListener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
+
+
     }
 
 }
