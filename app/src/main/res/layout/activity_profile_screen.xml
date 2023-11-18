@@ -18,21 +18,21 @@
         <!-- Email EditText with Label -->
 
         <ImageView
+            android:id="@+id/profileImage"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="15dp"
             android:layout_marginBottom="8dp"
             android:clickable="true"
             android:onClick="changeProfilePicture"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_person"
             app:layout_constraintVertical_bias="0.5" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="15dp"
             android:layout_marginBottom="8dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -49,7 +49,7 @@
                 android:textSize="16sp" />
 
             <EditText
-                android:id="@+id/emailRegistrationInput"
+                android:id="@+id/emailInput"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -59,7 +59,6 @@
                 android:ems="10"
                 android:hint="Email"
                 android:inputType="textEmailAddress"
-                android:text="vladimir123@gmail.com"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -72,7 +71,7 @@
             android:id="@+id/passwordLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="15dp"
             android:layout_marginBottom="8dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -100,7 +99,6 @@
                 android:ems="10"
                 android:hint="Password"
                 android:inputType="textPassword"
-                android:text="sifra123"
                 android:textSize="16sp" />
 
             <CheckBox
@@ -116,7 +114,7 @@
             android:id="@+id/firstNameLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="15dp"
             android:layout_marginBottom="8dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -144,7 +142,6 @@
                 android:ems="10"
                 android:hint="First Name"
                 android:inputType="textPersonName"
-                android:text="Vladimir"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -152,7 +149,7 @@
             android:id="@+id/lastNameLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="15dp"
             android:layout_marginBottom="8dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -180,7 +177,6 @@
                 android:ems="10"
                 android:hint="Last Name"
                 android:inputType="textPersonName"
-                android:text="Cornenki"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -188,7 +184,7 @@
             android:id="@+id/addressLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="15dp"
             android:layout_marginBottom="8dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -216,7 +212,6 @@
                 android:ems="10"
                 android:hint="Address"
                 android:inputType="textPostalAddress"
-                android:text="Bulevar Oslobodjenja 23, Novi Sad"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -224,7 +219,7 @@
             android:id="@+id/phoneNumberLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="15dp"
             android:layout_marginBottom="8dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -252,7 +247,6 @@
                 android:ems="10"
                 android:hint="Phone Number"
                 android:inputType="phone"
-                android:text="0631234567"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -261,7 +255,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:backgroundTint="@color/light_orange"
             android:text="Save"
             app:layout_constraintEnd_toEndOf="parent"
