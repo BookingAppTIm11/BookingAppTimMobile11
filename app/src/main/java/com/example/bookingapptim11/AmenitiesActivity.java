@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import models.Accommodation;
 import ui.AmenityCardsFragment;
 import ui.AmenityDetailsFragment;
 
@@ -33,12 +34,10 @@ public class AmenitiesActivity extends AppCompatActivity implements AmenityCards
     }
 
     @Override
-    public void onAmenityClick(int position) {
-        FrameLayout fragmentAmenityCardsContainer= findViewById(R.id.fragmentContainer);
-        fragmentAmenityCardsContainer.setVisibility(View.GONE);
-
+    public void onAmenityClick(Accommodation accommodation) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragmentContainerAmenitiesDetails, new AmenityDetailsFragment())
+                .replace(R.id.fragmentContainer, new AmenityDetailsFragment(accommodation))
+                .addToBackStack("name")
                 .commit();
     }
 }

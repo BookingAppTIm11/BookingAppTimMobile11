@@ -1,16 +1,16 @@
 package models;
 
-public class Amenity {
+public class Accommodation {
     String name;
     String location;
     Double rating;
     Double price;
     Integer capacity;
 
-    public Amenity() {
+    public Accommodation() {
     }
 
-    public Amenity(String name, String location, Double rating, Double price, Integer capacity) {
+    public Accommodation(String name, String location, Double rating, Double price, Integer capacity) {
         this.name = name;
         this.location = location;
         this.rating = rating;

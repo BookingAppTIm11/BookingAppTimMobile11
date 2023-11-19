@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,7 +14,7 @@ import com.example.bookingapptim11.R;
 
 import java.util.List;
 
-import models.Amenity;
+import models.Accommodation;
 
 public class AmenityCardAdapter  extends RecyclerView.Adapter<AmenityCardAdapter.ViewHolder> {
 
@@ -31,9 +31,9 @@ public class AmenityCardAdapter  extends RecyclerView.Adapter<AmenityCardAdapter
     }
 
     Context context;
-    List<Amenity> list;
+    List<Accommodation> list;
 
-    public AmenityCardAdapter(Context context, List<Amenity> list) {
+    public AmenityCardAdapter(Context context, List<Accommodation> list) {
         this.context = context;
         this.list = list;
     }
@@ -51,6 +51,7 @@ public class AmenityCardAdapter  extends RecyclerView.Adapter<AmenityCardAdapter
         holder.amenityLocation.setText(list.get(position).getLocation());
         holder.amenityPrice.setText(String.valueOf(list.get(position).getPrice().doubleValue()));
         holder.amenityRating.setText(String.valueOf(list.get(position).getRating().doubleValue()));
+
     }
 
     @Override
@@ -67,7 +68,6 @@ public class AmenityCardAdapter  extends RecyclerView.Adapter<AmenityCardAdapter
             amenityPrice = itemView.findViewById(R.id.priceTextView);
             amenityRating = itemView.findViewById(R.id.ratingTextView);
             amenityCapacity = itemView.findViewById(R.id.capacityTextView);
-
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
