@@ -9,6 +9,7 @@ import android.view.Menu;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -80,6 +81,10 @@ public class NavigationActivity extends AppCompatActivity implements AmenityCard
         if (id == R.id.action_logIn) {
             openLogIn();
             return true;
+        } else if (id == R.id.nav_home){
+            replaceFragment(new AmenityCardsFragment());
+        } else if (id == R.id.nav_profile){
+            replaceFragment(new ProfileFragment());
         }
 
         return super.onOptionsItemSelected(item);
@@ -89,7 +94,12 @@ public class NavigationActivity extends AppCompatActivity implements AmenityCard
         Intent loginIntent = new Intent(this, LoginScreenActivity.class);
         startActivity(loginIntent);
     }
-
+    public void replaceFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.nav_host_fragment_content_navigation, fragment)
+                .addToBackStack("name") // Optional: Add to back stack for back navigation
+                .commit();
+    }
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_navigation);
