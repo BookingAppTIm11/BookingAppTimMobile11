@@ -67,10 +67,15 @@ public class AmenityCardsFragment extends Fragment {
         amenityCardAdapter.setOnItemClickListener(new AmenityCardAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                if (mListener != null) {
-                    Accommodation clickedAccommodation = accommodationList.get(position);
-                    mListener.onAmenityClick(clickedAccommodation); // Propagate click event to activity
-                }
+//                if (mListener != null) {
+//                    Accommodation clickedAccommodation = accommodationList.get(position);
+//                    mListener.onAmenityClick(clickedAccommodation); // Propagate click event to activity
+//                }
+                Accommodation clickedAccommodation = accommodationList.get(position);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment_content_navigation, new AmenityDetailsFragment(clickedAccommodation))
+                        .addToBackStack("name")
+                        .commit();
             }
         });
 

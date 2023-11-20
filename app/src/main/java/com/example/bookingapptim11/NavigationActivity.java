@@ -52,9 +52,9 @@ public class NavigationActivity extends AppCompatActivity implements AmenityCard
             // Set the listener for item clicks in the fragment
             homeFragment.setOnItemClickListener(this);
 
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.nav_host_fragment_content_navigation, homeFragment)
-                    .commit();
+//            getSupportFragmentManager().beginTransaction()
+//                    .replace(R.id.nav_host_fragment_content_navigation, homeFragment)
+//                    .commit();
         }
 
 
