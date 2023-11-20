@@ -18,7 +18,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bookingapptim11.databinding.ActivityNavigationBinding;
 
-public class NavigationActivity extends AppCompatActivity {
+import models.Accommodation;
+import ui.AmenityCardsFragment;
+import ui.AmenityDetailsFragment;
+
+public class NavigationActivity extends AppCompatActivity implements AmenityCardsFragment.OnItemClickListener {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityNavigationBinding binding;
@@ -34,15 +38,32 @@ public class NavigationActivity extends AppCompatActivity {
 
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_profile)
                 .setOpenableLayout(drawer)
                 .build();
+
+        if (savedInstanceState == null) {
+            AmenityCardsFragment homeFragment = new AmenityCardsFragment();
+            // Set the listener for item clicks in the fragment
+            homeFragment.setOnItemClickListener(this);
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.nav_host_fragment_content_navigation, homeFragment)
+                    .commit();
+        }
+
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_navigation);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+
+
+
     }
 
     @Override
@@ -74,5 +95,13 @@ public class NavigationActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_navigation);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void onAmenityClick(Accommodation accommodation) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.nav_host_fragment_content_navigation, new AmenityDetailsFragment(accommodation))
+                .addToBackStack("name")
+                .commit();
     }
 }
