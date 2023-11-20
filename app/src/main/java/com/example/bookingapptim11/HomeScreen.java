@@ -20,7 +20,7 @@ public class HomeScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Create an Intent to switch to the LoginScreen activity
-                Intent intent = new Intent(HomeScreen.this, LoginScreenActivity.class);
+                Intent intent = new Intent(HomeScreen.this, NavigationActivity.class);
                 startActivity(intent);
             }
         });

@@ -33,7 +33,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             dialog.show();
         }else{
             new Handler().postDelayed(() -> {
-                Intent intent = new Intent(SplashScreenActivity.this, LoginScreenActivity.class);
+                Intent intent = new Intent(SplashScreenActivity.this, NavigationActivity.class);
                 startActivity(intent);
                 finish();
             }, 5000);
