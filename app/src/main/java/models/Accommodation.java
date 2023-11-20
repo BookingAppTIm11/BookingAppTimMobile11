@@ -1,6 +1,11 @@
 package models;
 
-public class Accommodation {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+public class Accommodation implements Parcelable {
     String name;
     String location;
     Double rating;
@@ -57,6 +62,64 @@ public class Accommodation {
     public void setCapacity(Integer capacity) {
         this.capacity = capacity;
     }
+    protected Accommodation(Parcel in) {
+        name = in.readString();
+        location = in.readString();
+        if (in.readByte() == 0) {
+            rating = null;
+        } else {
+            rating = in.readDouble();
+        }
+        if (in.readByte() == 0) {
+            price = null;
+        } else {
+            price = in.readDouble();
+        }
+        if (in.readByte() == 0) {
+            capacity = null;
+        } else {
+            capacity = in.readInt();
+        }
+    }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(location);
+        if (rating != null) {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(rating);
+        } else {
+            dest.writeByte((byte) 0);
+        }
+        if (price != null) {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(price);
+        } else {
+            dest.writeByte((byte) 0);
+        }
+        if (capacity != null) {
+            dest.writeByte((byte) 1);
+            dest.writeInt(capacity);
+        } else {
+            dest.writeByte((byte) 0);
+        }
+    }
+
+    public static final Creator<Accommodation> CREATOR = new Creator<Accommodation>() {
+        @Override
+        public Accommodation createFromParcel(Parcel in) {
+            return new Accommodation(in);
+        }
+
+        @Override
+        public Accommodation[] newArray(int size) {
+            return new Accommodation[size];
+        }
+    };
 }

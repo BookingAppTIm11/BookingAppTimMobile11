@@ -2,6 +2,7 @@ package ui;
 
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,6 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.example.bookingapptim11.AccommodationDetailsActivity;
+import com.example.bookingapptim11.HomeScreen;
+import com.example.bookingapptim11.NavigationActivity;
 import com.example.bookingapptim11.R;
 
 import java.util.ArrayList;
@@ -72,10 +76,14 @@ public class AmenityCardsFragment extends Fragment {
 //                    mListener.onAmenityClick(clickedAccommodation); // Propagate click event to activity
 //                }
                 Accommodation clickedAccommodation = accommodationList.get(position);
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.nav_host_fragment_content_navigation, new AmenityDetailsFragment(clickedAccommodation))
-                        .addToBackStack("name")
-                        .commit();
+
+                Intent intent = new Intent(getActivity(), AccommodationDetailsActivity.class);
+                intent.putExtra("accommodation", clickedAccommodation);
+                startActivity(intent);
+//                getActivity().getSupportFragmentManager().beginTransaction()
+//                        .replace(R.id.nav_host_fragment_content_navigation, new AmenityDetailsFragment(clickedAccommodation))
+//                        .addToBackStack("name")
+//                        .commit();
             }
         });
 
