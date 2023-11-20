@@ -1,43 +1,51 @@
 package com.example.bookingapptim11;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import android.provider.MediaStore;
 import android.text.InputType;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class ProfileScreenActivity extends AppCompatActivity {
+import java.util.Objects;
+
+
+public class ProfileFragment extends Fragment {
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private ImageView profileImageView;
     private EditText emailInput, firstNameInput, lastNameInput, addressInput, phoneNumberInput, passwordInput;
     private CheckBox showPasswordCheckbox;
 
+    public ProfileFragment() {
+        // Required empty public constructor
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile_screen);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        profileImageView = findViewById(R.id.profileImage);
-        emailInput = findViewById(R.id.emailInput);
-        firstNameInput = findViewById(R.id.firstNameInput);
-        lastNameInput = findViewById(R.id.lastNameInput);
-        addressInput = findViewById(R.id.addressInput);
-        phoneNumberInput = findViewById(R.id.phoneNumberInput);
-        passwordInput = findViewById(R.id.passwordInput);
-        showPasswordCheckbox = findViewById(R.id.showPasswordCheckbox);
+        profileImageView = view.findViewById(R.id.profileImage);
+        emailInput = view.findViewById(R.id.emailInput);
+        firstNameInput = view.findViewById(R.id.firstNameInput);
+        lastNameInput = view.findViewById(R.id.lastNameInput);
+        addressInput = view.findViewById(R.id.addressInput);
+        phoneNumberInput = view.findViewById(R.id.phoneNumberInput);
+        passwordInput = view.findViewById(R.id.passwordInput);
+        showPasswordCheckbox = view.findViewById(R.id.showPasswordCheckbox);
 
-
-        Button saveButton = findViewById(R.id.saveButton);
+        Button saveButton = view.findViewById(R.id.saveButton);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,6 +71,8 @@ public class ProfileScreenActivity extends AppCompatActivity {
         });
 
         loadUserProfileInfo();
+
+        return view;
     }
 
     private void loadUserProfileInfo() {
@@ -75,7 +85,6 @@ public class ProfileScreenActivity extends AppCompatActivity {
         addressInput.setText("Bulevar Oslobodjenja 23");
         phoneNumberInput.setText("0631234567");
         passwordInput.setText("password123");
-
     }
 
     private void changeProfilePicture() {
@@ -84,10 +93,10 @@ public class ProfileScreenActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == requireActivity().RESULT_OK && data != null) {
             Uri selectedImageUri = data.getData();
             profileImageView.setImageURI(selectedImageUri);
         }
@@ -96,8 +105,6 @@ public class ProfileScreenActivity extends AppCompatActivity {
     private void saveChanges() {
         // Logic needs to be added with backend
 
-        Toast.makeText(this, "Profile Saved", Toast.LENGTH_SHORT).show();
+        Toast.makeText(requireActivity(), "Profile Saved", Toast.LENGTH_SHORT).show();
     }
-
-
 }
