@@ -165,8 +165,9 @@
                     android:layout_marginRight="0dp"
                     android:text="$120.99"
                     android:textAlignment="viewEnd"
-                    android:textColor="@color/black"
-                    android:textSize="24sp" />
+                    android:textColor="@color/ic_launcher_background"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/detailsButton"

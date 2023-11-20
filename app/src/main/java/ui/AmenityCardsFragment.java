@@ -1,6 +1,7 @@
 package ui;
 
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,10 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.example.bookingapptim11.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import adapters.AmenityCardAdapter;
@@ -23,6 +26,8 @@ public class AmenityCardsFragment extends Fragment {
     List<Accommodation> accommodationList;
     AmenityCardAdapter amenityCardAdapter;
     RecyclerView recyclerView;
+    private EditText checkInDateEditText;
+    private EditText checkOutDateEditText;
 
     public interface OnItemClickListener {
         void onAmenityClick(Accommodation accommodation);
@@ -68,6 +73,32 @@ public class AmenityCardsFragment extends Fragment {
                 }
             }
         });
+
+        checkInDateEditText = root.findViewById(R.id.checkInTextDate);
+        checkInDateEditText.setOnClickListener(v -> showDatePicker(checkInDateEditText));
+        checkOutDateEditText = root.findViewById(R.id.checkOutTextDate);
+        checkOutDateEditText.setOnClickListener(v -> showDatePicker(checkOutDateEditText));
+
+
         return root;
+    }
+
+    private void showDatePicker(EditText dateEditText) {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                requireContext(),
+                (view, selectedYear, selectedMonth, selectedDayOfMonth) -> {
+                    // Set the selected date to the EditText field
+                    String selectedDate = (selectedMonth + 1) + "/" + selectedDayOfMonth + "/" + selectedYear;
+                    dateEditText.setText(selectedDate);
+                },
+                year, month, dayOfMonth);
+
+        datePickerDialog.show();
+
     }
 }
