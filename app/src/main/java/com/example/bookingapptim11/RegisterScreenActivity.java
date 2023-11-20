@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class RegisterScreenActivity extends AppCompatActivity {
@@ -20,6 +21,15 @@ public class RegisterScreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(RegisterScreenActivity.this, LoginScreenActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        ImageButton homeButton = findViewById(R.id.homeRegisterImageButton);
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RegisterScreenActivity.this, NavigationActivity.class);
                 startActivity(intent);
             }
         });

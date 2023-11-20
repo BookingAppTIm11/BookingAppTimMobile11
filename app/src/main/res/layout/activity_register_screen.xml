@@ -6,6 +6,33 @@
     android:layout_height="match_parent"
     tools:context=".RegisterScreenActivity">
 
+    <ImageButton
+        android:id="@+id/homeRegisterImageButton"
+        android:layout_width="96dp"
+        android:layout_height="92dp"
+        android:background="#FDFDFD"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/ic_launcher_foreground" />
+
+    <EditText
+        android:id="@+id/addressInput"
+        android:layout_width="238dp"
+        android:layout_height="52dp"
+        android:backgroundTint="@color/light_orange"
+        android:drawableStart="@drawable/ic_location"
+        android:drawablePadding="10dp"
+        android:ems="10"
+        android:hint="Address"
+        android:inputType="text"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.618" />
+
     <EditText
         android:id="@+id/emailRegistrationInput"
         android:layout_width="238dp"
@@ -22,7 +49,7 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.123" />
+        app:layout_constraintVertical_bias="0.144" />
 
     <EditText
         android:id="@+id/passwordRegistrationInput"
@@ -40,7 +67,7 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.22" />
+        app:layout_constraintVertical_bias="0.241" />
 
     <EditText
         android:id="@+id/confirmPasswordInput"
@@ -58,13 +85,13 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.316" />
+        app:layout_constraintVertical_bias="0.337" />
 
     <Button
         android:id="@+id/buttonRegister"
         android:layout_width="230dp"
         android:layout_height="46dp"
-        android:layout_marginBottom="96dp"
+        android:layout_marginBottom="80dp"
         android:backgroundTint="@color/light_orange"
         android:text="REGISTER"
         android:textSize="14sp"
@@ -87,7 +114,7 @@
         app:layout_constraintHorizontal_bias="0.729"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.915" />
+        app:layout_constraintVertical_bias="0.936" />
 
     <TextView
         android:id="@+id/textView9"
@@ -99,7 +126,7 @@
         app:layout_constraintHorizontal_bias="0.401"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.915" />
+        app:layout_constraintVertical_bias="0.935" />
 
     <EditText
         android:id="@+id/firstNameInput"
@@ -117,7 +144,7 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.405" />
+        app:layout_constraintVertical_bias="0.427" />
 
     <EditText
         android:id="@+id/phoneInput"
@@ -135,25 +162,35 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.695" />
+        app:layout_constraintVertical_bias="0.717" />
 
-    <EditText
-        android:id="@+id/addressInput"
-        android:layout_width="238dp"
-        android:layout_height="52dp"
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:backgroundTint="@color/light_orange"
-        android:drawableStart="@drawable/ic_location"
-        android:drawablePadding="10dp"
-        android:ems="10"
-        android:hint="Address"
-        android:inputType="text"
-        android:textSize="16sp"
+        android:buttonTint="@color/light_orange"
+        android:text="Guest"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.319"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.597" />
+        app:layout_constraintVertical_bias="0.8" />
+
+    <CheckBox
+        android:id="@+id/checkBox2"
+        android:layout_width="79dp"
+        android:layout_height="46dp"
+        android:backgroundTint="@color/design_default_color_background"
+        android:buttonTint="@color/light_orange"
+        android:text="Owner"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.644"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.801" />
 
     <EditText
         android:id="@+id/lastNameInput"
@@ -171,35 +208,7 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.497" />
-
-    <CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/light_orange"
-        android:buttonTint="@color/light_orange"
-        android:text="Guest"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.319"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.778" />
-
-    <CheckBox
-        android:id="@+id/checkBox2"
-        android:layout_width="79dp"
-        android:layout_height="46dp"
-        android:backgroundTint="@color/design_default_color_background"
-        android:buttonTint="@color/light_orange"
-        android:text="Owner"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.644"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.779" />
+        app:layout_constraintVertical_bias="0.519" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
