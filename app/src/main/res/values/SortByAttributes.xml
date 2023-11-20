@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sort_by_attributes">
+        <item>Most Expensive</item>
+        <item>Least Expensive</item>
+        <item>Rating</item>
+        <item>Number of Guests</item>
+        <!-- Add more items as needed -->
+    </string-array>
+</resources>

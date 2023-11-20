@@ -1,12 +1,8 @@
 package com.example.bookingapptim11;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -24,7 +20,7 @@ public class HomeScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Create an Intent to switch to the LoginScreen activity
-                Intent intent = new Intent(HomeScreen.this, LoginScreen.class);
+                Intent intent = new Intent(HomeScreen.this, NavigationActivity.class);
                 startActivity(intent);
             }
         });
