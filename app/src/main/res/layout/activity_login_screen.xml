@@ -17,7 +17,7 @@
         app:srcCompat="@mipmap/ic_launcher_foreground" />
 
     <EditText
-        android:id="@+id/emailInput"
+        android:id="@+id/email"
         android:layout_width="238dp"
         android:layout_height="52dp"
         android:backgroundTint="@color/light_orange"
@@ -35,7 +35,7 @@
         app:layout_constraintVertical_bias="0.39" />
 
     <EditText
-        android:id="@+id/passwordInput"
+        android:id="@+id/password"
         android:layout_width="238dp"
         android:layout_height="52dp"
         android:backgroundTint="@color/light_orange"
@@ -53,7 +53,7 @@
         app:layout_constraintVertical_bias="0.487" />
 
     <Button
-        android:id="@+id/buttonLogIn"
+        android:id="@+id/logInBtn"
         android:layout_width="230dp"
         android:layout_height="46dp"
         android:layout_marginBottom="288dp"

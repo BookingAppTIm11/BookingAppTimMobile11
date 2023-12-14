@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -14,6 +16,12 @@ public class LoginScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
+
+        EditText email = findViewById(R.id.email);
+        EditText password = findViewById(R.id.password);
+        Button logIn= findViewById(R.id.logInBtn);
+
+
 
         TextView signUp = findViewById(R.id.textViewSignUp);
         signUp.setOnClickListener(new View.OnClickListener() {
