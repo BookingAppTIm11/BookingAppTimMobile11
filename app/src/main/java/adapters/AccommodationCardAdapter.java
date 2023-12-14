@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,7 +15,7 @@ import java.util.List;
 
 import models.Accommodation;
 
-public class AmenityCardAdapter  extends RecyclerView.Adapter<AmenityCardAdapter.ViewHolder> {
+public class AccommodationCardAdapter extends RecyclerView.Adapter<AccommodationCardAdapter.ViewHolder> {
 
     private OnItemClickListener mListener;
 
@@ -33,19 +32,19 @@ public class AmenityCardAdapter  extends RecyclerView.Adapter<AmenityCardAdapter
     Context context;
     List<Accommodation> list;
 
-    public AmenityCardAdapter(Context context, List<Accommodation> list) {
+    public AccommodationCardAdapter(Context context, List<Accommodation> list) {
         this.context = context;
         this.list = list;
     }
 
     @NonNull
     @Override
-    public AmenityCardAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AccommodationCardAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.amenity_card_item, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AmenityCardAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AccommodationCardAdapter.ViewHolder holder, int position) {
         holder.amenityCapacity.setText(String.valueOf(list.get(position).getCapacity()));
         holder.amenityName.setText(list.get(position).getName());
         holder.amenityLocation.setText(list.get(position).getLocation());

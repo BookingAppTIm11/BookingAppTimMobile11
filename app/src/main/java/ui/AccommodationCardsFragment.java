@@ -15,20 +15,18 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.example.bookingapptim11.AccommodationDetailsActivity;
-import com.example.bookingapptim11.HomeScreen;
-import com.example.bookingapptim11.NavigationActivity;
 import com.example.bookingapptim11.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import adapters.AmenityCardAdapter;
+import adapters.AccommodationCardAdapter;
 import models.Accommodation;
 
-public class AmenityCardsFragment extends Fragment {
+public class AccommodationCardsFragment extends Fragment {
     List<Accommodation> accommodationList;
-    AmenityCardAdapter amenityCardAdapter;
+    AccommodationCardAdapter accommodationCardAdapter;
     RecyclerView recyclerView;
     private EditText checkInDateEditText;
     private EditText checkOutDateEditText;
@@ -64,11 +62,11 @@ public class AmenityCardsFragment extends Fragment {
         accommodationList.add(new Accommodation("Conference Room", "Resort B", 4.3, 30.0, 80));
         accommodationList.add(new Accommodation("Bar", "Hotel C", 4.6, 8.0, 40));
 
-        amenityCardAdapter = new AmenityCardAdapter(getActivity(), accommodationList);
+        accommodationCardAdapter = new AccommodationCardAdapter(getActivity(), accommodationList);
 
-        recyclerView.setAdapter(amenityCardAdapter);
+        recyclerView.setAdapter(accommodationCardAdapter);
 
-        amenityCardAdapter.setOnItemClickListener(new AmenityCardAdapter.OnItemClickListener() {
+        accommodationCardAdapter.setOnItemClickListener(new AccommodationCardAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
 //                if (mListener != null) {

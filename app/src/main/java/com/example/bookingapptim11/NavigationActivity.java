@@ -3,10 +3,9 @@ package com.example.bookingapptim11;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Menu;
 
-import com.google.android.material.snackbar.Snackbar;
+import com.example.bookingapptim11.databinding.ActivityNavigationBinding;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.fragment.app.Fragment;
@@ -17,13 +16,11 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bookingapptim11.databinding.ActivityNavigationBinding;
-
 import models.Accommodation;
-import ui.AmenityCardsFragment;
-import ui.AmenityDetailsFragment;
+import ui.AccommodationCardsFragment;
+import ui.AccommodationDetailsFragment;
 
-public class NavigationActivity extends AppCompatActivity implements AmenityCardsFragment.OnItemClickListener {
+public class NavigationActivity extends AppCompatActivity implements AccommodationCardsFragment.OnItemClickListener {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityNavigationBinding binding;
@@ -48,7 +45,7 @@ public class NavigationActivity extends AppCompatActivity implements AmenityCard
                 .build();
 
         if (savedInstanceState == null) {
-            AmenityCardsFragment homeFragment = new AmenityCardsFragment();
+            AccommodationCardsFragment homeFragment = new AccommodationCardsFragment();
             // Set the listener for item clicks in the fragment
             homeFragment.setOnItemClickListener(this);
 
@@ -82,7 +79,7 @@ public class NavigationActivity extends AppCompatActivity implements AmenityCard
             openLogIn();
             return true;
         } else if (id == R.id.nav_home){
-            replaceFragment(new AmenityCardsFragment());
+            replaceFragment(new AccommodationCardsFragment());
         } else if (id == R.id.nav_profile){
             replaceFragment(new ProfileFragment());
         }
@@ -110,7 +107,7 @@ public class NavigationActivity extends AppCompatActivity implements AmenityCard
     @Override
     public void onAmenityClick(Accommodation accommodation) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.nav_host_fragment_content_navigation, new AmenityDetailsFragment(accommodation))
+                .replace(R.id.nav_host_fragment_content_navigation, new AccommodationDetailsFragment(accommodation))
                 .addToBackStack("name")
                 .commit();
     }

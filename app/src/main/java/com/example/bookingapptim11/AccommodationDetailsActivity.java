@@ -5,8 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import models.Accommodation;
-import ui.AmenityCardsFragment;
-import ui.AmenityDetailsFragment;
+import ui.AccommodationDetailsFragment;
 
 public class AccommodationDetailsActivity extends AppCompatActivity {
 
@@ -17,7 +16,7 @@ public class AccommodationDetailsActivity extends AppCompatActivity {
         if (getIntent().hasExtra("accommodation")) {
             Accommodation accommodation = getIntent().getParcelableExtra("accommodation");
 
-            AmenityDetailsFragment fragment = new AmenityDetailsFragment(accommodation);
+            AccommodationDetailsFragment fragment = new AccommodationDetailsFragment(accommodation);
 
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentAccommodationDetailsContainer, fragment)
