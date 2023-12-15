@@ -75,8 +75,6 @@ public class LoginScreenActivity extends AppCompatActivity {
                         AuthResponse authResponse = response.body();
                         String token = authResponse.getToken();
                         AuthManager.saveInfo(token);
-                        Toast.makeText(LoginScreenActivity.this, AuthManager.getUserEmail() + " " + AuthManager.getUserRole(), Toast.LENGTH_LONG).show();
-
                     } else {
                         Toast.makeText(LoginScreenActivity.this, "Wrong email or password! ", Toast.LENGTH_LONG).show();
                     }
