@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="ui.AccommodationCardsFragment"
+        android:name="com.example.bookingapptim11.ui.accommodations.AccommodationCardsFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 

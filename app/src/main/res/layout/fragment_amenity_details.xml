@@ -6,7 +6,7 @@
     android:outlineAmbientShadowColor="#000000"
     android:outlineSpotShadowColor="#000000"
     android:textAlignment="center"
-    tools:context="ui.AccommodationDetailsFragment">
+    tools:context=".ui.accommodations.AccommodationDetailsFragment">
 
     <LinearLayout
         android:id="@+id/LinearLayout"

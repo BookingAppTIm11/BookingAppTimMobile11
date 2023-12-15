@@ -16,9 +16,9 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
-import models.Accommodation;
-import ui.AccommodationCardsFragment;
-import ui.AccommodationDetailsFragment;
+import com.example.bookingapptim11.models.Accommodation;
+import com.example.bookingapptim11.ui.accommodations.AccommodationCardsFragment;
+import com.example.bookingapptim11.ui.accommodations.AccommodationDetailsFragment;
 
 public class NavigationActivity extends AppCompatActivity implements AccommodationCardsFragment.OnItemClickListener {
 

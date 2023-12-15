@@ -13,7 +13,7 @@ import com.example.bookingapptim11.R;
 
 import java.util.List;
 
-import models.Accommodation;
+import com.example.bookingapptim11.models.Accommodation;
 
 public class AccommodationCardAdapter extends RecyclerView.Adapter<AccommodationCardAdapter.ViewHolder> {
 

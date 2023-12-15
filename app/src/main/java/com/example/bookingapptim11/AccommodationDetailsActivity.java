@@ -4,8 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import models.Accommodation;
-import ui.AccommodationDetailsFragment;
+import com.example.bookingapptim11.models.Accommodation;
+import com.example.bookingapptim11.ui.accommodations.AccommodationDetailsFragment;
 
 public class AccommodationDetailsActivity extends AppCompatActivity {
 
