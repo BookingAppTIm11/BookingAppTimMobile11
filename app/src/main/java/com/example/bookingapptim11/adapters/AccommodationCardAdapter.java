@@ -1,4 +1,4 @@
-package adapters;
+package com.example.bookingapptim11.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;

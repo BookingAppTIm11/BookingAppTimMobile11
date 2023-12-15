@@ -1,6 +1,6 @@
 package com.example.bookingapptim11;
 
-import static clients.ClientUtils.authService;
+import static com.example.bookingapptim11.clients.ClientUtils.authService;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,8 +16,8 @@ import android.widget.Toast;
 
 
 import login.AuthManager;
-import login.AuthResponse;
-import login.Login;
+import com.example.bookingapptim11.login.AuthResponse;
+import com.example.bookingapptim11.login.Login;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

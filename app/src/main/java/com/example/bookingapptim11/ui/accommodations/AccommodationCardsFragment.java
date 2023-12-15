@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import adapters.AccommodationCardAdapter;
+import com.example.bookingapptim11.adapters.AccommodationCardAdapter;
 import com.example.bookingapptim11.models.Accommodation;
 
 public class AccommodationCardsFragment extends Fragment {
