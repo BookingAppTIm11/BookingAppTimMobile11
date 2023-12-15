@@ -66,6 +66,4 @@ public class AuthManager {
             return "No user logged in";
         }
     }
-
-
 }
