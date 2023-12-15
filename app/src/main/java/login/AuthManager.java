@@ -3,16 +3,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
+import com.auth0.android.jwt.Claim;
+import com.auth0.android.jwt.JWT;
 
 public class AuthManager {
-
     private static final String SHARED_PREF_NAME = "pref_file";
     private static final String EMAIL_KEY = "username";
     private static final String ROLE_KEY = "role";
     private static final String TOKEN = "role";
+    private static final String SIGNING_KEY = "korisnickoime";
 
     private static SharedPreferences sharedPreferences;
 
@@ -27,16 +26,17 @@ public class AuthManager {
             throw new IllegalStateException("SharedPreferences not initialized. Call initialize method first.");
         }
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(TOKEN,token);
+        editor.putString(TOKEN, token);
 
-        Jws<Claims> claims = Jwts.parserBuilder().build().parseClaimsJws(token);
-        Claims body = claims.getBody();
+        JWT jwt = new JWT(token);
+        Claim claim = jwt.getClaim("role");
+        String role = claim.asString();
+        String email = jwt.getSubject();
 
-        String email = body.getSubject();
 
         if (email != null) {
             editor.putString(EMAIL_KEY, email);
-            editor.putString(ROLE_KEY, (String) body.get("role"));
+            editor.putString(ROLE_KEY, role);
             editor.apply();
         }
     }
@@ -48,7 +48,7 @@ public class AuthManager {
         return sharedPreferences.getString(EMAIL_KEY, null);
     }
 
-    public static String getUserRole(){
+    public static String getUserRole() {
         if (sharedPreferences == null) {
             throw new IllegalStateException("SharedPreferences not initialized. Call initialize method first.");
         }

@@ -35,14 +35,13 @@ public class LoginScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
 
-        AuthManager.initialize(this);
-
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         logIn = findViewById(R.id.logInBtn);
         signUp = findViewById(R.id.textViewSignUp);
         homeButton = findViewById(R.id.homeLoginImageButton);
 
+        AuthManager.initialize(this);
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,10 +74,7 @@ public class LoginScreenActivity extends AppCompatActivity {
                     if (response.isSuccessful() && response.body() != null) {
                         AuthResponse authResponse = response.body();
                         String token = authResponse.getToken();
-//                        putUserToPreferences(token);
                         AuthManager.saveInfo(token);
-                        Toast.makeText(LoginScreenActivity.this, AuthManager.getUserEmail(), Toast.LENGTH_LONG).show();
-                        Toast.makeText(LoginScreenActivity.this, AuthManager.getUserRole(), Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(LoginScreenActivity.this, "Wrong email or password! ", Toast.LENGTH_LONG).show();
                     }
