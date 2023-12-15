@@ -56,12 +56,19 @@ public class ProfileFragment extends Fragment {
         showPasswordCheckbox = view.findViewById(R.id.showPasswordCheckbox);
         notificationsCheckBox = view.findViewById(R.id.notificationsCheckbox);
 
+
         Button saveButton = view.findViewById(R.id.saveButton);
+        Button deleteButton = view.findViewById(R.id.deleteButton);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 saveChanges();
             }
+        });
+
+        deleteButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){deleteProfile();}
         });
 
         profileImageView.setOnClickListener(new View.OnClickListener() {
@@ -114,9 +121,59 @@ public class ProfileFragment extends Fragment {
     }
 
     private void saveChanges() {
-        // Logic needs to be added with backend
 
+        updateProfile();
+        this.passwordInput.setText("");
         Toast.makeText(requireActivity(), "Profile Saved", Toast.LENGTH_SHORT).show();
+    }
+
+    private void deleteProfile(){
+        Call<Void> call = ClientUtils.profileService.delete("aaa@gmail.com");
+        call.enqueue(new Callback<Void>(){
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.code() == 200){
+                    Log.d("REZ","Meesage recieved");
+                }else{
+                    Log.d("REZ","Meesage recieved: "+response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.d("REZ", t.getMessage() != null?t.getMessage():"error");
+            }
+        });
+    }
+
+    private Profile collectFormData(){
+        return new Profile(this.emailInput.getText().toString(), this.passwordInput.getText().toString(),
+                this.firstNameInput.getText().toString(), this.lastNameInput.getText().toString(), this.addressInput.getText().toString(),
+                this.phoneNumberInput.getText().toString(), this.notificationsCheckBox.isChecked(), "");
+    }
+
+    private void updateProfile(){
+        Call<Profile> call = ClientUtils.profileService.edit("aaa@gmail.com", collectFormData());
+        call.enqueue(new Callback<Profile>() {
+            @Override
+            public void onResponse(Call<Profile> call, Response<Profile> response) {
+                if (response.code() == 200){
+                    Log.d("REZ","Meesage recieved");
+                    System.out.println(response.body());
+                    profile = response.body();
+                    loadUserProfileInfo();
+                }else{
+                    Log.d("REZ","Meesage recieved: "+response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Profile> call, Throwable t) {
+                Log.d("REZ", t.getMessage() != null?t.getMessage():"error");
+            }
+
+
+        });
     }
 
     private void getProfileData(){

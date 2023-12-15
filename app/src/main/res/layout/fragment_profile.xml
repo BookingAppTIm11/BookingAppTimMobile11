@@ -262,14 +262,14 @@
             android:padding="10dp">
 
             <Button
-                android:id="@+id/removeButton"
+                android:id="@+id/deleteButton"
                 android:layout_width="197dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="4dp"
                 android:backgroundTint="@color/light_orange"
-                android:text="Remove" />
+                android:text="Delete" />
 
             <Button
                 android:id="@+id/saveButton"
