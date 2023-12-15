@@ -2,6 +2,7 @@ package clients;
 
 import java.util.concurrent.TimeUnit;
 
+import clients.services.AuthService;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -9,8 +10,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ClientUtils {
 
-    public static final String SERVICE_API_PATH = "http://localhost:8080/api/";
+    public static final String SERVICE_API_PATH = "http://10.0.2.2:8083/api/";
     public static OkHttpClient test(){
+
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -27,5 +29,7 @@ public class ClientUtils {
             .addConverterFactory(GsonConverterFactory.create())
             .client(test())
             .build();
+
+    public static AuthService authService = retrofit.create(AuthService.class);
 
 }
