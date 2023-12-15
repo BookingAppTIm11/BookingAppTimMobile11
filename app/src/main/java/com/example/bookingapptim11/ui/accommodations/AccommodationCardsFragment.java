@@ -1,4 +1,4 @@
-package ui;
+package com.example.bookingapptim11.ui.accommodations;
 
 
 import android.app.DatePickerDialog;
@@ -22,7 +22,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import adapters.AccommodationCardAdapter;
-import models.Accommodation;
+import com.example.bookingapptim11.models.Accommodation;
 
 public class AccommodationCardsFragment extends Fragment {
     List<Accommodation> accommodationList;

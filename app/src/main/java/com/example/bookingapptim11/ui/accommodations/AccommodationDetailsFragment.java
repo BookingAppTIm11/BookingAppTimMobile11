@@ -1,4 +1,4 @@
-package ui;
+package com.example.bookingapptim11.ui.accommodations;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,8 +13,7 @@ import android.widget.TextView;
 
 import com.example.bookingapptim11.NavigationActivity;
 import com.example.bookingapptim11.R;
-
-import models.Accommodation;
+import com.example.bookingapptim11.models.Accommodation;
 
 
 public class AccommodationDetailsFragment extends Fragment {
