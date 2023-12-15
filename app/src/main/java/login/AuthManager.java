@@ -21,10 +21,13 @@ public class AuthManager {
         }
     }
 
-    public static void saveInfo(String token) {
+    private static void checkSharedPreferences(){
         if (sharedPreferences == null) {
             throw new IllegalStateException("SharedPreferences not initialized. Call initialize method first.");
         }
+    }
+    public static void saveInfo(String token) {
+        checkSharedPreferences();
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(TOKEN, token);
 
@@ -42,17 +45,26 @@ public class AuthManager {
     }
 
     public static String getUserEmail() {
-        if (sharedPreferences == null) {
-            throw new IllegalStateException("SharedPreferences not initialized. Call initialize method first.");
-        }
+        checkSharedPreferences();
         return sharedPreferences.getString(EMAIL_KEY, null);
     }
 
     public static String getUserRole() {
-        if (sharedPreferences == null) {
-            throw new IllegalStateException("SharedPreferences not initialized. Call initialize method first.");
-        }
+        checkSharedPreferences();
         return sharedPreferences.getString(ROLE_KEY, null);
+    }
+
+    public static String logOut(){
+        checkSharedPreferences();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        if (sharedPreferences.getString(EMAIL_KEY, null) != null && sharedPreferences.getString(ROLE_KEY, null) != null) {
+            editor.remove(EMAIL_KEY);
+            editor.remove(ROLE_KEY);
+            editor.apply();
+            return "Logout successful";
+        }else {
+            return "No user logged in";
+        }
     }
 
 
