@@ -3,10 +3,9 @@ package com.example.bookingapptim11;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Menu;
 
-import com.google.android.material.snackbar.Snackbar;
+import com.example.bookingapptim11.databinding.ActivityNavigationBinding;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.fragment.app.Fragment;
@@ -17,11 +16,9 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bookingapptim11.databinding.ActivityNavigationBinding;
-
-import models.Accommodation;
-import ui.AmenityCardsFragment;
-import ui.AmenityDetailsFragment;
+import com.example.bookingapptim11.models.Accommodation;
+import com.example.bookingapptim11.ui.AmenityCardsFragment;
+import com.example.bookingapptim11.ui.AmenityDetailsFragment;
 
 public class NavigationActivity extends AppCompatActivity implements AmenityCardsFragment.OnItemClickListener {
 

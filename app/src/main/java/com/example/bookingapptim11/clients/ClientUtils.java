@@ -1,8 +1,9 @@
-package clients;
+package com.example.bookingapptim11.clients;
 
 import java.util.concurrent.TimeUnit;
 
-import clients.services.AuthService;
+import com.example.bookingapptim11.clients.services.AccommodationService;
+import com.example.bookingapptim11.clients.services.AuthService;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -31,5 +32,6 @@ public class ClientUtils {
             .build();
 
     public static AuthService authService = retrofit.create(AuthService.class);
+    public static AccommodationService accommodationService = retrofit.create(AccommodationService.class);
 
 }

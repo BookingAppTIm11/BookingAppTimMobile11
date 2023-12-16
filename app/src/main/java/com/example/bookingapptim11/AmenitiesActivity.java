@@ -3,13 +3,10 @@ package com.example.bookingapptim11;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
-import models.Accommodation;
-import ui.AmenityCardsFragment;
-import ui.AmenityDetailsFragment;
+import com.example.bookingapptim11.models.Accommodation;
+import com.example.bookingapptim11.ui.AmenityCardsFragment;
+import com.example.bookingapptim11.ui.AmenityDetailsFragment;
 
 public class AmenitiesActivity extends AppCompatActivity implements AmenityCardsFragment.OnItemClickListener {
 

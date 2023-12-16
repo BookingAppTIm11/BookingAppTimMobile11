@@ -4,8 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import login.AuthManager;
-
 public class MainActivity extends AppCompatActivity {
 
     @Override
