@@ -54,7 +54,7 @@ dependencies {
     implementation ("com.squareup.retrofit2:retrofit:2.3.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.3.0")
     implementation ("com.squareup.okhttp3:logging-interceptor:3.12.1")
-
+    implementation ("com.squareup.picasso:picasso:2.71828")
     implementation ("io.jsonwebtoken:jjwt-api:0.11.3")
     implementation ("io.jsonwebtoken:jjwt-impl:0.11.3")
     implementation ("io.jsonwebtoken:jjwt-jackson:0.11.3")

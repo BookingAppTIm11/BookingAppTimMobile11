@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/linearLayoutCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -21,7 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/amenity" />
+        android:src="@drawable/amenity"
+       />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -68,14 +70,47 @@
             android:orientation="vertical"
             android:textAlignment="viewEnd">
 
-            <TextView
-                android:id="@+id/capacityTextView"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="4dp"
-                android:text="100"
-                android:textAlignment="viewEnd"
-                android:textSize="16sp" />
+                android:baselineAligned="true"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/minCapacityTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:paddingTop="4dp"
+                    android:text="100"
+                    android:textAlignment="viewEnd"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/capacityTextView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="4dp"
+                    android:text="--"
+                    android:textAlignment="viewEnd"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/maxCapacityTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="4dp"
+                    android:text="100"
+                    android:textAlignment="viewEnd"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/imageView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/baseline_accessibility_24" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -106,6 +141,31 @@
                     android:textColor="@color/ic_launcher_background"
                     android:textSize="16sp"
                     android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/ratingTextView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingTop="4dp"
+                    android:text="#"
+                    android:textAlignment="viewEnd"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/accommodationId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="4dp"
+                    android:text="23"
+                    android:textSize="14sp" />
+
             </LinearLayout>
 
         </LinearLayout>

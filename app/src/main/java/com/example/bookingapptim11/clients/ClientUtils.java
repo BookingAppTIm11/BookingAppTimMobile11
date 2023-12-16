@@ -2,6 +2,7 @@ package com.example.bookingapptim11.clients;
 
 import java.util.concurrent.TimeUnit;
 
+import com.example.bookingapptim11.clients.services.AccommodationService;
 import com.example.bookingapptim11.clients.services.AuthService;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -10,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ClientUtils {
 
-    public static final String SERVICE_API_PATH = "http://10.0.2.2:8080/api/";
+    public static final String SERVICE_API_PATH = "http://10.0.2.2:8083/api/";
     public static OkHttpClient test(){
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -31,5 +32,5 @@ public class ClientUtils {
             .build();
 
     public static AuthService authService = retrofit.create(AuthService.class);
-
+    public static AccommodationService accommodationService = retrofit.create(AccommodationService.class);
 }

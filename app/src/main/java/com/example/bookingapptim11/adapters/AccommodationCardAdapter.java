@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,9 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bookingapptim11.R;
 
+import java.io.File;
 import java.util.List;
 
-import com.example.bookingapptim11.models.Accommodation;
+import com.example.bookingapptim11.models.AccommodationDetailsDTO;
+import com.squareup.picasso.Picasso;
 
 public class AccommodationCardAdapter extends RecyclerView.Adapter<AccommodationCardAdapter.ViewHolder> {
 
@@ -30,9 +33,9 @@ public class AccommodationCardAdapter extends RecyclerView.Adapter<Accommodation
     }
 
     Context context;
-    List<Accommodation> list;
+    List<AccommodationDetailsDTO> list;
 
-    public AccommodationCardAdapter(Context context, List<Accommodation> list) {
+    public AccommodationCardAdapter(Context context, List<AccommodationDetailsDTO> list) {
         this.context = context;
         this.list = list;
     }
@@ -45,12 +48,18 @@ public class AccommodationCardAdapter extends RecyclerView.Adapter<Accommodation
 
     @Override
     public void onBindViewHolder(@NonNull AccommodationCardAdapter.ViewHolder holder, int position) {
-        holder.amenityCapacity.setText(String.valueOf(list.get(position).getCapacity()));
+        holder.amenityMinCapacity.setText(String.valueOf(list.get(position).getMinGuests()));
+        holder.amenityMaxCapacity.setText(String.valueOf(list.get(position).getMaxGuests()));
         holder.amenityName.setText(list.get(position).getName());
         holder.amenityLocation.setText(list.get(position).getLocation());
-        holder.amenityPrice.setText(String.valueOf(list.get(position).getPrice().doubleValue()));
-        holder.amenityRating.setText(String.valueOf(list.get(position).getRating().doubleValue()));
-
+        holder.amenityPrice.setText(String.valueOf(list.get(position).getDefaultPrice().doubleValue()));
+        holder.amenityRating.setText(String.valueOf(4.5));
+        holder.accommodationId.setText(String.valueOf(list.get(position).getId()));
+        List<String> photos = list.get(position).getPhotos();
+        if(!photos.isEmpty())
+        {
+            holder.setImageFromPath(photos.get(0));
+        }
     }
 
     @Override
@@ -59,15 +68,19 @@ public class AccommodationCardAdapter extends RecyclerView.Adapter<Accommodation
         return list.size();
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView amenityCapacity, amenityName, amenityPrice, amenityRating, amenityLocation;
+        TextView amenityMaxCapacity, amenityMinCapacity, amenityName, amenityPrice, amenityRating, amenityLocation, accommodationId;
+        ImageView amenityImageView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             amenityName = itemView.findViewById(R.id.nameTextView);
             amenityLocation = itemView.findViewById(R.id.locationTextView);
             amenityPrice = itemView.findViewById(R.id.priceTextView);
             amenityRating = itemView.findViewById(R.id.ratingTextView);
-            amenityCapacity = itemView.findViewById(R.id.capacityTextView);
+            amenityMaxCapacity = itemView.findViewById(R.id.maxCapacityTxt);
+            amenityMinCapacity = itemView.findViewById(R.id.minCapacityTxt);
 
+            accommodationId = itemView.findViewById(R.id.accommodationId);
+            amenityImageView = itemView.findViewById(R.id.amenityImageView);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -81,6 +94,9 @@ public class AccommodationCardAdapter extends RecyclerView.Adapter<Accommodation
             });
         }
 
+        public void setImageFromPath(String imagePath) {
+            Picasso.get().load(new File(imagePath)).into(amenityImageView);
+        }
 
     }
 

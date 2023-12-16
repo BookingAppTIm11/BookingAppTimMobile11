@@ -1,6 +1,9 @@
 package com.example.bookingapptim11.ui.accommodations;
 
 
+import static com.example.bookingapptim11.clients.ClientUtils.accommodationService;
+import static com.example.bookingapptim11.clients.ClientUtils.authService;
+
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,8 +16,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.bookingapptim11.AccommodationDetailsActivity;
+import com.example.bookingapptim11.LoginScreenActivity;
 import com.example.bookingapptim11.R;
 
 import java.util.ArrayList;
@@ -22,10 +27,16 @@ import java.util.Calendar;
 import java.util.List;
 
 import com.example.bookingapptim11.adapters.AccommodationCardAdapter;
+import com.example.bookingapptim11.login.AuthResponse;
 import com.example.bookingapptim11.models.Accommodation;
+import com.example.bookingapptim11.models.AccommodationDetailsDTO;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AccommodationCardsFragment extends Fragment {
-    List<Accommodation> accommodationList;
+    List<AccommodationDetailsDTO> accommodationList;
     AccommodationCardAdapter accommodationCardAdapter;
     RecyclerView recyclerView;
     private EditText checkInDateEditText;
@@ -55,12 +66,22 @@ public class AccommodationCardsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.VERTICAL,false));
         accommodationList = new ArrayList<>();
 
-        accommodationList.add(new Accommodation("Swimming Pool", "Resort A", 4.5, 10.0, 50));
-        accommodationList.add(new Accommodation("Gym", "Hotel B", 4.2, 5.0, 30));
-        accommodationList.add(new Accommodation("Spa", "Resort C", 4.7, 20.0, 20));
-        accommodationList.add(new Accommodation("Restaurant", "Hotel A", 4.0, 15.0, 100));
-        accommodationList.add(new Accommodation("Conference Room", "Resort B", 4.3, 30.0, 80));
-        accommodationList.add(new Accommodation("Bar", "Hotel C", 4.6, 8.0, 40));
+        Call<ArrayList<AccommodationDetailsDTO>> call = accommodationService.getAccommodations();
+        call.enqueue(new Callback<ArrayList<AccommodationDetailsDTO>>() {
+            @Override
+            public void onResponse(Call<ArrayList<AccommodationDetailsDTO>> call, Response<ArrayList<AccommodationDetailsDTO>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    accommodationList = response.body();
+                } else {
+                    Toast.makeText(getContext(), "Loaded accommodations! ", Toast.LENGTH_LONG).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<ArrayList<AccommodationDetailsDTO>> call, Throwable t) {
+                Toast.makeText(getContext(), "Error loading accommodations! ", Toast.LENGTH_LONG).show();
+            }
+        });
+
 
         accommodationCardAdapter = new AccommodationCardAdapter(getActivity(), accommodationList);
 
@@ -73,7 +94,7 @@ public class AccommodationCardsFragment extends Fragment {
 //                    Accommodation clickedAccommodation = accommodationList.get(position);
 //                    mListener.onAmenityClick(clickedAccommodation); // Propagate click event to activity
 //                }
-                Accommodation clickedAccommodation = accommodationList.get(position);
+                AccommodationDetailsDTO clickedAccommodation = accommodationList.get(position);
 
                 Intent intent = new Intent(getActivity(), AccommodationDetailsActivity.class);
                 intent.putExtra("accommodation", clickedAccommodation);
