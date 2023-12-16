@@ -67,6 +67,29 @@ public class AmenityCardsFragment extends Fragment {
             public void onResponse(Call<ArrayList<AccommodationDetailsDTO>> call, Response<ArrayList<AccommodationDetailsDTO>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     accommodationList = response.body();
+                    Toast.makeText(getContext(), "Successfully loaded accommodations! ", Toast.LENGTH_LONG).show();
+                    amenityCardAdapter = new AmenityCardAdapter(getActivity(), accommodationList);
+
+                    recyclerView.setAdapter(amenityCardAdapter);
+
+                    amenityCardAdapter.setOnItemClickListener(new AmenityCardAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(int position) {
+//                if (mListener != null) {
+//                    Accommodation clickedAccommodation = accommodationList.get(position);
+//                    mListener.onAmenityClick(clickedAccommodation); // Propagate click event to activity
+//                }
+                            AccommodationDetailsDTO clickedAccommodation = accommodationList.get(position);
+
+                            Intent intent = new Intent(getActivity(), AccommodationDetailsActivity.class);
+                            intent.putExtra("accommodation", clickedAccommodation);
+                            startActivity(intent);
+//                getActivity().getSupportFragmentManager().beginTransaction()
+//                        .replace(R.id.nav_host_fragment_content_navigation, new AmenityDetailsFragment(clickedAccommodation))
+//                        .addToBackStack("name")
+//                        .commit();
+                        }
+                    });
                 } else {
                     Toast.makeText(getContext(), "No accommodations! ", Toast.LENGTH_LONG).show();
                 }
@@ -76,35 +99,7 @@ public class AmenityCardsFragment extends Fragment {
                 Toast.makeText(getContext(), "Error loading accommodations! ", Toast.LENGTH_LONG).show();
             }
         });
-//        accommodationList.add(new Accommodation("Swimming Pool", "Resort A", 4.5, 10.0, 50));
-//        accommodationList.add(new Accommodation("Gym", "Hotel B", 4.2, 5.0, 30));
-//        accommodationList.add(new Accommodation("Spa", "Resort C", 4.7, 20.0, 20));
-//        accommodationList.add(new Accommodation("Restaurant", "Hotel A", 4.0, 15.0, 100));
-//        accommodationList.add(new Accommodation("Conference Room", "Resort B", 4.3, 30.0, 80));
-//        accommodationList.add(new Accommodation("Bar", "Hotel C", 4.6, 8.0, 40));
 
-        amenityCardAdapter = new AmenityCardAdapter(getActivity(), accommodationList);
-
-        recyclerView.setAdapter(amenityCardAdapter);
-
-        amenityCardAdapter.setOnItemClickListener(new AmenityCardAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-//                if (mListener != null) {
-//                    Accommodation clickedAccommodation = accommodationList.get(position);
-//                    mListener.onAmenityClick(clickedAccommodation); // Propagate click event to activity
-//                }
-                AccommodationDetailsDTO clickedAccommodation = accommodationList.get(position);
-
-                Intent intent = new Intent(getActivity(), AccommodationDetailsActivity.class);
-                intent.putExtra("accommodation", clickedAccommodation);
-                startActivity(intent);
-//                getActivity().getSupportFragmentManager().beginTransaction()
-//                        .replace(R.id.nav_host_fragment_content_navigation, new AmenityDetailsFragment(clickedAccommodation))
-//                        .addToBackStack("name")
-//                        .commit();
-            }
-        });
 
         checkInDateEditText = root.findViewById(R.id.checkInTextDate);
         checkInDateEditText.setOnClickListener(v -> showDatePicker(checkInDateEditText));
