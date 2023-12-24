@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.view.Menu;
 
 import com.example.bookingapptim11.databinding.ActivityNavigationBinding;
+import com.example.bookingapptim11.models.AccommodationDetailsDTO;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.fragment.app.Fragment;
@@ -105,7 +106,7 @@ public class NavigationActivity extends AppCompatActivity implements AmenityCard
     }
 
     @Override
-    public void onAmenityClick(Accommodation accommodation) {
+    public void onAmenityClick(AccommodationDetailsDTO accommodation) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.nav_host_fragment_content_navigation, new AmenityDetailsFragment(accommodation))
                 .addToBackStack("name")

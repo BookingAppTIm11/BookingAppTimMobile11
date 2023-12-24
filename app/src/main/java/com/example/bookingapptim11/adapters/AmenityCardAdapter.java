@@ -56,6 +56,7 @@ public class AmenityCardAdapter  extends RecyclerView.Adapter<AmenityCardAdapter
         holder.amenityPrice.setText(String.valueOf(list.get(position).getDefaultPrice().doubleValue()));
         holder.amenityRating.setText(String.valueOf(4.5));
         holder.accommodationId.setText(String.valueOf(list.get(position).getId()));
+
         List<String> photos = list.get(position).getPhotos();
         if(!photos.isEmpty())
         {
@@ -95,7 +96,7 @@ public class AmenityCardAdapter  extends RecyclerView.Adapter<AmenityCardAdapter
             });
         }
         public void setImageFromPath(String imagePath) {
-            Picasso.get().load(new File(imagePath)).into(amenityImageView);
+            Picasso.get().load("http://10.0.2.2:8083/pictures/"+imagePath).into(amenityImageView);
         }
 
     }

@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AccommodationDetailsDTO implements Parcelable {
@@ -18,9 +19,12 @@ public class AccommodationDetailsDTO implements Parcelable {
     List<String> photos;
     int minGuests;
     int maxGuests;
-    LocalDate created;
+    List<Integer> created;
+    String type;
+    PriceType priceType;
+    AccommodationStatus status;
 
-    public AccommodationDetailsDTO(Long id, String ownerEmail, String name, String description, String location, Double defaultPrice, List<String> photos, int minGuests, int maxGuests, LocalDate created) {
+    public AccommodationDetailsDTO(Long id, String ownerEmail, String name, String description, String location, Double defaultPrice, List<String> photos, int minGuests, int maxGuests, List<Integer> created) {
         this.id = id;
         this.ownerEmail = ownerEmail;
         this.name = name;
@@ -31,6 +35,47 @@ public class AccommodationDetailsDTO implements Parcelable {
         this.minGuests = minGuests;
         this.maxGuests = maxGuests;
         this.created = created;
+    }
+
+    public AccommodationDetailsDTO(Long id, String ownerEmail, String name, String description, String location, Double defaultPrice, List<String> photos, int minGuests, int maxGuests, List<Integer> created, String type, PriceType priceType, AccommodationStatus status) {
+        this.id = id;
+        this.ownerEmail = ownerEmail;
+        this.name = name;
+        this.description = description;
+        this.location = location;
+        this.defaultPrice = defaultPrice;
+        this.photos = photos;
+        this.minGuests = minGuests;
+        this.maxGuests = maxGuests;
+        this.created = created;
+        this.type = type;
+        this.priceType = priceType;
+        this.status = status;
+    }
+
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public PriceType getPriceType() {
+        return priceType;
+    }
+
+    public void setPriceType(PriceType priceType) {
+        this.priceType = priceType;
+    }
+
+    public AccommodationStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(AccommodationStatus status) {
+        this.status = status;
     }
 
     public AccommodationDetailsDTO() {
@@ -108,13 +153,14 @@ public class AccommodationDetailsDTO implements Parcelable {
         this.maxGuests = maxGuests;
     }
 
-    public LocalDate getCreated() {
+    public List<Integer> getCreated() {
         return created;
     }
 
-    public void setCreated(LocalDate created) {
+    public void setCreated(List<Integer> created) {
         this.created = created;
     }
+
     protected AccommodationDetailsDTO(Parcel in) {
         id = in.readLong();
         ownerEmail = in.readString();
@@ -125,12 +171,18 @@ public class AccommodationDetailsDTO implements Parcelable {
         photos = in.createStringArrayList();
         minGuests = in.readInt();
         maxGuests = in.readInt();
-        created = (LocalDate) in.readSerializable();
+        created = new ArrayList<>();
+        in.readList(created, Integer.class.getClassLoader());
+        type = in.readString();
+        priceType = PriceType.valueOf(in.readString());
+        status = AccommodationStatus.valueOf(in.readString());
     }
     @Override
     public int describeContents() {
         return 0;
     }
+
+
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
@@ -143,8 +195,10 @@ public class AccommodationDetailsDTO implements Parcelable {
         dest.writeStringList(photos);
         dest.writeInt(minGuests);
         dest.writeInt(maxGuests);
-        dest.writeSerializable(created);
-
+        dest.writeList(created);
+        dest.writeString(type);
+        dest.writeString(priceType.name());
+        dest.writeString(status.name());
     }
 
     public static final Creator<AccommodationDetailsDTO> CREATOR = new Creator<AccommodationDetailsDTO>() {
@@ -159,3 +213,4 @@ public class AccommodationDetailsDTO implements Parcelable {
         }
     };
 }
+

@@ -39,7 +39,7 @@ public class AmenityCardsFragment extends Fragment {
     private EditText checkOutDateEditText;
 
     public interface OnItemClickListener {
-        void onAmenityClick(Accommodation accommodation);
+        void onAmenityClick(AccommodationDetailsDTO accommodation);
     }
 
     private OnItemClickListener mListener;
@@ -96,7 +96,7 @@ public class AmenityCardsFragment extends Fragment {
             }
             @Override
             public void onFailure(Call<ArrayList<AccommodationDetailsDTO>> call, Throwable t) {
-                Toast.makeText(getContext(), "Error loading accommodations! ", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(),  t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
 

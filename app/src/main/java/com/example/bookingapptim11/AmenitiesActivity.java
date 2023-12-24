@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.bookingapptim11.models.Accommodation;
+import com.example.bookingapptim11.models.AccommodationDetailsDTO;
 import com.example.bookingapptim11.ui.AmenityCardsFragment;
 import com.example.bookingapptim11.ui.AmenityDetailsFragment;
 
@@ -31,7 +32,7 @@ public class AmenitiesActivity extends AppCompatActivity implements AmenityCards
     }
 
     @Override
-    public void onAmenityClick(Accommodation accommodation) {
+    public void onAmenityClick(AccommodationDetailsDTO accommodation) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer, new AmenityDetailsFragment(accommodation))
                 .addToBackStack("name")
