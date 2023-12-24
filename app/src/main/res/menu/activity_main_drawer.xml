@@ -8,22 +8,5 @@
             android:id="@+id/nav_home"
             android:icon="@drawable/baseline_home_24"
             android:title="@string/menu_home"/>
-        <item
-            android:id="@+id/nav_profile"
-            android:icon="@drawable/ic_person"
-            android:title="@string/menu_profile" />
-        <item
-            android:id="@+id/nav_notifications"
-            android:icon="@drawable/ic_email"
-            android:title="@string/notifications" />
-        <item
-            android:id="@+id/nav_reservations"
-            android:icon="@drawable/ic_phone"
-            android:title="@string/reservations" />
-        <item
-            android:id="@+id/nav_logOut"
-            android:icon="@drawable/baseline_logout_24"
-            android:title="@string/log_out" />
-
     </group>
 </menu>

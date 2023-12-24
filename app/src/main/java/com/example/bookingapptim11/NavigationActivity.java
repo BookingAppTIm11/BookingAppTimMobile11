@@ -40,6 +40,20 @@ public class NavigationActivity extends AppCompatActivity implements AmenityCard
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
 
+        navigationView.getMenu().clear();
+
+        String userRole = "owner";
+        // Inflate-ovanje odgovarajućeg menija
+        if ("admin".equals(userRole)) {
+            navigationView.inflateMenu(R.menu.activity_admin_drawer);
+        } else if("owner".equals(userRole)){
+            navigationView.inflateMenu(R.menu.activity_owner_drawer);
+        }else if("guest".equals(userRole)){
+            navigationView.inflateMenu(R.menu.activity_guest_drawer);
+        }else{
+            navigationView.inflateMenu(R.menu.activity_main_drawer);
+        }
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
