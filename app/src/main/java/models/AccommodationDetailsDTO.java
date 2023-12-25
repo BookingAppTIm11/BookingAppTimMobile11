@@ -1,11 +1,10 @@
-package com.example.bookingapptim11.models;
+package models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 

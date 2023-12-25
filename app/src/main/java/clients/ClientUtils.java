@@ -1,9 +1,9 @@
-package com.example.bookingapptim11.clients;
+package clients;
 
 import java.util.concurrent.TimeUnit;
 
-import com.example.bookingapptim11.clients.services.AccommodationService;
-import com.example.bookingapptim11.clients.services.AuthService;
+import clients.services.AccommodationService;
+import clients.services.AuthService;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;

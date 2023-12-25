@@ -1,4 +1,4 @@
-package com.example.bookingapptim11.models;
+package models;
 
 public enum ReservationStatus {
     Accepted,

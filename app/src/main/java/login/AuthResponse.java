@@ -1,4 +1,4 @@
-package com.example.bookingapptim11.login;
+package login;
 
 import android.os.Parcel;
 import android.os.Parcelable;

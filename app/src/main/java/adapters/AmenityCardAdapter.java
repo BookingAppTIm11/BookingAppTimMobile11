@@ -1,4 +1,4 @@
-package com.example.bookingapptim11.adapters;
+package adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,11 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bookingapptim11.R;
 
-import java.io.File;
 import java.util.List;
 
-import com.example.bookingapptim11.models.Accommodation;
-import com.example.bookingapptim11.models.AccommodationDetailsDTO;
+import models.AccommodationDetailsDTO;
 import com.squareup.picasso.Picasso;
 
 public class AmenityCardAdapter  extends RecyclerView.Adapter<AmenityCardAdapter.ViewHolder> {

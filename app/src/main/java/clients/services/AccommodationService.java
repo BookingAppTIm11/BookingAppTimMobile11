@@ -1,12 +1,11 @@
-package com.example.bookingapptim11.clients.services;
+package clients.services;
 
-import com.example.bookingapptim11.models.AccommodationDetailsDTO;
-import com.example.bookingapptim11.models.Availability;
-import com.example.bookingapptim11.models.ReservationDTO;
-import com.example.bookingapptim11.models.ReservationForShowDTO;
+import models.AccommodationDetailsDTO;
+import models.Availability;
+import models.ReservationDTO;
+import models.ReservationForShowDTO;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

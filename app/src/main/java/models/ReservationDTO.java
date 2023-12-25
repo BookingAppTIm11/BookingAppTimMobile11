@@ -1,4 +1,4 @@
-package com.example.bookingapptim11.models;
+package models;
 
 public class ReservationDTO {
     private long id;

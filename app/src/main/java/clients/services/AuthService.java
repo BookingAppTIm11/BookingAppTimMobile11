@@ -1,7 +1,7 @@
-package com.example.bookingapptim11.clients.services;
+package clients.services;
 
-import com.example.bookingapptim11.login.AuthResponse;
-import com.example.bookingapptim11.login.Login;
+import login.AuthResponse;
+import login.Login;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

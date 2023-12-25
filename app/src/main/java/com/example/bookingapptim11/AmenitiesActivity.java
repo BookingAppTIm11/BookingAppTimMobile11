@@ -4,10 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import com.example.bookingapptim11.models.Accommodation;
-import com.example.bookingapptim11.models.AccommodationDetailsDTO;
-import com.example.bookingapptim11.ui.AmenityCardsFragment;
-import com.example.bookingapptim11.ui.AmenityDetailsFragment;
+import models.AccommodationDetailsDTO;
+import ui.AmenityCardsFragment;
+import ui.AmenityDetailsFragment;
 
 public class AmenitiesActivity extends AppCompatActivity implements AmenityCardsFragment.OnItemClickListener {
 
