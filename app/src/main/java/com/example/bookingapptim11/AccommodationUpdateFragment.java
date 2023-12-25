@@ -1,5 +1,7 @@
 package com.example.bookingapptim11;
 
+import static clients.ClientUtils.accommodationCreationService;
+
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 
@@ -29,6 +31,8 @@ import com.example.bookingapptim11.models.AccommodationDetailsDTO;
 import com.example.bookingapptim11.models.AccommodationStatus;
 import com.example.bookingapptim11.models.AccommodationType;
 import com.example.bookingapptim11.models.Amenity;
+import com.example.bookingapptim11.models.Availability;
+import com.example.bookingapptim11.models.Price;
 import com.example.bookingapptim11.models.PriceType;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -67,8 +71,8 @@ public class AccommodationUpdateFragment extends Fragment {
     private TableLayout pricesTable;
     private List<Amenity> allAmenities = new ArrayList<>();
     private List<Amenity> selectedAmenities = new ArrayList<>();
-    //private List<Price> prices = new ArrayList<>();
-    //private List<Availability> availabilities = new ArrayList<>();
+    private List<Price> prices = new ArrayList<>();
+    private List<Availability> availabilities = new ArrayList<>();
     private List<String> uploadedPictures = new ArrayList<>();
 
     private Amenity selectedAmenity;
@@ -120,6 +124,8 @@ public class AccommodationUpdateFragment extends Fragment {
         if (args != null) {
             AccommodationDetailsDTO selectedAccommodation = args.getParcelable("selectedAccommodation");
             fillForm(selectedAccommodation.getId());
+            loadAvailabilities(selectedAccommodation.getId());
+            loadAvailabilityToTable();
         }
 
 
@@ -255,6 +261,53 @@ public class AccommodationUpdateFragment extends Fragment {
                 Toast.makeText(getContext(),  t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void loadAvailabilities(Long id){
+        Call<List<Availability>> call = accommodationCreationService.getAvailabilitiesByAccommodationId(id);
+
+        call.enqueue(new Callback<List<Availability>>() {
+            @Override
+            public void onResponse(Call<List<Availability>> call, Response<List<Availability>> response) {
+                if (response.isSuccessful()) {
+                    availabilities = response.body();
+
+                } else {
+                    Toast.makeText(getContext(), "Failed to load availabilities", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<List<Availability>> call, Throwable t) {
+                Toast.makeText(getContext(), "Failed to load availabilities call", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void addAvailabilityToTable(TableLayout table,Availability availability){
+
+        TableRow newRow = new TableRow(getContext());
+        table.addView(newRow);
+
+        TextView textView1 = new TextView(getContext());
+        textView1.setText(availability.getTimeSlot().getStartDate().toString());
+        textView1.setPadding(8,8,8,8);
+        textView1.setBackgroundResource(R.drawable.table_border);
+
+        TextView textView2 = new TextView(getContext());
+        textView2.setText(availability.getTimeSlot().getEndDate().toString());
+        textView2.setPadding(8,8,8,8);
+        textView2.setBackgroundResource(R.drawable.table_border);
+
+        newRow.addView(textView1);
+        newRow.addView(textView2);
+
+
+    }
+
+    public void loadAvailabilityToTable(){
+        for(Availability a: availabilities){
+            addAvailabilityToTable(availabilityTable, a);
+        }
     }
 
 

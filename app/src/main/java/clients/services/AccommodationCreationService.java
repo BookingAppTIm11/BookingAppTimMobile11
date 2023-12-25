@@ -2,6 +2,8 @@ package clients.services;
 
 import com.example.bookingapptim11.accommodationCreation.AccommodationDetails;
 import com.example.bookingapptim11.models.Amenity;
+import com.example.bookingapptim11.models.Availability;
+import com.example.bookingapptim11.models.Price;
 
 import java.util.List;
 
@@ -10,6 +12,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface AccommodationCreationService {
 
@@ -26,5 +29,27 @@ public interface AccommodationCreationService {
     })
     @POST("accommodations")
     Call<AccommodationDetails> createAccommodation(@Body AccommodationDetails accommodation);
+
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type:application/json"
+    })
+    @GET("accommodations/{id}/amenity")
+    Call<List<Amenity>> getAmenitiesByAccommodationId(@Path("id")Long id);
+
+
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type:application/json"
+    })
+    @GET("availabilities/available/{id}")
+    Call<List<Availability>> getAvailabilitiesByAccommodationId(@Path("id")Long id);
+
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type:application/json"
+    })
+    @GET("accommodations/prices/{id}")
+    Call<List<Price>> getPricesByAccommodationId(@Path("id")Long id);
 
 }
