@@ -17,4 +17,22 @@
         android:label="@string/menu_profile"
         tools:layout="@layout/fragment_profile" />
 
+    <fragment
+        android:id="@+id/accommodation_requests"
+        android:name="com.example.bookingapptim11.AccommodationRequestsFragment"
+        android:label="@string/accommodation_requests"
+        tools:layout="@layout/fragment_accommodation_requests" />
+
+    <fragment
+        android:id="@+id/my_accommodations"
+        android:name="com.example.bookingapptim11.OwnersAccommodationsFragment"
+        android:label="@string/accommodation_requests"
+        tools:layout="@layout/fragment_owners_accommodations" />
+
+    <fragment
+        android:id="@+id/update_accommodations"
+        android:name="com.example.bookingapptim11.AccommodationUpdateFragment"
+        android:label="@string/accommodation_requests"
+        tools:layout="@layout/fragment_accommodation_update" />
+
 </navigation>

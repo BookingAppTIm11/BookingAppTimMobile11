@@ -107,6 +107,9 @@
     <string name="notifications">Notifications</string>
     <string name="reservations">Reservations</string>
     <string name="log_out">Log out</string>
+    <string name="my_accommodations">My accommodations</string>
+    <string name="create_accommodation">Create accommodation</string>
+    <string name="accommodation_requests">Accommodation requests</string>
     <string name="pref_file">pref_file</string>
     <string name="title_activity_maps">MapsActivity</string>
 </resources>

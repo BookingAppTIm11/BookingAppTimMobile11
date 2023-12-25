@@ -62,6 +62,8 @@ public class LoginScreenActivity extends AppCompatActivity {
                 Login login = new Login(userEmail,userPassword);
 
                 loginUser(login);
+
+                changeToHomeScreen();
             }
         });
 
@@ -75,6 +77,7 @@ public class LoginScreenActivity extends AppCompatActivity {
                         AuthResponse authResponse = response.body();
                         String token = authResponse.getToken();
                         AuthManager.saveInfo(token);
+
                     } else {
                         Toast.makeText(LoginScreenActivity.this, "Wrong email or password! ", Toast.LENGTH_LONG).show();
                     }
@@ -84,6 +87,7 @@ public class LoginScreenActivity extends AppCompatActivity {
                 Toast.makeText(LoginScreenActivity.this, "Error", Toast.LENGTH_LONG).show();
             }
         });
+
     }
 
     private void changeToRegisterScreen(){
