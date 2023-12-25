@@ -35,7 +35,7 @@
         android:textSize="24sp" />
 
     <Button
-        android:id="@+id/detailsButton"
+        android:id="@+id/bookButton"
         android:layout_width="230dp"
         android:layout_height="49dp"
         android:layout_below="@+id/accommodationName"

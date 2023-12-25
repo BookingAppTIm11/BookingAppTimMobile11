@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CalendarView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -31,17 +31,13 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -55,7 +51,7 @@ public class AmenityDetailsFragment extends Fragment implements OnMapReadyCallba
     private EditText checkInDateEditText;
     private EditText checkOutDateEditText;
     private EditText guestsEditText;
-
+    Button bookButton;
     public AmenityDetailsFragment(AccommodationDetailsDTO accommodation){
         this.accommodation = accommodation;
     }
@@ -122,6 +118,17 @@ public class AmenityDetailsFragment extends Fragment implements OnMapReadyCallba
                     checkInDateEditText.setOnClickListener(v -> showDatePicker(checkInDateEditText, availabilities));
                     checkOutDateEditText = root.findViewById(R.id.checkOutTextDate2);
                     checkOutDateEditText.setOnClickListener(v -> showDatePicker(checkOutDateEditText, availabilities));
+                    guestsEditText = root.findViewById(R.id.guestsNumber2);
+                    bookButton = root.findViewById(R.id.bookButton);
+                    bookButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // Your action on button click
+                            // For example, show a toast message
+                            Toast.makeText(getContext(), "Button Clicked", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
 
                 } else {
 

@@ -127,7 +127,7 @@ public class AmenityCardsFragment extends Fragment {
         checkInDateEditText = root.findViewById(R.id.checkInTextDate);
         checkOutDateEditText = root.findViewById(R.id.checkOutTextDate);
         locationEditText = root.findViewById(R.id.locationText);
-        guestsEditText = root.findViewById(R.id.guestsNumber);
+        guestsEditText = root.findViewById(R.id.guestsNumber2);
         searchButton = root.findViewById(R.id.searchButton);
 
         // Set OnClickListener for the searchButton
