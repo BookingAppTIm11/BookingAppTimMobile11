@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.provider.MediaStore;
 import android.text.InputType;
@@ -134,6 +135,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.code() == 200){
+
                     Log.d("REZ","Meesage recieved");
                 }else{
                     Log.d("REZ","Meesage recieved: "+response.code());
@@ -145,6 +147,8 @@ public class ProfileFragment extends Fragment {
                 Log.d("REZ", t.getMessage() != null?t.getMessage():"error");
             }
         });
+        AuthManager.logOut(getActivity());
+        Navigation.findNavController(getView()).navigate(R.id.nav_home);
     }
 
     private Profile collectFormData(){

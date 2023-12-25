@@ -29,4 +29,10 @@
         android:label="@string/accommodation_requests"
         tools:layout="@layout/fragment_owners_accommodations" />
 
+    <fragment
+        android:id="@+id/update_accommodations"
+        android:name="com.example.bookingapptim11.AccommodationUpdateFragment"
+        android:label="@string/accommodation_requests"
+        tools:layout="@layout/fragment_accommodation_update" />
+
 </navigation>

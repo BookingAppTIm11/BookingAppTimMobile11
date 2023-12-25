@@ -40,6 +40,15 @@ public interface AccommodationService {
             "User-Agent: Mobile-Android",
             "Content-Type:application/json"
     })
+    @GET("accommodations/{id}")
+    Call<AccommodationDetailsDTO> getAccommodation(@Path("id") Long id);
+
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type:application/json"
+    })
     @PUT("accommodations/{id}")
     Call<AccommodationDetailsDTO> updateAccommodation(@Path("id") Long id, @Body AccommodationDetailsDTO accommodationDetailsDTO);
+
+
 }

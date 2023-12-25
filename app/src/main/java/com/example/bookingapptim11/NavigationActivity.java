@@ -55,18 +55,21 @@ public class NavigationActivity extends AppCompatActivity implements UserRoleCha
             navigationView.inflateMenu(R.menu.activity_admin_drawer);
             navigationView.getMenu().findItem(R.id.nav_logOut).setOnMenuItemClickListener(menuItem -> {
                 AuthManager.logOut(this);
+                Navigation.findNavController(navigationView).navigate(R.id.nav_home);
                 return true;
             });
         } else if("Owner".equals(userRole)){
             navigationView.inflateMenu(R.menu.activity_owner_drawer);
             navigationView.getMenu().findItem(R.id.nav_logOut).setOnMenuItemClickListener(menuItem -> {
                 AuthManager.logOut(this);
+                Navigation.findNavController(navigationView).navigate(R.id.nav_home);
                 return true;
             });
         }else if("Guest".equals(userRole)){
             navigationView.inflateMenu(R.menu.activity_guest_drawer);
             navigationView.getMenu().findItem(R.id.nav_logOut).setOnMenuItemClickListener(menuItem -> {
                 AuthManager.logOut(this);
+                Navigation.findNavController(navigationView).navigate(R.id.nav_home);
                 return true;
             });
         }else{
@@ -84,7 +87,7 @@ public class NavigationActivity extends AppCompatActivity implements UserRoleCha
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_profile, R.id.accommodation_requests, R.id.my_accommodations)
+                R.id.nav_home, R.id.nav_profile, R.id.accommodation_requests, R.id.my_accommodations, R.id.update_accommodations)
                 .setOpenableLayout(drawer)
                 .build();
 

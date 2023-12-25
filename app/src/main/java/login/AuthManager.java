@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
+import androidx.navigation.Navigation;
+
 import com.auth0.android.jwt.Claim;
 import com.auth0.android.jwt.JWT;
 import com.example.bookingapptim11.NavigationActivity;
@@ -75,6 +77,7 @@ public class AuthManager {
             editor.remove(ROLE_KEY);
             editor.apply();
             notifyListeners();
+
             return "Logout successful";
         }else {
             return "No user logged in";

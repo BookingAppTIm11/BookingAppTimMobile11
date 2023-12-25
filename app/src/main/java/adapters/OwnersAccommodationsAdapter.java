@@ -1,6 +1,7 @@
 package adapters;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bookingapptim11.R;
@@ -63,7 +65,10 @@ public class OwnersAccommodationsAdapter extends RecyclerView.Adapter<OwnersAcco
         holder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //redirect
+                AccommodationDetailsDTO selectedAccommodation = data.get(holder.getAdapterPosition());
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("selectedAccommodation", selectedAccommodation);
+                Navigation.findNavController(view).navigate(R.id.update_accommodations, bundle);
             }
         });
     }
