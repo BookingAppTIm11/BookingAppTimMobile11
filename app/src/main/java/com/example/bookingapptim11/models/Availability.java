@@ -1,4 +1,4 @@
-package models;
+package com.example.bookingapptim11.models;
 
 public class Availability {
     private Long id;

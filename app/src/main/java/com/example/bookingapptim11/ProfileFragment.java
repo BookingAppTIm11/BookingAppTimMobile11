@@ -20,12 +20,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.Objects;
-
 import clients.ClientUtils;
 import login.AuthManager;
-import models.Profile;
+import com.example.bookingapptim11.models.Profile;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

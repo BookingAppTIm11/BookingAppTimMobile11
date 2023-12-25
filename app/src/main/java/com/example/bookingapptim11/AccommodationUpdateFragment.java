@@ -24,12 +24,12 @@ import java.util.Calendar;
 import java.util.List;
 
 import clients.ClientUtils;
-import login.AuthManager;
-import models.AccommodationDetailsDTO;
-import models.AccommodationStatus;
-import models.AccommodationType;
-import models.Amenity;
-import models.PriceType;
+
+import com.example.bookingapptim11.models.AccommodationDetailsDTO;
+import com.example.bookingapptim11.models.AccommodationStatus;
+import com.example.bookingapptim11.models.AccommodationType;
+import com.example.bookingapptim11.models.Amenity;
+import com.example.bookingapptim11.models.PriceType;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

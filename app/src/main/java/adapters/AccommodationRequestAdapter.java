@@ -7,25 +7,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bookingapptim11.AccommodationRequestsFragment;
 import com.example.bookingapptim11.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import clients.ClientUtils;
-import models.AccommodationDetailsDTO;
-import models.AccommodationStatus;
-import models.Profile;
+import com.example.bookingapptim11.models.AccommodationDetailsDTO;
+import com.example.bookingapptim11.models.AccommodationStatus;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

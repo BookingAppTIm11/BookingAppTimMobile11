@@ -1,7 +1,7 @@
 package clients.services;
 
-import models.Profile;
-import okhttp3.ResponseBody;
+import com.example.bookingapptim11.models.Profile;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;

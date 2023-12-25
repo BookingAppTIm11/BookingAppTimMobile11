@@ -14,11 +14,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import adapters.AccommodationRequestAdapter;
 import adapters.OwnersAccommodationsAdapter;
 import clients.ClientUtils;
 import login.AuthManager;
-import models.AccommodationDetailsDTO;
+import com.example.bookingapptim11.models.AccommodationDetailsDTO;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

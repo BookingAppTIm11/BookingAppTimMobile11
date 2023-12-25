@@ -1,14 +1,12 @@
 package clients.services;
 
-import models.AccommodationDetailsDTO;
-import models.Availability;
-import models.ReservationDTO;
-import models.ReservationForShowDTO;
+import com.example.bookingapptim11.models.AccommodationDetailsDTO;
+import com.example.bookingapptim11.models.Availability;
+import com.example.bookingapptim11.models.ReservationDTO;
+import com.example.bookingapptim11.models.ReservationForShowDTO;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import models.Profile;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -17,7 +15,6 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.PUT;
-import retrofit2.http.Path;
 
 public interface AccommodationService {
     @Headers({

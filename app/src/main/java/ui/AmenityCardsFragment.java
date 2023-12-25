@@ -1,6 +1,6 @@
 package ui;
 
-import models.AccommodationStatus;
+import com.example.bookingapptim11.models.AccommodationStatus;
 import static clients.ClientUtils.accommodationService;
 
 import android.app.DatePickerDialog;
@@ -21,7 +21,7 @@ import android.widget.Toast;
 import com.example.bookingapptim11.AccommodationDetailsActivity;
 import com.example.bookingapptim11.R;
 import adapters.AmenityCardAdapter;
-import models.AccommodationDetailsDTO;
+import com.example.bookingapptim11.models.AccommodationDetailsDTO;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

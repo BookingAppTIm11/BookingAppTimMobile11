@@ -2,7 +2,6 @@ package adapters;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +18,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import clients.ClientUtils;
-import models.AccommodationDetailsDTO;
-import models.AccommodationStatus;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.example.bookingapptim11.models.AccommodationDetailsDTO;
 
 public class OwnersAccommodationsAdapter extends RecyclerView.Adapter<OwnersAccommodationsAdapter.ViewHolder>{
 

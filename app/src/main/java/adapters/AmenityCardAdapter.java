@@ -14,7 +14,7 @@ import com.example.bookingapptim11.R;
 
 import java.util.List;
 
-import models.AccommodationDetailsDTO;
+import com.example.bookingapptim11.models.AccommodationDetailsDTO;
 import com.squareup.picasso.Picasso;
 
 public class AmenityCardAdapter  extends RecyclerView.Adapter<AmenityCardAdapter.ViewHolder> {

@@ -1,4 +1,4 @@
-package models;
+package com.example.bookingapptim11.models;
 
 import java.time.LocalDate;
 import java.util.List;

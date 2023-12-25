@@ -2,15 +2,12 @@ package com.example.bookingapptim11;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.Menu;
 import android.widget.TextView;
 
 import com.example.bookingapptim11.databinding.ActivityNavigationBinding;
-import models.AccommodationDetailsDTO;
 import com.example.bookingapptim11.interfaces.UserRoleChangeListener;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -20,12 +17,9 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.bookingapptim11.databinding.ActivityNavigationBinding;
 
 import login.AuthManager;
-import models.Accommodation;
 import ui.AmenityCardsFragment;
-import ui.AmenityDetailsFragment;
 
 public class NavigationActivity extends AppCompatActivity implements UserRoleChangeListener {
 
