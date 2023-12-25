@@ -18,7 +18,7 @@ public interface AccommodationService {
     @GET("accommodations")
     Call<ArrayList<AccommodationDetailsDTO>> getAccommodations();
 
-    @GET("search")
+    @GET("accommodations/search/detailed")
     Call<ArrayList<AccommodationDetailsDTO>> searchAccommodations(
             @Query("guests") Integer guests,
             @Query("location") String location,

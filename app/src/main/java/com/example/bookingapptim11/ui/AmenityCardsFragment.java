@@ -1,6 +1,6 @@
 package com.example.bookingapptim11.ui;
 
-
+import com.example.bookingapptim11.models.AccommodationStatus;
 import static com.example.bookingapptim11.clients.ClientUtils.accommodationService;
 
 import android.app.DatePickerDialog;
@@ -23,6 +23,8 @@ import com.example.bookingapptim11.R;
 import com.example.bookingapptim11.adapters.AmenityCardAdapter;
 import com.example.bookingapptim11.models.AccommodationDetailsDTO;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -97,6 +99,7 @@ public class AmenityCardsFragment extends Fragment {
     private void refreshAccommodationAdapter() {
         amenityCardAdapter = new AmenityCardAdapter(getActivity(), accommodationList);
         recyclerView.setAdapter(amenityCardAdapter);
+        filterActiveAccommodations();
 
         amenityCardAdapter.setOnItemClickListener(new AmenityCardAdapter.OnItemClickListener() {
             @Override
@@ -110,11 +113,21 @@ public class AmenityCardsFragment extends Fragment {
         });
     }
 
+    private void filterActiveAccommodations() {
+        List<AccommodationDetailsDTO> accommodationDetailsDTOS = new ArrayList<>();
+        for(AccommodationDetailsDTO accommodationDetailsDTO : accommodationList){
+            if(accommodationDetailsDTO.getStatus().equals(AccommodationStatus.Active)){
+                accommodationDetailsDTOS.add(accommodationDetailsDTO);
+            }
+        }
+        accommodationList = accommodationDetailsDTOS;
+
+    }
     private void bindSearchForm(View root) {
         checkInDateEditText = root.findViewById(R.id.checkInTextDate);
         checkOutDateEditText = root.findViewById(R.id.checkOutTextDate);
-        locationEditText = root.findViewById(R.id.editTextText);
-        guestsEditText = root.findViewById(R.id.editTextNumberSigned);
+        locationEditText = root.findViewById(R.id.locationText);
+        guestsEditText = root.findViewById(R.id.guestsNumber);
         searchButton = root.findViewById(R.id.searchButton);
 
         // Set OnClickListener for the searchButton
@@ -122,9 +135,30 @@ public class AmenityCardsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Retrieve data from EditText fields
-                String checkInDate = checkInDateEditText.getText().toString();
-                String checkOutDate = checkOutDateEditText.getText().toString();
+
+                String checkInUnformatted = checkInDateEditText.getText().toString();
+                String checkOutUnformatted = checkOutDateEditText.getText().toString();
                 String location = locationEditText.getText().toString();
+                String checkInDate = null;
+                String checkOutDate = null;
+
+                if (checkInUnformatted.isEmpty()) {
+                    checkInUnformatted = null;
+                }
+                if (checkOutUnformatted.isEmpty()) {
+                    checkOutUnformatted = null;
+                }
+                if (location.isEmpty()) {
+                    location = null;
+                }
+
+                if(checkInUnformatted != null){
+                    checkInDate = convertDateFormatForBackend(checkInUnformatted);
+                }
+                if(checkOutUnformatted != null){
+                    checkOutDate = convertDateFormatForBackend(checkOutUnformatted);
+                }
+
                 int guests = 0;
                 try {
                     guests = Integer.parseInt(guestsEditText.getText().toString());
@@ -138,8 +172,31 @@ public class AmenityCardsFragment extends Fragment {
         });
     }
 
-    private void performSearch(String checkInDate, String checkOutDate, String location, int guests) {
+    private void performSearch(String checkInDate, String checkOutDate, String location, Integer guests) {
+        Call<ArrayList<AccommodationDetailsDTO>> call = accommodationService.searchAccommodations(guests, location, checkInDate, checkOutDate);
+        call.enqueue(new Callback<ArrayList<AccommodationDetailsDTO>>() {
+            @Override
+            public void onResponse(Call<ArrayList<AccommodationDetailsDTO>> call, Response<ArrayList<AccommodationDetailsDTO>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    accommodationList = response.body();
+                    Toast.makeText(getContext(), "Successfully filtered accommodations! ", Toast.LENGTH_LONG).show();
+                    refreshAccommodationAdapter();
+                } else {
+                    if(response.body() == null && response.isSuccessful()){
+                        accommodationList = new ArrayList<>();
+                        Toast.makeText(getContext(), "No accommodations! ", Toast.LENGTH_LONG).show();
+                        refreshAccommodationAdapter();
+                    }else{
+                        Toast.makeText(getContext(),response.errorBody().toString(), Toast.LENGTH_LONG);
 
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<ArrayList<AccommodationDetailsDTO>> call, Throwable t) {
+                Toast.makeText(getContext(),  t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void showDatePicker(EditText dateEditText) {
@@ -159,5 +216,17 @@ public class AmenityCardsFragment extends Fragment {
 
         datePickerDialog.show();
 
+    }
+
+    public static String convertDateFormatForBackend(String inputDate) {
+        // Define the input and output date formats
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("M/d/yyyy");
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        // Parse the input string to a LocalDate object
+        LocalDate localDate = LocalDate.parse(inputDate, inputFormatter);
+
+        // Format the LocalDate object to the desired output format
+        return localDate.format(outputFormatter);
     }
 }
