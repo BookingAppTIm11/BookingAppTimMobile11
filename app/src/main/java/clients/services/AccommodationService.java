@@ -33,6 +33,13 @@ public interface AccommodationService {
             "User-Agent: Mobile-Android",
             "Content-Type:application/json"
     })
+    @GET("accommodations/owner/{email}")
+    Call<ArrayList<AccommodationDetailsDTO>> getOwnersAccommodations(@Path("email") String email);
+
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type:application/json"
+    })
     @PUT("accommodations/{id}")
     Call<AccommodationDetailsDTO> updateAccommodation(@Path("id") Long id, @Body AccommodationDetailsDTO accommodationDetailsDTO);
 }

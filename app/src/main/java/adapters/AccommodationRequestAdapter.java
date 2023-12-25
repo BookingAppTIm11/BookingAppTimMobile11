@@ -41,8 +41,6 @@ public class AccommodationRequestAdapter extends RecyclerView.Adapter<Accommodat
         this.context = context;
     }
 
-
-
     @Override
     public long getItemId(int position) {
         return position;
@@ -74,26 +72,24 @@ public class AccommodationRequestAdapter extends RecyclerView.Adapter<Accommodat
         holder.acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                data.get(position).setStatus(AccommodationStatus.Active);
-                Call<AccommodationDetailsDTO> call = ClientUtils.accommodationService.updateAccommodation(data.get(position).getId(), data.get(position));
+                int clickedPosition = holder.getAdapterPosition();
+                data.get(clickedPosition).setStatus(AccommodationStatus.Active);
+                Call<AccommodationDetailsDTO> call = ClientUtils.accommodationService.updateAccommodation(data.get(clickedPosition).getId(), data.get(clickedPosition));
                 call.enqueue(new Callback<AccommodationDetailsDTO>() {
                     @Override
                     public void onResponse(Call<AccommodationDetailsDTO> call, Response<AccommodationDetailsDTO> response) {
                         if (response.code() == 200){
                             Log.d("REZ",response.toString());
-                            data.remove(position);
-                            notifyItemRemoved(position);
+                            data.remove(clickedPosition);
+                            notifyItemRemoved(clickedPosition);
                         }else{
                             Log.d("REZ","Meesage recieved: "+response.code());
                         }
                     }
-
                     @Override
                     public void onFailure(Call<AccommodationDetailsDTO> call, Throwable t) {
                         Log.d("REZ", t.getMessage() != null?t.getMessage():"error");
                     }
-
-
                 });
             }
         });
@@ -102,16 +98,16 @@ public class AccommodationRequestAdapter extends RecyclerView.Adapter<Accommodat
         holder.declineButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                data.get(position).setStatus(AccommodationStatus.Declined);
-                Call<AccommodationDetailsDTO> call = ClientUtils.accommodationService.updateAccommodation(data.get(position).getId(), data.get(position));
+                int clickedPosition = holder.getAdapterPosition();
+                data.get(clickedPosition).setStatus(AccommodationStatus.Declined);
+                Call<AccommodationDetailsDTO> call = ClientUtils.accommodationService.updateAccommodation(data.get(clickedPosition).getId(), data.get(clickedPosition));
                 call.enqueue(new Callback<AccommodationDetailsDTO>() {
                     @Override
                     public void onResponse(Call<AccommodationDetailsDTO> call, Response<AccommodationDetailsDTO> response) {
                         if (response.code() == 200){
                             Log.d("REZ",response.toString());
-                            data.remove(position);
-                            notifyItemRemoved(position);
+                            data.remove(clickedPosition);
+                            notifyItemRemoved(clickedPosition);
                         }else{
                             Log.d("REZ","Meesage recieved: "+response.code());
                         }

@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import clients.ClientUtils;
+import login.AuthManager;
 import models.Profile;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -128,7 +129,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void deleteProfile(){
-        Call<Void> call = ClientUtils.profileService.delete("aaa@gmail.com");
+        Call<Void> call = ClientUtils.profileService.delete(AuthManager.getUserEmail());
         call.enqueue(new Callback<Void>(){
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -153,7 +154,8 @@ public class ProfileFragment extends Fragment {
     }
 
     private void updateProfile(){
-        Call<Profile> call = ClientUtils.profileService.edit("aaa@gmail.com", collectFormData());
+
+        Call<Profile> call = ClientUtils.profileService.edit(AuthManager.getUserEmail(), collectFormData());
         call.enqueue(new Callback<Profile>() {
             @Override
             public void onResponse(Call<Profile> call, Response<Profile> response) {
@@ -177,7 +179,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void getProfileData(){
-        Call<Profile> call = ClientUtils.profileService.getById("aaa@gmail.com");
+        Call<Profile> call = ClientUtils.profileService.getById(AuthManager.getUserEmail());
         call.enqueue(new Callback<Profile>() {
             @Override
             public void onResponse(Call<Profile> call, Response<Profile> response) {

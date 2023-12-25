@@ -2,13 +2,17 @@ package com.example.bookingapptim11;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 
+import com.example.bookingapptim11.interfaces.UserRoleChangeListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -19,14 +23,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bookingapptim11.databinding.ActivityNavigationBinding;
 
+import login.AuthManager;
 import models.Accommodation;
 import ui.AmenityCardsFragment;
 import ui.AmenityDetailsFragment;
 
-public class NavigationActivity extends AppCompatActivity implements AmenityCardsFragment.OnItemClickListener {
+public class NavigationActivity extends AppCompatActivity implements UserRoleChangeListener {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityNavigationBinding binding;
+    NavigationView navigationView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,26 +49,46 @@ public class NavigationActivity extends AppCompatActivity implements AmenityCard
 
         navigationView.getMenu().clear();
 
-        String userRole = "admin";
+        String userRole = AuthManager.getUserRole();
         // Inflate-ovanje odgovarajućeg menija
-        if ("admin".equals(userRole)) {
+        if ("Admin".equals(userRole)) {
             navigationView.inflateMenu(R.menu.activity_admin_drawer);
-        } else if("owner".equals(userRole)){
+            navigationView.getMenu().findItem(R.id.nav_logOut).setOnMenuItemClickListener(menuItem -> {
+                AuthManager.logOut(this);
+                return true;
+            });
+        } else if("Owner".equals(userRole)){
             navigationView.inflateMenu(R.menu.activity_owner_drawer);
-        }else if("guest".equals(userRole)){
+            navigationView.getMenu().findItem(R.id.nav_logOut).setOnMenuItemClickListener(menuItem -> {
+                AuthManager.logOut(this);
+                return true;
+            });
+        }else if("Guest".equals(userRole)){
             navigationView.inflateMenu(R.menu.activity_guest_drawer);
+            navigationView.getMenu().findItem(R.id.nav_logOut).setOnMenuItemClickListener(menuItem -> {
+                AuthManager.logOut(this);
+                return true;
+            });
         }else{
             navigationView.inflateMenu(R.menu.activity_main_drawer);
         }
 
+        AuthManager.addListener(this);
+
+        /*navigationView.getMenu().findItem(R.id.nav_logOut).setOnMenuItemClickListener(menuItem -> {
+            AuthManager.logOut();
+            //openLogIn();
+            return true;
+        });*/
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_profile, R.id.accommodation_requests)
+                R.id.nav_home, R.id.nav_profile, R.id.accommodation_requests, R.id.my_accommodations)
                 .setOpenableLayout(drawer)
                 .build();
 
-        if (savedInstanceState == null) {
+        /*if (savedInstanceState == null) {
             AmenityCardsFragment homeFragment = new AmenityCardsFragment();
             // Set the listener for item clicks in the fragment
             homeFragment.setOnItemClickListener(this);
@@ -69,7 +96,7 @@ public class NavigationActivity extends AppCompatActivity implements AmenityCard
 //            getSupportFragmentManager().beginTransaction()
 //                    .replace(R.id.nav_host_fragment_content_navigation, homeFragment)
 //                    .commit();
-        }
+        }*/
 
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_navigation);
@@ -80,8 +107,21 @@ public class NavigationActivity extends AppCompatActivity implements AmenityCard
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem logInMenuItem = menu.findItem(R.id.action_logIn);
+        if(logInMenuItem != null){
+            if (AuthManager.getUserEmail() == null || !AuthManager.getUserEmail().contains("@")) {
+                logInMenuItem.setVisible(true);
+            } else {
+                logInMenuItem.setVisible(false);
+            }
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+
         getMenuInflater().inflate(R.menu.navigation, menu);
         return true;
     }
@@ -102,6 +142,13 @@ public class NavigationActivity extends AppCompatActivity implements AmenityCard
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onPause() {
+
+        super.onPause();
+        AuthManager.removeListener(this);
+    }
+
     private void openLogIn() {
         Intent loginIntent = new Intent(this, LoginScreenActivity.class);
         startActivity(loginIntent);
@@ -119,11 +166,59 @@ public class NavigationActivity extends AppCompatActivity implements AmenityCard
                 || super.onSupportNavigateUp();
     }
 
-    @Override
+    /*@Override
     public void onAmenityClick(Accommodation accommodation) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.nav_host_fragment_content_navigation, new AmenityDetailsFragment(accommodation))
                 .addToBackStack("name")
                 .commit();
+    }*/
+
+    @Override
+    public void onUserRoleChanged(String newUserRole) {
+        // Reload the navigation menu when the user role changes
+        reloadNavigationMenu();
+        Toolbar toolbar = binding.appBarNavigation.toolbar;
+        onPrepareOptionsMenu(toolbar.getMenu());
+    }
+
+    private void reloadNavigationMenu() {
+        NavigationView navigationView = binding.navView;
+
+        navigationView.getMenu().clear();
+        TextView roleText = navigationView.findViewById(R.id.roleTextView);
+        TextView emailText = navigationView.findViewById(R.id.emailTextView);
+        emailText.setText(AuthManager.getUserEmail());
+        roleText.setText(AuthManager.getUserRole());
+        String userRole = AuthManager.getUserRole();
+        // Inflate the appropriate menu based on the user's role
+        if ("Admin".equals(userRole)) {
+            navigationView.inflateMenu(R.menu.activity_admin_drawer);
+            navigationView.getMenu().findItem(R.id.nav_logOut).setOnMenuItemClickListener(menuItem -> {
+                AuthManager.logOut(this);
+                return true;
+            });
+        } else if("Owner".equals(userRole)){
+            navigationView.inflateMenu(R.menu.activity_owner_drawer);
+            navigationView.getMenu().findItem(R.id.nav_logOut).setOnMenuItemClickListener(menuItem -> {
+                AuthManager.logOut(this);
+                return true;
+            });
+        }else if("Guest".equals(userRole)){
+            navigationView.inflateMenu(R.menu.activity_guest_drawer);
+            navigationView.getMenu().findItem(R.id.nav_logOut).setOnMenuItemClickListener(menuItem -> {
+                AuthManager.logOut(this);
+                return true;
+            });
+        }else{
+            navigationView.inflateMenu(R.menu.activity_main_drawer);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        // Unregister the activity as a listener when it's destroyed
+        AuthManager.removeListener(this);
+        super.onDestroy();
     }
 }

@@ -23,4 +23,10 @@
         android:label="@string/accommodation_requests"
         tools:layout="@layout/fragment_accommodation_requests" />
 
+    <fragment
+        android:id="@+id/my_accommodations"
+        android:name="com.example.bookingapptim11.OwnersAccommodationsFragment"
+        android:label="@string/accommodation_requests"
+        tools:layout="@layout/fragment_owners_accommodations" />
+
 </navigation>
