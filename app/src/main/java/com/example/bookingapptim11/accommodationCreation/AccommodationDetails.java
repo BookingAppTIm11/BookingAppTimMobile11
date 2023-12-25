@@ -11,7 +11,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public class AccommodationDetails implements Parcelable {
@@ -45,7 +45,7 @@ public class AccommodationDetails implements Parcelable {
     int maxGuests;
     @SerializedName("created")
     @Expose
-    Date created;
+    LocalDate created;
     @SerializedName("type")
     @Expose
     String type;
@@ -59,7 +59,7 @@ public class AccommodationDetails implements Parcelable {
     public AccommodationDetails() {
     }
 
-    public AccommodationDetails(Long id, String ownerEmail, String name, String description, String location, Double defaultPrice, List<String> photos, int minGuests, int maxGuests, Date created, String type, PriceType priceType, AccommodationStatus status) {
+    public AccommodationDetails(Long id, String ownerEmail, String name, String description, String location, Double defaultPrice, List<String> photos, int minGuests, int maxGuests, LocalDate created, String type, PriceType priceType, AccommodationStatus status) {
         this.id = id;
         this.ownerEmail = ownerEmail;
         this.name = name;
@@ -180,11 +180,11 @@ public class AccommodationDetails implements Parcelable {
         this.maxGuests = maxGuests;
     }
 
-    public Date getCreated() {
+    public LocalDate getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(LocalDate created) {
         this.created = created;
     }
 

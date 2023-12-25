@@ -213,7 +213,6 @@ public class AccommodationCreationFragment extends Fragment {
 
     public AccommodationDetails getAccommodationDetails() throws Exception {
 
-        LocalDate today = new Date();
 
         AccommodationDetails accommodation = new AccommodationDetails(
                 0L,
@@ -225,7 +224,7 @@ public class AccommodationCreationFragment extends Fragment {
                 new ArrayList<String>(),
                 Integer.parseInt(minGuests.getText().toString()),
                 Integer.parseInt(maxGuests.getText().toString()),
-                new LocalDate(),
+                LocalDate.now(),
                 accommodationType.getSelectedItem().toString(),
                 PriceType.PerNight,
 //                checkPriceType(perUnit,perNight),

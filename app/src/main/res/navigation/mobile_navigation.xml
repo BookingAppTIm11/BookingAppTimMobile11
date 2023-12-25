@@ -26,13 +26,17 @@
     <fragment
         android:id="@+id/my_accommodations"
         android:name="com.example.bookingapptim11.OwnersAccommodationsFragment"
-        android:label="@string/accommodation_requests"
+        android:label="My Accommodations"
         tools:layout="@layout/fragment_owners_accommodations" />
 
     <fragment
         android:id="@+id/update_accommodations"
         android:name="com.example.bookingapptim11.AccommodationUpdateFragment"
-        android:label="@string/accommodation_requests"
+        android:label="Accommodation Update"
         tools:layout="@layout/fragment_accommodation_update" />
-
+    <fragment
+        android:id="@+id/create_accommodations"
+        android:name="com.example.bookingapptim11.fragments.AccommodationCreationFragment"
+        android:label="Accommodation Creation"
+        tools:layout="@layout/accommodation_creation" />
 </navigation>

@@ -26,7 +26,7 @@ import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.bookingapptim11.NavigationActivity;
 import com.example.bookingapptim11.R;
 import com.example.bookingapptim11.models.AccommodationDetailsDTO;
-import com.example.bookingapptim11.models.Availability;
+import com.example.bookingapptim11.models.AvailabilityDateNum;
 import com.example.bookingapptim11.models.ReservationDTO;
 import com.example.bookingapptim11.models.ReservationForShowDTO;
 import com.google.android.gms.maps.GoogleMap;
@@ -114,7 +114,7 @@ public class AmenityDetailsFragment extends Fragment implements OnMapReadyCallba
 
     private void reservationDialog(View root) {
 
-        Call<ArrayList<Availability>> call = accommodationService.getAccommodationAvailability(accommodation.getId());
+        Call<ArrayList<AvailabilityDateNum>> call = accommodationService.getAccommodationAvailability(accommodation.getId());
         checkInDateEditText = root.findViewById(R.id.checkInTextDate2);
         checkOutDateEditText = root.findViewById(R.id.checkOutTextDate2);
         guestsEditText = root.findViewById(R.id.guestsNumber2);
@@ -128,11 +128,11 @@ public class AmenityDetailsFragment extends Fragment implements OnMapReadyCallba
                 //Toast.makeText(getContext(), "Button Clicked", Toast.LENGTH_SHORT).show();
             }
         });
-        call.enqueue(new Callback<ArrayList<Availability>>() {
+        call.enqueue(new Callback<ArrayList<AvailabilityDateNum>>() {
             @Override
-            public void onResponse(Call<ArrayList<Availability>> call, Response<ArrayList<Availability>> response) {
+            public void onResponse(Call<ArrayList<AvailabilityDateNum>> call, Response<ArrayList<AvailabilityDateNum>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    ArrayList<Availability> availabilities = response.body();
+                    ArrayList<AvailabilityDateNum> availabilities = response.body();
 
                     checkInDateEditText.setOnClickListener(v -> showDatePicker(checkInDateEditText, availabilities));
                     checkOutDateEditText.setOnClickListener(v -> showDatePicker(checkOutDateEditText, availabilities));
@@ -146,7 +146,7 @@ public class AmenityDetailsFragment extends Fragment implements OnMapReadyCallba
                 }
             }
             @Override
-            public void onFailure(Call<ArrayList<Availability>> call, Throwable t) {
+            public void onFailure(Call<ArrayList<AvailabilityDateNum>> call, Throwable t) {
                 Toast.makeText(getContext(),  t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
@@ -258,7 +258,7 @@ public class AmenityDetailsFragment extends Fragment implements OnMapReadyCallba
         }
     }
 
-    private void showDatePicker(EditText dateEditText, ArrayList<Availability> availabilities) {
+    private void showDatePicker(EditText dateEditText, ArrayList<AvailabilityDateNum> availabilities) {
         Calendar now = Calendar.getInstance();
         DatePickerDialog datePicker = DatePickerDialog.newInstance(
                 (view, year, monthOfYear, dayOfMonth) -> {
@@ -273,7 +273,7 @@ public class AmenityDetailsFragment extends Fragment implements OnMapReadyCallba
 
         // Prepare selectable days array to disable non-available dates
         ArrayList<Calendar> selectableDays = new ArrayList<>();
-        for (Availability availability : availabilities) {
+        for (AvailabilityDateNum availability : availabilities) {
             LocalDate startDate = LocalDate.of(
                     availability.getTimeSlot().getStartDate().get(0),
                     availability.getTimeSlot().getStartDate().get(1),

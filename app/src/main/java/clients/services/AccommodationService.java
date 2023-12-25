@@ -2,6 +2,7 @@ package clients.services;
 
 import com.example.bookingapptim11.models.AccommodationDetailsDTO;
 import com.example.bookingapptim11.models.Availability;
+import com.example.bookingapptim11.models.AvailabilityDateNum;
 import com.example.bookingapptim11.models.ReservationDTO;
 import com.example.bookingapptim11.models.ReservationForShowDTO;
 
@@ -34,7 +35,7 @@ public interface AccommodationService {
     );
 
     @GET("availabilities/accommodation/{accommodation_id}")
-    Call<ArrayList<Availability>> getAccommodationAvailability(@Path("accommodation_id") Long accommodationId);
+    Call<ArrayList<AvailabilityDateNum>> getAccommodationAvailability(@Path("accommodation_id") Long accommodationId);
 
     @POST("reservations") // Replace "your_endpoint_path" with the actual endpoint path
     Call<ReservationForShowDTO> createReservation(@Body ReservationDTO reservationDTO);

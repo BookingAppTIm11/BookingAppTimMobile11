@@ -87,7 +87,7 @@ public class NavigationActivity extends AppCompatActivity implements UserRoleCha
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_profile, R.id.accommodation_requests, R.id.my_accommodations, R.id.update_accommodations)
+                R.id.nav_home, R.id.nav_profile, R.id.accommodation_requests, R.id.my_accommodations, R.id.update_accommodations, R.id.create_accommodations)
                 .setOpenableLayout(drawer)
                 .build();
 
