@@ -3,10 +3,9 @@ package com.example.bookingapptim11;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Menu;
 
-import com.google.android.material.snackbar.Snackbar;
+import com.example.bookingapptim11.fragments.AccommodationCreationFragment;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.fragment.app.Fragment;
@@ -19,7 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bookingapptim11.databinding.ActivityNavigationBinding;
 
-import models.Accommodation;
+import com.example.bookingapptim11.models.Accommodation;
 import ui.AmenityCardsFragment;
 import ui.AmenityDetailsFragment;
 
@@ -43,7 +42,7 @@ public class NavigationActivity extends AppCompatActivity implements AmenityCard
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_profile)
+                R.id.nav_home, R.id.nav_profile,R.id.nav_notifications)
                 .setOpenableLayout(drawer)
                 .build();
 
@@ -85,7 +84,10 @@ public class NavigationActivity extends AppCompatActivity implements AmenityCard
             replaceFragment(new AmenityCardsFragment());
         } else if (id == R.id.nav_profile){
             replaceFragment(new ProfileFragment());
+        } else if (id == R.id.nav_notifications){
+            replaceFragment(new AccommodationCreationFragment());
         }
+
 
         return super.onOptionsItemSelected(item);
     }

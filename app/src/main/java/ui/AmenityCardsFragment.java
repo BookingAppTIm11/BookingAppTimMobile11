@@ -15,8 +15,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.example.bookingapptim11.AccommodationDetailsActivity;
-import com.example.bookingapptim11.HomeScreen;
-import com.example.bookingapptim11.NavigationActivity;
 import com.example.bookingapptim11.R;
 
 import java.util.ArrayList;
@@ -24,7 +22,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import adapters.AmenityCardAdapter;
-import models.Accommodation;
+import com.example.bookingapptim11.models.Accommodation;
 
 public class AmenityCardsFragment extends Fragment {
     List<Accommodation> accommodationList;

@@ -2,6 +2,7 @@ package clients;
 
 import java.util.concurrent.TimeUnit;
 
+import clients.services.AccommodationCreationService;
 import clients.services.AuthService;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -31,5 +32,6 @@ public class ClientUtils {
             .build();
 
     public static AuthService authService = retrofit.create(AuthService.class);
+    public static AccommodationCreationService accommodationCreationService = retrofit.create(AccommodationCreationService.class);
 
 }

@@ -9,14 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.bookingapptim11.LoginScreenActivity;
 import com.example.bookingapptim11.NavigationActivity;
 import com.example.bookingapptim11.R;
 
-import models.Accommodation;
+import com.example.bookingapptim11.models.Accommodation;
 
 
 public class AmenityDetailsFragment extends Fragment {

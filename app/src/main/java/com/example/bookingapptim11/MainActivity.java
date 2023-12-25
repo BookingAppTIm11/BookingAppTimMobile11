@@ -1,8 +1,12 @@
 package com.example.bookingapptim11;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+
+import com.example.bookingapptim11.fragments.AccommodationCreationFragment;
 
 import login.AuthManager;
 
