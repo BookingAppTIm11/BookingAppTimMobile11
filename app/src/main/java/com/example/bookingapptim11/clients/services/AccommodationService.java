@@ -2,11 +2,14 @@ package com.example.bookingapptim11.clients.services;
 
 import com.example.bookingapptim11.models.AccommodationDetailsDTO;
 import com.example.bookingapptim11.models.Availability;
+import com.example.bookingapptim11.models.ReservationDTO;
+import com.example.bookingapptim11.models.ReservationForShowDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -32,4 +35,6 @@ public interface AccommodationService {
     @GET("availabilities/accommodation/{accommodation_id}")
     Call<ArrayList<Availability>> getAccommodationAvailability(@Path("accommodation_id") Long accommodationId);
 
+    @POST("reservations") // Replace "your_endpoint_path" with the actual endpoint path
+    Call<ReservationForShowDTO> createReservation(@Body ReservationDTO reservationDTO);
 }

@@ -26,6 +26,8 @@ import com.example.bookingapptim11.NavigationActivity;
 import com.example.bookingapptim11.R;
 import com.example.bookingapptim11.models.AccommodationDetailsDTO;
 import com.example.bookingapptim11.models.Availability;
+import com.example.bookingapptim11.models.ReservationDTO;
+import com.example.bookingapptim11.models.ReservationForShowDTO;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -108,26 +110,28 @@ public class AmenityDetailsFragment extends Fragment implements OnMapReadyCallba
     private void reservationDialog(View root) {
 
         Call<ArrayList<Availability>> call = accommodationService.getAccommodationAvailability(accommodation.getId());
-
+        checkInDateEditText = root.findViewById(R.id.checkInTextDate2);
+        checkOutDateEditText = root.findViewById(R.id.checkOutTextDate2);
+        guestsEditText = root.findViewById(R.id.guestsNumber2);
+        bookButton = root.findViewById(R.id.bookButton);
+        bookButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Your action on button click
+                // For example, show a toast message
+                bookReservation();
+                //Toast.makeText(getContext(), "Button Clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
         call.enqueue(new Callback<ArrayList<Availability>>() {
             @Override
             public void onResponse(Call<ArrayList<Availability>> call, Response<ArrayList<Availability>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     ArrayList<Availability> availabilities = response.body();
-                    checkInDateEditText = root.findViewById(R.id.checkInTextDate2);
+
                     checkInDateEditText.setOnClickListener(v -> showDatePicker(checkInDateEditText, availabilities));
-                    checkOutDateEditText = root.findViewById(R.id.checkOutTextDate2);
                     checkOutDateEditText.setOnClickListener(v -> showDatePicker(checkOutDateEditText, availabilities));
-                    guestsEditText = root.findViewById(R.id.guestsNumber2);
-                    bookButton = root.findViewById(R.id.bookButton);
-                    bookButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            // Your action on button click
-                            // For example, show a toast message
-                            Toast.makeText(getContext(), "Button Clicked", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+
 
 
                 } else {
@@ -143,6 +147,75 @@ public class AmenityDetailsFragment extends Fragment implements OnMapReadyCallba
         });
     }
 
+    private void bookReservation() {
+        if(!validateInputs()) return;
+        String checkInDateStr = checkInDateEditText.getText().toString();
+        String checkOutDateStr = checkOutDateEditText.getText().toString();
+        String guestsStr = guestsEditText.getText().toString();
+        createReservation(new ReservationDTO(0,accommodation.getId(),"ognjen_guest@gmail.com",checkInDateStr,checkOutDateStr,Integer.parseInt(guestsStr)));
+    }
+
+
+    public void createReservation(ReservationDTO reservationDTO) {
+        // Assuming retrofitService is your Retrofit API service interface
+        Call<ReservationForShowDTO> call = accommodationService.createReservation(reservationDTO);
+
+        call.enqueue(new Callback<ReservationForShowDTO>() {
+            @Override
+            public void onResponse(Call<ReservationForShowDTO> call, Response<ReservationForShowDTO> response) {
+                if (response.isSuccessful()) {
+                    // Reservation created successfully
+                    ReservationForShowDTO createdReservation = response.body();
+
+                    Toast.makeText(getContext(), "Price: $"+ createdReservation.getPrice() + ", id: " + createdReservation.getId(), Toast.LENGTH_SHORT).show();
+
+                    // Handle the created reservation data
+                } else {
+                    // Reservation creation failed
+                    // Handle the error (e.g., display a message)
+                    Toast.makeText(getContext(), "Failed to create reservation", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ReservationForShowDTO> call, Throwable t) {
+                // Reservation creation request failed
+                // Handle the failure (e.g., display a message)
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private boolean validateInputs() {
+        String checkInDateStr = checkInDateEditText.getText().toString();
+        String checkOutDateStr = checkOutDateEditText.getText().toString();
+        String guestsStr = guestsEditText.getText().toString();
+
+        // Check if any of the fields are empty
+        if (checkInDateStr.isEmpty() || checkOutDateStr.isEmpty() || guestsStr.isEmpty()) {
+            Toast.makeText(getContext(), "Please fill in all the fields", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        // Convert strings to LocalDate objects
+        LocalDate checkInDate = LocalDate.parse(checkInDateStr);
+        LocalDate checkOutDate = LocalDate.parse(checkOutDateStr);
+
+        // Validate check out date is after check in date
+        if (checkOutDate.isBefore(checkInDate)) {
+            Toast.makeText(getContext(), "Check-out date should be after Check-in date", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        // Validate number of guests
+        int guests = Integer.parseInt(guestsStr);
+        if (guests < accommodation.getMinGuests() || guests > accommodation.getMaxGuests()) {
+            Toast.makeText(getContext(), "Number of guests should be between " + accommodation.getMinGuests() + " and " + accommodation.getMaxGuests(), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        // All validations passed
+        return true;
+    }
     private void loadImagesToSlider(ImageSlider imageSlider) {
         if(accommodation.getPhotos().size() > 0){
             ArrayList<SlideModel> slideModels = new ArrayList<>();
