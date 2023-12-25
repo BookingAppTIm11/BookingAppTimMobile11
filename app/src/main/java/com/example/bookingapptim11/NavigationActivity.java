@@ -168,8 +168,8 @@ public class NavigationActivity extends AppCompatActivity implements UserRoleCha
                 || super.onSupportNavigateUp();
     }
 
-    @Override
-    public void onAmenityClick(AccommodationDetailsDTO accommodation) {}
+//    @Override
+//    public void onAmenityClick(AccommodationDetailsDTO accommodation) {}
 
     /*@Override
     public void onAmenityClick(Accommodation accommodation) {
