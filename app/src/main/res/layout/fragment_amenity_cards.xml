@@ -9,14 +9,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <SearchView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/search_bar_accommodation"
-            >
-
-        </SearchView>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -64,44 +56,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/textView2"
-                        android:layout_width="73dp"
-                        android:layout_height="wrap_content"
-                        android:text="Sort by:"
-                        android:textSize="20sp" />
-
-                    <Spinner
-                        android:id="@+id/spinner"
-                        android:layout_width="153dp"
-                        android:layout_height="48dp"
-                        android:layout_weight="1"
-                        android:entries="@array/sort_by_attributes" />
-
-                </LinearLayout>
-
-                <Button
-                    android:id="@+id/detailsButton2"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginRight="0dp"
-                    android:backgroundTint="@color/light_orange"
-                    android:shadowRadius="30"
-                    android:text="FILTER"
-                    android:textColor="@color/white"
-                    android:textColorHighlight="#FFFFFF"
-                    android:textColorHint="#FFFFFF"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.497"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal" >
-
                     <ImageView
                         android:id="@+id/imageView6"
                         android:layout_width="wrap_content"
@@ -117,6 +71,23 @@
                         android:inputType="numberSigned"
                         android:text="2" />
                 </LinearLayout>
+
+                <Button
+                    android:id="@+id/searchButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginRight="0dp"
+                    android:backgroundTint="@color/light_orange"
+                    android:shadowRadius="30"
+                    android:text="SEARCH"
+                    android:textColor="@color/white"
+                    android:textColorHighlight="#FFFFFF"
+                    android:textColorHint="#FFFFFF"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.497"
+                    app:layout_constraintStart_toStartOf="parent" />
 
 
             </LinearLayout>

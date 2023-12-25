@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 android {
     namespace = "com.example.bookingapptim11"
@@ -33,6 +34,7 @@ android {
 }
 
 dependencies {
+
     implementation ("com.squareup.picasso:picasso:2.8")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation ("com.auth0.android:jwtdecode:2.0.2")

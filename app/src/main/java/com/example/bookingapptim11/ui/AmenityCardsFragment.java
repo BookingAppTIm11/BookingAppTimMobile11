@@ -14,13 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.bookingapptim11.AccommodationDetailsActivity;
 import com.example.bookingapptim11.R;
 import com.example.bookingapptim11.adapters.AmenityCardAdapter;
-import com.example.bookingapptim11.models.Accommodation;
 import com.example.bookingapptim11.models.AccommodationDetailsDTO;
 
 import java.util.ArrayList;
@@ -37,6 +37,10 @@ public class AmenityCardsFragment extends Fragment {
     RecyclerView recyclerView;
     private EditText checkInDateEditText;
     private EditText checkOutDateEditText;
+    private EditText locationEditText;
+    private EditText guestsEditText;
+    private Button searchButton;
+
 
     public interface OnItemClickListener {
         void onAmenityClick(AccommodationDetailsDTO accommodation);
@@ -52,11 +56,8 @@ public class AmenityCardsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
         View root = inflater.inflate(R.layout.fragment_amenity_cards, container, false);
         RecyclerView recyclerView1 = root.findViewById(R.id.amenity_cards_rec);
-
 
         recyclerView = root.findViewById(R.id.amenity_cards_rec);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.VERTICAL,false));
@@ -68,28 +69,7 @@ public class AmenityCardsFragment extends Fragment {
                 if (response.isSuccessful() && response.body() != null) {
                     accommodationList = response.body();
                     Toast.makeText(getContext(), "Successfully loaded accommodations! ", Toast.LENGTH_LONG).show();
-                    amenityCardAdapter = new AmenityCardAdapter(getActivity(), accommodationList);
-
-                    recyclerView.setAdapter(amenityCardAdapter);
-
-                    amenityCardAdapter.setOnItemClickListener(new AmenityCardAdapter.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(int position) {
-//                if (mListener != null) {
-//                    Accommodation clickedAccommodation = accommodationList.get(position);
-//                    mListener.onAmenityClick(clickedAccommodation); // Propagate click event to activity
-//                }
-                            AccommodationDetailsDTO clickedAccommodation = accommodationList.get(position);
-
-                            Intent intent = new Intent(getActivity(), AccommodationDetailsActivity.class);
-                            intent.putExtra("accommodation", clickedAccommodation);
-                            startActivity(intent);
-//                getActivity().getSupportFragmentManager().beginTransaction()
-//                        .replace(R.id.nav_host_fragment_content_navigation, new AmenityDetailsFragment(clickedAccommodation))
-//                        .addToBackStack("name")
-//                        .commit();
-                        }
-                    });
+                    refreshAccommodationAdapter();
                 } else {
                     Toast.makeText(getContext(), "No accommodations! ", Toast.LENGTH_LONG).show();
                 }
@@ -101,13 +81,65 @@ public class AmenityCardsFragment extends Fragment {
         });
 
 
+
+
         checkInDateEditText = root.findViewById(R.id.checkInTextDate);
         checkInDateEditText.setOnClickListener(v -> showDatePicker(checkInDateEditText));
         checkOutDateEditText = root.findViewById(R.id.checkOutTextDate);
         checkOutDateEditText.setOnClickListener(v -> showDatePicker(checkOutDateEditText));
 
 
+        bindSearchForm(root);
+
         return root;
+    }
+
+    private void refreshAccommodationAdapter() {
+        amenityCardAdapter = new AmenityCardAdapter(getActivity(), accommodationList);
+        recyclerView.setAdapter(amenityCardAdapter);
+
+        amenityCardAdapter.setOnItemClickListener(new AmenityCardAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+
+                AccommodationDetailsDTO clickedAccommodation = accommodationList.get(position);
+                Intent intent = new Intent(getActivity(), AccommodationDetailsActivity.class);
+                intent.putExtra("accommodation", clickedAccommodation);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void bindSearchForm(View root) {
+        checkInDateEditText = root.findViewById(R.id.checkInTextDate);
+        checkOutDateEditText = root.findViewById(R.id.checkOutTextDate);
+        locationEditText = root.findViewById(R.id.editTextText);
+        guestsEditText = root.findViewById(R.id.editTextNumberSigned);
+        searchButton = root.findViewById(R.id.searchButton);
+
+        // Set OnClickListener for the searchButton
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Retrieve data from EditText fields
+                String checkInDate = checkInDateEditText.getText().toString();
+                String checkOutDate = checkOutDateEditText.getText().toString();
+                String location = locationEditText.getText().toString();
+                int guests = 0;
+                try {
+                    guests = Integer.parseInt(guestsEditText.getText().toString());
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+
+                // Call a method to perform a backend operation
+                performSearch(checkInDate, checkOutDate, location, guests);
+            }
+        });
+    }
+
+    private void performSearch(String checkInDate, String checkOutDate, String location, int guests) {
+
     }
 
     private void showDatePicker(EditText dateEditText) {
