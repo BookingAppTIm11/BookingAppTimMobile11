@@ -1,5 +1,7 @@
 package com.example.bookingapptim11.ui;
 
+import static com.example.bookingapptim11.clients.ClientUtils.accommodationService;
+
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -7,34 +9,53 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CalendarView;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
-import com.example.bookingapptim11.LoginScreenActivity;
 import com.example.bookingapptim11.NavigationActivity;
 import com.example.bookingapptim11.R;
-import com.example.bookingapptim11.SplashScreenActivity;
 import com.example.bookingapptim11.models.AccommodationDetailsDTO;
+import com.example.bookingapptim11.models.Availability;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class AmenityDetailsFragment extends Fragment implements OnMapReadyCallback {
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1001;
     private GoogleMap googleMap;
     AccommodationDetailsDTO accommodation;
+    private EditText checkInDateEditText;
+    private EditText checkOutDateEditText;
+    private EditText guestsEditText;
+
     public AmenityDetailsFragment(AccommodationDetailsDTO accommodation){
         this.accommodation = accommodation;
     }
@@ -72,6 +93,8 @@ public class AmenityDetailsFragment extends Fragment implements OnMapReadyCallba
         loadImagesToSlider(imageSlider);
 
 
+        
+        
         ImageButton homeButton = root.findViewById(R.id.homeAccommodationDetailsImageButton);
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +103,37 @@ public class AmenityDetailsFragment extends Fragment implements OnMapReadyCallba
                 startActivity(intent);
             }
         });
+        
+        reservationDialog(root);
+        
         return  root;
+    }
+
+    private void reservationDialog(View root) {
+
+        Call<ArrayList<Availability>> call = accommodationService.getAccommodationAvailability(accommodation.getId());
+
+        call.enqueue(new Callback<ArrayList<Availability>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Availability>> call, Response<ArrayList<Availability>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    ArrayList<Availability> availabilities = response.body();
+                    checkInDateEditText = root.findViewById(R.id.checkInTextDate2);
+                    checkInDateEditText.setOnClickListener(v -> showDatePicker(checkInDateEditText, availabilities));
+                    checkOutDateEditText = root.findViewById(R.id.checkOutTextDate2);
+                    checkOutDateEditText.setOnClickListener(v -> showDatePicker(checkOutDateEditText, availabilities));
+
+                } else {
+
+                    Toast.makeText(getContext(),response.errorBody().toString(), Toast.LENGTH_LONG);
+
+                }
+            }
+            @Override
+            public void onFailure(Call<ArrayList<Availability>> call, Throwable t) {
+                Toast.makeText(getContext(),  t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void loadImagesToSlider(ImageSlider imageSlider) {
@@ -118,5 +171,72 @@ public class AmenityDetailsFragment extends Fragment implements OnMapReadyCallba
             googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
             // Add markers, set camera position, etc.
         }
+    }
+
+    private void showDatePicker(EditText dateEditText, ArrayList<Availability> availabilities) {
+        Calendar now = Calendar.getInstance();
+        DatePickerDialog datePicker = DatePickerDialog.newInstance(
+                (view, year, monthOfYear, dayOfMonth) -> {
+                    // Set the selected date to the EditText field
+                    LocalDate selectedDate = LocalDate.of(year, monthOfYear + 1, dayOfMonth);
+                    dateEditText.setText(convertDateFormatForBackend(selectedDate));
+                },
+                now.get(Calendar.YEAR), // Initial year selection
+                now.get(Calendar.MONTH), // Initial month selection
+                now.get(Calendar.DAY_OF_MONTH) // Initial day selection
+        );
+
+        // Prepare selectable days array to disable non-available dates
+        ArrayList<Calendar> selectableDays = new ArrayList<>();
+        for (Availability availability : availabilities) {
+            LocalDate startDate = LocalDate.of(
+                    availability.getTimeSlot().getStartDate().get(0),
+                    availability.getTimeSlot().getStartDate().get(1),
+                    availability.getTimeSlot().getStartDate().get(2)
+            );
+            LocalDate endDate = LocalDate.of(
+                    availability.getTimeSlot().getEndDate().get(0),
+                    availability.getTimeSlot().getEndDate().get(1),
+                    availability.getTimeSlot().getEndDate().get(2)
+            );
+
+            // Iterate through available dates and add them to the selectableDays list
+            LocalDate currentDate = startDate;
+            while (!currentDate.isAfter(endDate)) {
+                Calendar cal = Calendar.getInstance();
+                cal.set(currentDate.getYear(), currentDate.getMonthValue() - 1, currentDate.getDayOfMonth());
+                selectableDays.add(cal);
+                currentDate = currentDate.plusDays(1); // Increment date by one day
+            }
+        }
+
+        // Convert ArrayList<Calendar> to Calendar[] for setSelectableDays method
+        Calendar[] selectableDaysArray = selectableDays.toArray(new Calendar[0]);
+        if(selectableDaysArray.length == 0){
+            datePicker.setSelectableDays(new Calendar[]{});
+        }else{
+            datePicker.setSelectableDays(selectableDaysArray);
+
+        }
+
+        datePicker.show(getFragmentManager(), "DatePickerDialog");
+
+    }
+
+    public static String convertDateFormatForBackend(LocalDate localDate) {
+        // Define the output date format
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        // Format the LocalDate object to the desired output format
+        return localDate.format(outputFormatter);
+    }
+
+    private long convertDateToMilliseconds(LocalDate localDate) {
+        // Convert LocalDate to Date
+        Instant instant = localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
+        Date date = Date.from(instant);
+
+        // Convert Date to milliseconds
+        return date.getTime();
     }
 }

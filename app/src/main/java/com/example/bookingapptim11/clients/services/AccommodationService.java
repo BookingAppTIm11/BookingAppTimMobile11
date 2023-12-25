@@ -1,13 +1,16 @@
 package com.example.bookingapptim11.clients.services;
 
 import com.example.bookingapptim11.models.AccommodationDetailsDTO;
+import com.example.bookingapptim11.models.Availability;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface AccommodationService {
@@ -25,4 +28,8 @@ public interface AccommodationService {
             @Query("startDate") String startDate, // Assuming you pass date strings in a specific format
             @Query("endDate") String endDate
     );
+
+    @GET("availabilities/accommodation/{accommodation_id}")
+    Call<ArrayList<Availability>> getAccommodationAvailability(@Path("accommodation_id") Long accommodationId);
+
 }

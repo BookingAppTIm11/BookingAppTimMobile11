@@ -64,7 +64,7 @@ public class AmenityCardsFragment extends Fragment {
         recyclerView = root.findViewById(R.id.amenity_cards_rec);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.VERTICAL,false));
         accommodationList = new ArrayList<>();
-        Call<ArrayList<AccommodationDetailsDTO>> call = accommodationService.getAccommodations();
+        Call<ArrayList<AccommodationDetailsDTO>> call = accommodationService.searchAccommodations(null,null,null,null);
         call.enqueue(new Callback<ArrayList<AccommodationDetailsDTO>>() {
             @Override
             public void onResponse(Call<ArrayList<AccommodationDetailsDTO>> call, Response<ArrayList<AccommodationDetailsDTO>> response) {
