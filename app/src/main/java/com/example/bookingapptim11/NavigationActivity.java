@@ -6,8 +6,10 @@ import android.view.MenuItem;
 import android.view.Menu;
 import android.widget.TextView;
 
+
 import com.example.bookingapptim11.databinding.ActivityNavigationBinding;
 import com.example.bookingapptim11.interfaces.UserRoleChangeListener;
+import com.example.bookingapptim11.fragments.AccommodationCreationFragment;
 import com.google.android.material.navigation.NavigationView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -19,6 +21,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import login.AuthManager;
+
+import com.example.bookingapptim11.databinding.ActivityNavigationBinding;
+
+import com.example.bookingapptim11.models.Accommodation;
+
 import ui.AmenityCardsFragment;
 
 public class NavigationActivity extends AppCompatActivity implements UserRoleChangeListener {
@@ -133,7 +140,10 @@ public class NavigationActivity extends AppCompatActivity implements UserRoleCha
             replaceFragment(new AmenityCardsFragment());
         } else if (id == R.id.nav_profile){
             replaceFragment(new ProfileFragment());
+        } else if (id == R.id.nav_notifications){
+            replaceFragment(new AccommodationCreationFragment());
         }
+
 
         return super.onOptionsItemSelected(item);
     }

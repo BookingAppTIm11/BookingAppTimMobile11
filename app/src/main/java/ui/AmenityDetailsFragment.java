@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
+
 import com.example.bookingapptim11.NavigationActivity;
 import com.example.bookingapptim11.R;
 import com.example.bookingapptim11.models.AccommodationDetailsDTO;
@@ -32,6 +33,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -44,6 +46,9 @@ import java.util.Date;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import com.example.bookingapptim11.models.Accommodation;
+
 
 
 public class AmenityDetailsFragment extends Fragment implements OnMapReadyCallback {

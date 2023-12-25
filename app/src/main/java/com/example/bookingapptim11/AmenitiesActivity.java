@@ -4,7 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+
 import com.example.bookingapptim11.models.AccommodationDetailsDTO;
+
+import com.example.bookingapptim11.models.Accommodation;
+
 import ui.AmenityCardsFragment;
 import ui.AmenityDetailsFragment;
 

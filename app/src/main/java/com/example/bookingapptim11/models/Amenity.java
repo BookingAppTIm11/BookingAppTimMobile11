@@ -64,4 +64,5 @@ public class Amenity implements Parcelable {
         }
         dest.writeString(name);
     }
+
 }
