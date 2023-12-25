@@ -16,7 +16,7 @@
         app:srcCompat="@mipmap/ic_launcher_foreground" />
 
     <EditText
-        android:id="@+id/addressInput"
+        android:id="@+id/address"
         android:layout_width="238dp"
         android:layout_height="52dp"
         android:backgroundTint="@color/light_orange"
@@ -34,7 +34,7 @@
         app:layout_constraintVertical_bias="0.618" />
 
     <EditText
-        android:id="@+id/emailRegistrationInput"
+        android:id="@+id/email"
         android:layout_width="238dp"
         android:layout_height="52dp"
         android:backgroundTint="@color/light_orange"
@@ -52,7 +52,7 @@
         app:layout_constraintVertical_bias="0.144" />
 
     <EditText
-        android:id="@+id/passwordRegistrationInput"
+        android:id="@+id/password"
         android:layout_width="238dp"
         android:layout_height="52dp"
         android:backgroundTint="@color/light_orange"
@@ -70,7 +70,7 @@
         app:layout_constraintVertical_bias="0.241" />
 
     <EditText
-        android:id="@+id/confirmPasswordInput"
+        android:id="@+id/confirmPassword"
         android:layout_width="238dp"
         android:layout_height="52dp"
         android:backgroundTint="@color/light_orange"
@@ -88,7 +88,7 @@
         app:layout_constraintVertical_bias="0.337" />
 
     <Button
-        android:id="@+id/buttonRegister"
+        android:id="@+id/registerBtn"
         android:layout_width="230dp"
         android:layout_height="46dp"
         android:layout_marginBottom="80dp"
@@ -129,7 +129,7 @@
         app:layout_constraintVertical_bias="0.935" />
 
     <EditText
-        android:id="@+id/firstNameInput"
+        android:id="@+id/firstName"
         android:layout_width="238dp"
         android:layout_height="52dp"
         android:backgroundTint="@color/light_orange"
@@ -147,7 +147,7 @@
         app:layout_constraintVertical_bias="0.427" />
 
     <EditText
-        android:id="@+id/phoneInput"
+        android:id="@+id/phone"
         android:layout_width="238dp"
         android:layout_height="52dp"
         android:backgroundTint="@color/light_orange"
@@ -165,7 +165,7 @@
         app:layout_constraintVertical_bias="0.717" />
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/guestBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/light_orange"
@@ -179,7 +179,7 @@
         app:layout_constraintVertical_bias="0.8" />
 
     <CheckBox
-        android:id="@+id/checkBox2"
+        android:id="@+id/ownerBox"
         android:layout_width="79dp"
         android:layout_height="46dp"
         android:backgroundTint="@color/design_default_color_background"
@@ -193,7 +193,7 @@
         app:layout_constraintVertical_bias="0.801" />
 
     <EditText
-        android:id="@+id/lastNameInput"
+        android:id="@+id/lastName"
         android:layout_width="238dp"
         android:layout_height="52dp"
         android:backgroundTint="@color/light_orange"
