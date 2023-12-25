@@ -17,4 +17,10 @@
         android:label="@string/menu_profile"
         tools:layout="@layout/fragment_profile" />
 
+    <fragment
+        android:id="@+id/accommodation_requests"
+        android:name="com.example.bookingapptim11.AccommodationRequestsFragment"
+        android:label="@string/accommodation_requests"
+        tools:layout="@layout/fragment_accommodation_requests" />
+
 </navigation>

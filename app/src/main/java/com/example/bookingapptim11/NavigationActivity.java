@@ -42,7 +42,7 @@ public class NavigationActivity extends AppCompatActivity implements AmenityCard
 
         navigationView.getMenu().clear();
 
-        String userRole = "owner";
+        String userRole = "admin";
         // Inflate-ovanje odgovarajućeg menija
         if ("admin".equals(userRole)) {
             navigationView.inflateMenu(R.menu.activity_admin_drawer);
@@ -57,7 +57,7 @@ public class NavigationActivity extends AppCompatActivity implements AmenityCard
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_profile)
+                R.id.nav_home, R.id.nav_profile, R.id.accommodation_requests)
                 .setOpenableLayout(drawer)
                 .build();
 
@@ -75,8 +75,6 @@ public class NavigationActivity extends AppCompatActivity implements AmenityCard
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_navigation);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
-
 
 
     }
