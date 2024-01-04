@@ -22,7 +22,7 @@ import com.example.bookingapptim11.models.AccommodationDetailsDTO;
 
 public class OwnersAccommodationsAdapter extends RecyclerView.Adapter<OwnersAccommodationsAdapter.ViewHolder>{
 
-    private List<AccommodationDetailsDTO> data;
+    private final List<AccommodationDetailsDTO> data;
     Context context;
 
     public OwnersAccommodationsAdapter(Context context, List<AccommodationDetailsDTO> data) {

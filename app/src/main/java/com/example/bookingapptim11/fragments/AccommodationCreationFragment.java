@@ -73,10 +73,10 @@ public class AccommodationCreationFragment extends Fragment {
 
     private TableLayout pricesTable;
     private List<Amenity> allAmenities = new ArrayList<>();
-    private List<Amenity> selectedAmenities = new ArrayList<>();
-    private List<Price> prices = new ArrayList<>();
-    private List<Availability> availabilities = new ArrayList<>();
-    private List<String> uploadedPictures = new ArrayList<>();
+    private final List<Amenity> selectedAmenities = new ArrayList<>();
+    private final List<Price> prices = new ArrayList<>();
+    private final List<Availability> availabilities = new ArrayList<>();
+    private final List<String> uploadedPictures = new ArrayList<>();
 
     private Amenity selectedAmenity;
 

@@ -116,9 +116,9 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
     @Override
     public void onLocationChanged(@NonNull Location location) {
 //        Toast.makeText(getActivity(), "NEW LOCATION", Toast.LENGTH_SHORT).show();
-        if (map != null) {
-            addMarker(location);
-        }
+//        if (map != null) {
+//            addMarker(location);
+//        }
     }
 
     @Override
@@ -140,7 +140,7 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
 
         if (provider == null) {
             Log.i("LOCATION", "Provider");
-//            showLocatonDialog();
+            showLocationDialog();
         }else {
             if (checkLocationPermission()) {
                 Log.i("ASD", "str" + provider);
@@ -325,37 +325,32 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_LOCATION: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == MY_PERMISSIONS_REQUEST_LOCATION) {// If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    // permission was granted, yay! Do the
-                    // location-related task you need to do.
-                    if (ContextCompat.checkSelfPermission(getActivity(),
-                            Manifest.permission.ACCESS_FINE_LOCATION)
-                            == PackageManager.PERMISSION_GRANTED) {
+                // permission was granted, yay! Do the
+                // location-related task you need to do.
+                if (ContextCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.ACCESS_FINE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED) {
 
-                        //Request location updates:
-                        locationManager.requestLocationUpdates(provider, 0, 0, this);
-                    }
-
-                } else if (grantResults.length > 0 && grantResults[1] == PackageManager.PERMISSION_GRANTED){
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                    if (ContextCompat.checkSelfPermission(getActivity(),
-                            Manifest.permission.ACCESS_COARSE_LOCATION)
-                            == PackageManager.PERMISSION_GRANTED) {
-
-                        //Request location updates:
-                        locationManager.requestLocationUpdates(provider, 0, 0, this);
-                    }
-
+                    //Request location updates:
+                    locationManager.requestLocationUpdates(provider, 0, 0, this);
                 }
-                return;
-            }
 
+            } else if (grantResults.length > 0 && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+
+                // permission denied, boo! Disable the
+                // functionality that depends on this permission.
+                if (ContextCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.ACCESS_COARSE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED) {
+
+                    //Request location updates:
+                    locationManager.requestLocationUpdates(provider, 0, 0, this);
+                }
+
+            }
         }
     }
 
