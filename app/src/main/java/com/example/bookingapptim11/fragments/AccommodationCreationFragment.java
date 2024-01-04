@@ -29,7 +29,9 @@ import com.example.bookingapptim11.models.Availability;
 import com.example.bookingapptim11.models.Price;
 import com.example.bookingapptim11.models.PriceType;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -368,8 +370,8 @@ public class AccommodationCreationFragment extends Fragment {
 
     public void addAvailabilityToList(){
 
-        LocalDate from = LocalDate.parse(availabilityStart.getText().toString(), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-        LocalDate to = LocalDate.parse(availabilityEnd.getText().toString(), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        LocalDate from = LocalDate.parse(getDateFromPicker(availabilityStart.getText().toString()), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        LocalDate to = LocalDate.parse(getDateFromPicker(availabilityEnd.getText().toString()), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 
         Availability availability = new Availability(new TimeSlot(
                 from.atStartOfDay(ZoneOffset.UTC).toEpochSecond(),
@@ -387,12 +389,14 @@ public class AccommodationCreationFragment extends Fragment {
         table.addView(newRow);
 
         TextView textView1 = new TextView(getContext());
-        textView1.setText(availability.getTimeSlot().getStartDate().toString());
+        String startDate = Instant.ofEpochSecond(availability.getTimeSlot().getStartDate()).atZone(ZoneId.systemDefault()).toLocalDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        textView1.setText(startDate);
         textView1.setPadding(8,8,8,8);
         textView1.setBackgroundResource(R.drawable.table_border);
 
         TextView textView2 = new TextView(getContext());
-        textView2.setText(availability.getTimeSlot().getEndDate().toString());
+        String endDate = Instant.ofEpochSecond(availability.getTimeSlot().getEndDate()).atZone(ZoneId.systemDefault()).toLocalDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        textView2.setText(endDate);
         textView2.setPadding(8,8,8,8);
         textView2.setBackgroundResource(R.drawable.table_border);
 
@@ -416,8 +420,8 @@ public class AccommodationCreationFragment extends Fragment {
     }
     public void addPriceToList(){
 
-        LocalDate from = LocalDate.parse(pricesStart.getText().toString(), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-        LocalDate to = LocalDate.parse(pricesEnd.getText().toString(), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        LocalDate from = LocalDate.parse(getDateFromPicker(pricesStart.getText().toString()), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        LocalDate to = LocalDate.parse(getDateFromPicker(pricesEnd.getText().toString()), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 
 
         Price p = new Price(
@@ -432,17 +436,29 @@ public class AccommodationCreationFragment extends Fragment {
         clearPriceInputs();
     }
 
+    public String getDateFromPicker(String date){
+
+        String[] splitDates = date.split("/");
+        for (int i = 0; i < 2; i++) {
+            if (Integer.parseInt(splitDates[i]) < 10) {
+                splitDates[i] = "0" + splitDates[i];
+            }
+        }
+        return String.join("/", splitDates);
+    }
     public void addPricesToTable(TableLayout table,Price price){
 
         TableRow newRow = new TableRow(getContext());
         table.addView(newRow);
 
         TextView from = new TextView(getContext());
-        from.setText(price.getTimeSlot().getStartDate().toString());
+        String startDate = Instant.ofEpochSecond(price.getTimeSlot().getStartDate()).atZone(ZoneId.systemDefault()).toLocalDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        from.setText(startDate);
         from.setPadding(8,8,8,8);
         from.setBackgroundResource(R.drawable.table_border);
 
         TextView to = new TextView(getContext());
+        String endDate = Instant.ofEpochSecond(price.getTimeSlot().getEndDate()).atZone(ZoneId.systemDefault()).toLocalDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         to.setText(price.getTimeSlot().getEndDate().toString());
         to.setPadding(8,8,8,8);
         to.setBackgroundResource(R.drawable.table_border);
