@@ -28,7 +28,7 @@ import retrofit2.Response;
 import com.squareup.picasso.Picasso;
 
 public class AccommodationRequestAdapter extends RecyclerView.Adapter<AccommodationRequestAdapter.ViewHolder> {
-    private List<AccommodationDetailsDTO> data;
+    private final List<AccommodationDetailsDTO> data;
     Context context;
 
 

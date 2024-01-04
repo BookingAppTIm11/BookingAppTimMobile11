@@ -23,7 +23,7 @@ public class AuthManager {
     private static final String TOKEN = "role";
     private static final String SIGNING_KEY = "korisnickoime";
 
-    private static List<UserRoleChangeListener> listeners = new ArrayList<>();
+    private static final List<UserRoleChangeListener> listeners = new ArrayList<>();
 
 
     private static SharedPreferences sharedPreferences;

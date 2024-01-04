@@ -113,11 +113,7 @@ public class NavigationActivity extends AppCompatActivity implements UserRoleCha
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem logInMenuItem = menu.findItem(R.id.action_logIn);
         if(logInMenuItem != null){
-            if (AuthManager.getUserEmail() == null || !AuthManager.getUserEmail().contains("@")) {
-                logInMenuItem.setVisible(true);
-            } else {
-                logInMenuItem.setVisible(false);
-            }
+            logInMenuItem.setVisible(AuthManager.getUserEmail() == null || !AuthManager.getUserEmail().contains("@"));
         }
         return super.onPrepareOptionsMenu(menu);
     }
