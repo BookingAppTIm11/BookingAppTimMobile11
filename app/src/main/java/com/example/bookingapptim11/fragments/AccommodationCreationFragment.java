@@ -30,6 +30,7 @@ import com.example.bookingapptim11.models.Price;
 import com.example.bookingapptim11.models.PriceType;
 
 import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -208,9 +209,7 @@ public class AccommodationCreationFragment extends Fragment {
         });
 
         return view;
-
     }
-
     public AccommodationDetails getAccommodationDetails() throws Exception {
 
 
@@ -224,7 +223,7 @@ public class AccommodationCreationFragment extends Fragment {
                 new ArrayList<String>(),
                 Integer.parseInt(minGuests.getText().toString()),
                 Integer.parseInt(maxGuests.getText().toString()),
-                LocalDate.now(),
+                LocalDate.now().atStartOfDay(ZoneOffset.UTC).toEpochSecond(),
                 accommodationType.getSelectedItem().toString(),
                 PriceType.PerNight,
 //                checkPriceType(perUnit,perNight),
@@ -372,7 +371,11 @@ public class AccommodationCreationFragment extends Fragment {
         LocalDate from = LocalDate.parse(availabilityStart.getText().toString(), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
         LocalDate to = LocalDate.parse(availabilityEnd.getText().toString(), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 
-        Availability availability = new Availability(new TimeSlot(from,to));
+        Availability availability = new Availability(new TimeSlot(
+                from.atStartOfDay(ZoneOffset.UTC).toEpochSecond(),
+                to.plusDays(1).atStartOfDay(ZoneOffset.UTC).toEpochSecond()
+        ));
+
         availabilities.add(availability);
 
         addAvailabilityToTable(availabilityTable,availability);
@@ -413,10 +416,14 @@ public class AccommodationCreationFragment extends Fragment {
     }
     public void addPriceToList(){
 
+        LocalDate from = LocalDate.parse(pricesStart.getText().toString(), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        LocalDate to = LocalDate.parse(pricesEnd.getText().toString(), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+
+
         Price p = new Price(
                 new TimeSlot(
-                        LocalDate.parse(pricesStart.getText().toString(), DateTimeFormatter.ofPattern("MM/dd/yyyy")),
-                        LocalDate.parse(pricesEnd.getText().toString(), DateTimeFormatter.ofPattern("MM/dd/yyyy"))
+                        from.atStartOfDay(ZoneOffset.UTC).toEpochSecond(),
+                        to.plusDays(1).atStartOfDay(ZoneOffset.UTC).toEpochSecond()
                 ),
                 Double.parseDouble(price.getText().toString())
         );

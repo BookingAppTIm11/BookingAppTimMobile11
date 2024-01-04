@@ -8,21 +8,19 @@ import androidx.annotation.NonNull;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.time.LocalDate;
-
 public class TimeSlot implements Parcelable {
 
-    @SerializedName("startDate")
+    @SerializedName("startEpochTime")
     @Expose
-    private LocalDate startDate;
-    @SerializedName("endDate")
+    private Long startDate;
+    @SerializedName("endEpochTime")
     @Expose
-    private LocalDate endDate;
+    private Long endDate;
 
     public TimeSlot() {
     }
 
-    public TimeSlot(LocalDate startDate, LocalDate endDate) {
+    public TimeSlot(Long startDate, Long endDate) {
         this.startDate = startDate;
         this.endDate = endDate;
     }
@@ -44,19 +42,19 @@ public class TimeSlot implements Parcelable {
         }
     };
 
-    public LocalDate getStartDate() {
+    public Long getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(Long startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDate getEndDate() {
+    public Long getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(Long endDate) {
         this.endDate = endDate;
     }
 
