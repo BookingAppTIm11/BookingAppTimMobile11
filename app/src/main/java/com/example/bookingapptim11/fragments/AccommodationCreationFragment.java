@@ -459,7 +459,7 @@ public class AccommodationCreationFragment extends Fragment {
 
         TextView to = new TextView(getContext());
         String endDate = Instant.ofEpochSecond(price.getTimeSlot().getEndDate()).atZone(ZoneId.systemDefault()).toLocalDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        to.setText(price.getTimeSlot().getEndDate().toString());
+        to.setText(endDate);
         to.setPadding(8,8,8,8);
         to.setBackgroundResource(R.drawable.table_border);
 
