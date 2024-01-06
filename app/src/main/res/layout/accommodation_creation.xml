@@ -152,16 +152,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Per night"
-                        android:backgroundTint="@color/light_orange"/>
+                        android:backgroundTint="@color/light_orange"
+                        android:text="Per night" />
 
                     <RadioButton
                         android:id="@+id/perUnit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Per unit"
-                        android:backgroundTint="@color/light_orange"/>
+                        android:backgroundTint="@color/light_orange"
+                        android:text="Per unit" />
                 </RadioGroup>
 
             </LinearLayout>
@@ -375,6 +375,7 @@
                 android:stretchColumns="*">
 
                 <TableRow>
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -388,6 +389,7 @@
                         android:padding="8dp"
                         android:text="To"
                         android:textStyle="bold" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -458,6 +460,27 @@
                     android:layout_weight="1"
                     android:backgroundTint="@color/light_orange"
                     android:text="Clear" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="270dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/uploadImages"
+                    android:layout_width="270dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:backgroundTint="#FF5722"
+                    android:text="Upload images" />
+
+                <ListView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/uploadedImages"/>
+
 
             </LinearLayout>
 

@@ -1,9 +1,22 @@
 package com.example.bookingapptim11.fragments;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.ClipData;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 
+import android.provider.MediaStore;
+import android.provider.OpenableColumns;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TableLayout;
@@ -29,6 +43,9 @@ import com.example.bookingapptim11.models.Availability;
 import com.example.bookingapptim11.models.Price;
 import com.example.bookingapptim11.models.PriceType;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -36,13 +53,17 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import login.AuthManager;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Multipart;
 
 public class AccommodationCreationFragment extends Fragment {
 
@@ -70,6 +91,8 @@ public class AccommodationCreationFragment extends Fragment {
     private Button addPriceBtn;
     private Button clearPrices;
     private Button createAccommodationBtn;
+    private Button uploadImagesBtn;
+    private ListView uploadedPhotosList;
 
     private TableLayout amenitiesTable;
     private TableLayout availabilityTable;
@@ -79,8 +102,8 @@ public class AccommodationCreationFragment extends Fragment {
     private final List<Amenity> selectedAmenities = new ArrayList<>();
     private final List<Price> prices = new ArrayList<>();
     private final List<Availability> availabilities = new ArrayList<>();
-    private final List<String> uploadedPictures = new ArrayList<>();
-
+    private final List<Uri> uploadedPictures = new ArrayList<>();
+    private static final int PICK_IMAGES_REQUEST = 1;
     private Amenity selectedAmenity;
 
 
@@ -124,11 +147,13 @@ public class AccommodationCreationFragment extends Fragment {
         addPriceBtn = view.findViewById(R.id.addPrice);
         clearPrices = view.findViewById(R.id.clearPrices);
         createAccommodationBtn = view.findViewById(R.id.createAccommodation);
+        uploadImagesBtn = view.findViewById(R.id.uploadImages);
 
 
         amenitiesTable = view.findViewById(R.id.amenitiesTable);
         availabilityTable = view.findViewById(R.id.availabilityTable);
         pricesTable = view.findViewById(R.id.priceTable);
+        uploadedPhotosList = view.findViewById(R.id.uploadedImages);
 
         availabilityStart.setOnClickListener(v -> showDatePicker(availabilityStart));
         availabilityEnd.setOnClickListener(v -> showDatePicker(availabilityEnd));
@@ -210,6 +235,14 @@ public class AccommodationCreationFragment extends Fragment {
             }
         });
 
+        uploadImagesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uploadImagesFromGallery();
+                updateListViewWithNewAdapter();
+            }
+        });
+
         return view;
     }
     public AccommodationDetails getAccommodationDetails() throws Exception {
@@ -238,7 +271,6 @@ public class AccommodationCreationFragment extends Fragment {
     private void createAccommdoation() throws Exception {
 
         AccommodationDetails accommodation = getAccommodationDetails();
-
         Call<AccommodationDetails> call = accommodationCreationService.createAccommodation(accommodation);
         call.enqueue(new Callback<AccommodationDetails>() {
             @Override
@@ -250,6 +282,8 @@ public class AccommodationCreationFragment extends Fragment {
                 Toast.makeText(getContext(), "Error while creating accommodation!", Toast.LENGTH_SHORT).show();
             }
         });
+
+        addImagesToAccommodation(uploadedPictures);
 
     }
 
@@ -276,6 +310,29 @@ public class AccommodationCreationFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         return adapter;
+    }
+
+    private ArrayAdapter<String> loadUploadedPicturesNames(){
+
+        List<String> itemList = new ArrayList<>();
+        for (Uri imageUri : uploadedPictures) {
+            Cursor cursor = requireContext().getContentResolver().query(imageUri, null, null, null, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                int displayNameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                if (displayNameIndex != -1) {
+                    String displayName = cursor.getString(displayNameIndex);
+                    itemList.add(displayName);
+                }
+                cursor.close();
+            }
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, itemList);
+        return adapter;
+    }
+
+    private void updateListViewWithNewAdapter() {
+        ArrayAdapter<String> newAdapter = loadUploadedPicturesNames();
+        uploadedPhotosList.setAdapter(newAdapter);
     }
 
     private ArrayAdapter<String> loadAmenitySpinner(List<Amenity> amenities){
@@ -489,4 +546,75 @@ public class AccommodationCreationFragment extends Fragment {
         price.setText("");
     }
 
+    private void uploadImagesFromGallery() {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        uploadImagesLauncher.launch(intent);
+    }
+    ActivityResultLauncher<Intent> uploadImagesLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result.getData();
+                    if (data != null) {
+                        ClipData clipData = data.getClipData();
+                        if (clipData != null) {
+                            for (int i = 0; i < clipData.getItemCount(); i++) {
+                                Uri selectedImageUri = clipData.getItemAt(i).getUri();
+                                uploadedPictures.add(selectedImageUri);
+                            }
+                        } else {
+                            Uri selectedImageUri = data.getData();
+                            uploadedPictures.add(selectedImageUri);
+                        }
+                    }
+                }
+            });
+
+    private String getPathFromUri(Uri uri) {
+        String path = "";
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = requireActivity().getContentResolver().query(uri, projection, null, null, null);
+        if (cursor != null) {
+            int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            path = cursor.getString(columnIndex);
+            cursor.close();
+        }
+        return path;
+    }
+
+    private List<MultipartBody.Part> getMultipartFilesFromUri(List<Uri> uriList){
+
+        List<MultipartBody.Part> parts = new ArrayList<>();
+
+        for (Uri uri : uriList) {
+            File file = new File(getPathFromUri(uri));
+            RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
+            MultipartBody.Part part = MultipartBody.Part.createFormData("images", file.getName(), requestBody);
+            parts.add(part);
+        }
+
+        return parts;
+    }
+
+    private void addImagesToAccommodation(List<Uri> uriList) {
+        List<MultipartBody.Part> parts = getMultipartFilesFromUri(uriList);
+
+        Call<List<String>> call = accommodationCreationService.uploadPhotos(parts);
+        call.enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                Log.d("Successfull","Successfully uploaded pictures");
+                uploadedPictures.clear();
+            }
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                Log.d("Unsuccessfull","Unsuccessfully uploaded pictures");
+                uploadedPictures.clear();
+            }
+        });
+    }
 }
