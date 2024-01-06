@@ -239,7 +239,6 @@ public class AccommodationCreationFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 uploadImagesFromGallery();
-                updateListViewWithNewAdapter();
             }
         });
 
@@ -255,7 +254,7 @@ public class AccommodationCreationFragment extends Fragment {
                 description.getText().toString(),
                 location.getText().toString(),
                 (Double.parseDouble(defaultPrice.getText().toString())),
-                new ArrayList<String>(),
+                loadUploadedImagesNames(),
                 Integer.parseInt(minGuests.getText().toString()),
                 Integer.parseInt(maxGuests.getText().toString()),
                 LocalDate.now().atStartOfDay(ZoneOffset.UTC).toEpochSecond(),
@@ -269,7 +268,6 @@ public class AccommodationCreationFragment extends Fragment {
     }
 
     private void createAccommdoation() throws Exception {
-
         AccommodationDetails accommodation = getAccommodationDetails();
         Call<AccommodationDetails> call = accommodationCreationService.createAccommodation(accommodation);
         call.enqueue(new Callback<AccommodationDetails>() {
@@ -312,26 +310,16 @@ public class AccommodationCreationFragment extends Fragment {
         return adapter;
     }
 
-    private ArrayAdapter<String> loadUploadedPicturesNames(){
+    private ArrayAdapter<String> showUploadedImages(){
 
-        List<String> itemList = new ArrayList<>();
-        for (Uri imageUri : uploadedPictures) {
-            Cursor cursor = requireContext().getContentResolver().query(imageUri, null, null, null, null);
-            if (cursor != null && cursor.moveToFirst()) {
-                int displayNameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-                if (displayNameIndex != -1) {
-                    String displayName = cursor.getString(displayNameIndex);
-                    itemList.add(displayName);
-                }
-                cursor.close();
-            }
-        }
+        List<String> itemList = loadUploadedImagesNames();
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, itemList);
         return adapter;
     }
 
     private void updateListViewWithNewAdapter() {
-        ArrayAdapter<String> newAdapter = loadUploadedPicturesNames();
+        ArrayAdapter<String> newAdapter = showUploadedImages();
+        Log.d("IMENA", loadUploadedImagesNames().toString());
         uploadedPhotosList.setAdapter(newAdapter);
     }
 
@@ -569,6 +557,7 @@ public class AccommodationCreationFragment extends Fragment {
                             Uri selectedImageUri = data.getData();
                             uploadedPictures.add(selectedImageUri);
                         }
+                        updateListViewWithNewAdapter();
                     }
                 }
             });
@@ -586,6 +575,14 @@ public class AccommodationCreationFragment extends Fragment {
         return path;
     }
 
+    private List<String> loadUploadedImagesNames(){
+        List<String> imageNames = new ArrayList<>();
+        for (Uri uri : uploadedPictures) {
+            File file = new File(getPathFromUri(uri));
+            imageNames.add(file.getName());
+        }
+        return imageNames;
+    }
     private List<MultipartBody.Part> getMultipartFilesFromUri(List<Uri> uriList){
 
         List<MultipartBody.Part> parts = new ArrayList<>();

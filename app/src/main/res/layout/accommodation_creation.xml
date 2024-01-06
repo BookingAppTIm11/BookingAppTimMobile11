@@ -476,9 +476,17 @@
                     android:backgroundTint="#FF5722"
                     android:text="Upload images" />
 
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="Uploaded images:" />
+
                 <ListView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="50dp"
                     android:id="@+id/uploadedImages"/>
 
 
