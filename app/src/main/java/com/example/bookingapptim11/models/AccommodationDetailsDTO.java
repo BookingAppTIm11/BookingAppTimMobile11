@@ -18,12 +18,12 @@ public class AccommodationDetailsDTO implements Parcelable {
     List<String> photos;
     int minGuests;
     int maxGuests;
-    List<Integer> created;
+    Long created;
     String type;
     PriceType priceType;
     AccommodationStatus status;
 
-    public AccommodationDetailsDTO(Long id, String ownerEmail, String name, String description, String location, Double defaultPrice, List<String> photos, int minGuests, int maxGuests, List<Integer> created) {
+    public AccommodationDetailsDTO(Long id, String ownerEmail, String name, String description, String location, Double defaultPrice, List<String> photos, int minGuests, int maxGuests, Long created) {
         this.id = id;
         this.ownerEmail = ownerEmail;
         this.name = name;
@@ -36,7 +36,7 @@ public class AccommodationDetailsDTO implements Parcelable {
         this.created = created;
     }
 
-    public AccommodationDetailsDTO(Long id, String ownerEmail, String name, String description, String location, Double defaultPrice, List<String> photos, int minGuests, int maxGuests, List<Integer> created, String type, PriceType priceType, AccommodationStatus status) {
+    public AccommodationDetailsDTO(Long id, String ownerEmail, String name, String description, String location, Double defaultPrice, List<String> photos, int minGuests, int maxGuests, Long created, String type, PriceType priceType, AccommodationStatus status) {
         this.id = id;
         this.ownerEmail = ownerEmail;
         this.name = name;
@@ -152,11 +152,11 @@ public class AccommodationDetailsDTO implements Parcelable {
         this.maxGuests = maxGuests;
     }
 
-    public List<Integer> getCreated() {
+    public Long getCreated() {
         return created;
     }
 
-    public void setCreated(List<Integer> created) {
+    public void setCreated(Long created) {
         this.created = created;
     }
 
@@ -170,8 +170,7 @@ public class AccommodationDetailsDTO implements Parcelable {
         photos = in.createStringArrayList();
         minGuests = in.readInt();
         maxGuests = in.readInt();
-        created = new ArrayList<>();
-        in.readList(created, Integer.class.getClassLoader());
+        created = in.readLong();
         type = in.readString();
         priceType = PriceType.valueOf(in.readString());
         status = AccommodationStatus.valueOf(in.readString());
@@ -194,7 +193,7 @@ public class AccommodationDetailsDTO implements Parcelable {
         dest.writeStringList(photos);
         dest.writeInt(minGuests);
         dest.writeInt(maxGuests);
-        dest.writeList(created);
+        dest.writeLong(created);
         dest.writeString(type);
         dest.writeString(priceType.name());
         dest.writeString(status.name());

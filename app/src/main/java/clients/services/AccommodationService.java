@@ -30,8 +30,8 @@ public interface AccommodationService {
     Call<ArrayList<AccommodationDetailsDTO>> searchAccommodations(
             @Query("guests") Integer guests,
             @Query("location") String location,
-            @Query("startDate") String startDate, // Assuming you pass date strings in a specific format
-            @Query("endDate") String endDate
+            @Query("startDate") Long startDate, // Assuming you pass date strings in a specific format
+            @Query("endDate") Long endDate
     );
 
     @GET("availabilities/accommodation/{accommodation_id}")

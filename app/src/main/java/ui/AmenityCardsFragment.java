@@ -24,6 +24,8 @@ import adapters.AmenityCardAdapter;
 import com.example.bookingapptim11.models.AccommodationDetailsDTO;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -177,7 +179,15 @@ public class AmenityCardsFragment extends Fragment {
     }
 
     private void performSearch(String checkInDate, String checkOutDate, String location, Integer guests) {
-        Call<ArrayList<AccommodationDetailsDTO>> call = accommodationService.searchAccommodations(guests, location, checkInDate, checkOutDate);
+
+
+        LocalDateTime checkInDateTime = LocalDate.parse(checkInDate).atStartOfDay();
+        LocalDateTime checkOutDateTime = LocalDate.parse(checkOutDate).atStartOfDay();
+        Long CheckInSeconds = checkInDateTime.atZone(ZoneOffset.UTC).toEpochSecond();
+        Long CheckOutSeconds = checkOutDateTime.atZone(ZoneOffset.UTC).toEpochSecond();
+
+
+        Call<ArrayList<AccommodationDetailsDTO>> call = accommodationService.searchAccommodations(guests, location, CheckInSeconds, CheckOutSeconds);
         call.enqueue(new Callback<ArrayList<AccommodationDetailsDTO>>() {
             @Override
             public void onResponse(Call<ArrayList<AccommodationDetailsDTO>> call, Response<ArrayList<AccommodationDetailsDTO>> response) {
