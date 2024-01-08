@@ -41,6 +41,7 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -175,7 +176,14 @@ public class AmenityDetailsFragment extends Fragment{
         String checkInDateStr = checkInDateEditText.getText().toString();
         String checkOutDateStr = checkOutDateEditText.getText().toString();
         String guestsStr = guestsEditText.getText().toString();
-        createReservation(new ReservationDTO(0,accommodation.getId(),"ognjen_guest@gmail.com",checkInDateStr,checkOutDateStr,Integer.parseInt(guestsStr)));
+
+        LocalDateTime checkInDateTime = LocalDate.parse(checkInDateStr).atStartOfDay();
+        LocalDateTime checkOutDateTime = LocalDate.parse(checkOutDateStr).atStartOfDay();
+
+        Long checkInSeconds = checkInDateTime.atZone(ZoneOffset.UTC).toEpochSecond();
+        Long checkOutSeconds = checkOutDateTime.atZone(ZoneOffset.UTC).toEpochSecond();
+
+        createReservation(new ReservationDTO(0,accommodation.getId(),"ognjen_guest@gmail.com",checkInSeconds,checkOutSeconds,Integer.parseInt(guestsStr)));
     }
 
 
@@ -248,8 +256,6 @@ public class AmenityDetailsFragment extends Fragment{
             imageSlider.setImageList(slideModels, ScaleTypes.FIT);
         }
     }
-
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,

@@ -4,11 +4,11 @@ public class ReservationDTO {
     private long id;
     private long accommodation;
     private String guest;
-    private String startDate;
-    private String endDate;
+    private Long startDate;
+    private Long endDate;
     private int numberOfGuests;
 
-    public ReservationDTO(long id, long accommodation, String guest, String startDate, String endDate, int numberOfGuests) {
+    public ReservationDTO(long id, long accommodation, String guest, Long startDate, Long endDate, int numberOfGuests) {
         this.id = id;
         this.accommodation = accommodation;
         this.guest = guest;
@@ -44,19 +44,19 @@ public class ReservationDTO {
         this.guest = guest;
     }
 
-    public String getStartDate() {
+    public Long getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(Long startDate) {
         this.startDate = startDate;
     }
 
-    public String getEndDate() {
+    public Long getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(Long endDate) {
         this.endDate = endDate;
     }
 
