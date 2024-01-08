@@ -28,6 +28,7 @@ import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.bookingapptim11.NavigationActivity;
 import com.example.bookingapptim11.R;
 import com.example.bookingapptim11.models.AccommodationDetailsDTO;
+import com.example.bookingapptim11.models.Availability;
 import com.example.bookingapptim11.models.AvailabilityDateNum;
 import com.example.bookingapptim11.models.ReservationDTO;
 import com.example.bookingapptim11.models.ReservationForShowDTO;
@@ -41,6 +42,7 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -102,8 +104,8 @@ public class AmenityDetailsFragment extends Fragment{
         loadImagesToSlider(imageSlider);
 
 
-        
-        
+
+
         ImageButton homeButton = root.findViewById(R.id.homeAccommodationDetailsImageButton);
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,9 +114,9 @@ public class AmenityDetailsFragment extends Fragment{
                 startActivity(intent);
             }
         });
-        
+
         reservationDialog(root);
-        
+
         return  root;
     }
 
@@ -130,7 +132,7 @@ public class AmenityDetailsFragment extends Fragment{
 
     private void reservationDialog(View root) {
 
-        Call<ArrayList<AvailabilityDateNum>> call = accommodationService.getAccommodationAvailability(accommodation.getId());
+        Call<ArrayList<Availability>> call = accommodationService.getAccommodationAvailability(accommodation.getId());
         checkInDateEditText = root.findViewById(R.id.checkInTextDate2);
         checkOutDateEditText = root.findViewById(R.id.checkOutTextDate2);
         guestsEditText = root.findViewById(R.id.guestsNumber2);
@@ -144,11 +146,11 @@ public class AmenityDetailsFragment extends Fragment{
                 //Toast.makeText(getContext(), "Button Clicked", Toast.LENGTH_SHORT).show();
             }
         });
-        call.enqueue(new Callback<ArrayList<AvailabilityDateNum>>() {
+        call.enqueue(new Callback<ArrayList<Availability>>() {
             @Override
-            public void onResponse(Call<ArrayList<AvailabilityDateNum>> call, Response<ArrayList<AvailabilityDateNum>> response) {
+            public void onResponse(Call<ArrayList<Availability>> call, Response<ArrayList<Availability>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    ArrayList<AvailabilityDateNum> availabilities = response.body();
+                    ArrayList<Availability> availabilities = response.body();
 
                     checkInDateEditText.setOnClickListener(v -> showDatePicker(checkInDateEditText, availabilities));
                     checkOutDateEditText.setOnClickListener(v -> showDatePicker(checkOutDateEditText, availabilities));
@@ -162,7 +164,7 @@ public class AmenityDetailsFragment extends Fragment{
                 }
             }
             @Override
-            public void onFailure(Call<ArrayList<AvailabilityDateNum>> call, Throwable t) {
+            public void onFailure(Call<ArrayList<Availability>> call, Throwable t) {
                 Toast.makeText(getContext(),  t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
@@ -263,7 +265,7 @@ public class AmenityDetailsFragment extends Fragment{
     }
 
 
-    private void showDatePicker(EditText dateEditText, ArrayList<AvailabilityDateNum> availabilities) {
+    private void showDatePicker(EditText dateEditText, ArrayList<Availability> availabilities) {
         Calendar now = Calendar.getInstance();
         DatePickerDialog datePicker = DatePickerDialog.newInstance(
                 (view, year, monthOfYear, dayOfMonth) -> {
@@ -278,17 +280,12 @@ public class AmenityDetailsFragment extends Fragment{
 
         // Prepare selectable days array to disable non-available dates
         ArrayList<Calendar> selectableDays = new ArrayList<>();
-        for (AvailabilityDateNum availability : availabilities) {
-            LocalDate startDate = LocalDate.of(
-                    availability.getTimeSlot().getStartDate().get(0),
-                    availability.getTimeSlot().getStartDate().get(1),
-                    availability.getTimeSlot().getStartDate().get(2)
-            );
-            LocalDate endDate = LocalDate.of(
-                    availability.getTimeSlot().getEndDate().get(0),
-                    availability.getTimeSlot().getEndDate().get(1),
-                    availability.getTimeSlot().getEndDate().get(2)
-            );
+        for (Availability availability : availabilities) {
+            Long startDateSeconds = availability.getTimeSlot().getStartDate();
+            Long endDateSeconds = availability.getTimeSlot().getEndDate();
+
+            LocalDate startDate = Instant.ofEpochSecond(startDateSeconds).atZone(ZoneOffset.UTC).toLocalDate();
+            LocalDate endDate = Instant.ofEpochSecond(endDateSeconds).atZone(ZoneOffset.UTC).toLocalDate();
 
             // Iterate through available dates and add them to the selectableDays list
             LocalDate currentDate = startDate;

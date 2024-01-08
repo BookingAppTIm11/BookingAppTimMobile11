@@ -3,30 +3,30 @@ package com.example.bookingapptim11.models;
 import java.util.List;
 
 public class TimeSlotDateNum {
-    private List<Integer> startDate;
-    private List<Integer> endDate;
+    private Long startDate;
+    private Long endDate;
 
-    public TimeSlotDateNum(List<Integer> startDate, List<Integer> endDate) {
+    public TimeSlotDateNum(Long startDate, Long endDate) {
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
-    public List<Integer> getStartDate() {
+    public Long getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(List<Integer> startDate) {
+    public void setStartDate(Long startDate) {
         this.startDate = startDate;
     }
 
     public TimeSlotDateNum() {
     }
 
-    public List<Integer> getEndDate() {
+    public Long getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(List<Integer> endDate) {
+    public void setEndDate(Long endDate) {
         this.endDate = endDate;
     }
 }

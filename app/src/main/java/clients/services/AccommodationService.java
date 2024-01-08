@@ -35,7 +35,7 @@ public interface AccommodationService {
     );
 
     @GET("availabilities/accommodation/{accommodation_id}")
-    Call<ArrayList<AvailabilityDateNum>> getAccommodationAvailability(@Path("accommodation_id") Long accommodationId);
+    Call<ArrayList<Availability>> getAccommodationAvailability(@Path("accommodation_id") Long accommodationId);
 
     @POST("reservations") // Replace "your_endpoint_path" with the actual endpoint path
     Call<ReservationForShowDTO> createReservation(@Body ReservationDTO reservationDTO);
