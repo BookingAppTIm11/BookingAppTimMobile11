@@ -180,14 +180,21 @@ public class AmenityCardsFragment extends Fragment {
 
     private void performSearch(String checkInDate, String checkOutDate, String location, Integer guests) {
 
+        Long checkInSeconds  = null;
+        Long checkOutSeconds = null;
+        if(checkInDate!=null && checkOutDate!=null){
+            LocalDateTime checkInDateTime = LocalDate.parse(checkInDate).atStartOfDay();
+            LocalDateTime checkOutDateTime = LocalDate.parse(checkOutDate).atStartOfDay();
+            checkInSeconds = checkInDateTime.atZone(ZoneOffset.UTC).toEpochSecond();
+            checkOutSeconds = checkOutDateTime.atZone(ZoneOffset.UTC).toEpochSecond();
+            if(checkInSeconds > checkOutSeconds){
+                checkInSeconds  = null;
+                checkOutSeconds = null;
+            }
+        }
 
-        LocalDateTime checkInDateTime = LocalDate.parse(checkInDate).atStartOfDay();
-        LocalDateTime checkOutDateTime = LocalDate.parse(checkOutDate).atStartOfDay();
-        Long CheckInSeconds = checkInDateTime.atZone(ZoneOffset.UTC).toEpochSecond();
-        Long CheckOutSeconds = checkOutDateTime.atZone(ZoneOffset.UTC).toEpochSecond();
 
-
-        Call<ArrayList<AccommodationDetailsDTO>> call = accommodationService.searchAccommodations(guests, location, CheckInSeconds, CheckOutSeconds);
+        Call<ArrayList<AccommodationDetailsDTO>> call = accommodationService.searchAccommodations(guests, location, checkInSeconds, checkOutSeconds);
         call.enqueue(new Callback<ArrayList<AccommodationDetailsDTO>>() {
             @Override
             public void onResponse(Call<ArrayList<AccommodationDetailsDTO>> call, Response<ArrayList<AccommodationDetailsDTO>> response) {
