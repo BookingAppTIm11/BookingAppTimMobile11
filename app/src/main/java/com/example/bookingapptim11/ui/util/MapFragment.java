@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Address;
 import android.location.Criteria;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -38,8 +40,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 
 public class MapFragment extends Fragment implements LocationListener, OnMapReadyCallback {
@@ -50,6 +54,8 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
     private AlertDialog dialog;
     private Marker home;
     private GoogleMap map;
+
+    private String accommodationAddress;
 
     public MapFragment() {
         // Required empty public constructor
@@ -105,6 +111,8 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        accommodationAddress = getArguments().getString("ADDRESS");
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_map, container, false);
     }
@@ -219,6 +227,8 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
 
         map.getUiSettings().setZoomControlsEnabled(true);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(hotelCentar, 6));
+
+        searchAndPinLocation();
     }
 
     private void addMarker(Location location) {
@@ -229,7 +239,7 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
         }
 
         home = map.addMarker(new MarkerOptions()
-                .title("YOUR_POSITON")
+                .title(accommodationAddress)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
                 .position(loc));
         home.setFlat(true);
@@ -358,5 +368,42 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
     public void onPause() {
         super.onPause();
         locationManager.removeUpdates(this);
+    }
+
+    private void searchAndPinLocation() {
+        LatLng searchLocation = getLatLngFromAddress(accommodationAddress);
+
+        if (searchLocation != null && map != null) {
+            // Clear previous markers
+            map.clear();
+
+            // Add a marker for the searched location
+            map.addMarker(new MarkerOptions()
+                    .position(searchLocation)
+                    .title(accommodationAddress)
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+
+            // Move camera to the searched location
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(searchLocation, 15));
+        } else {
+            Toast.makeText(getActivity(), "Location not found", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private LatLng getLatLngFromAddress(String addressString) {
+        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+
+        try {
+            // Get a maximum of 1 address that matches the addressString
+            List<Address> addressList = geocoder.getFromLocationName(addressString, 1);
+            if (addressList != null && !addressList.isEmpty()) {
+                Address address = addressList.get(0);
+                return new LatLng(address.getLatitude(), address.getLongitude());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

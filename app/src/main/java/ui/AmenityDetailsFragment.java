@@ -123,11 +123,18 @@ public class AmenityDetailsFragment extends Fragment{
 
     private void addMapFragment(MapFragment mapFragment) {
         if (mapFragment != null) {
+            Bundle bundleAddress = new Bundle();
+            bundleAddress.putString("ADDRESS", accommodation.getLocation());
+            mapFragment.setArguments(bundleAddress);
+
             FragmentManager fragmentManager = getChildFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
             fragmentTransaction.replace(R.id.googleMaps, mapFragment);
             fragmentTransaction.addToBackStack(null); // Optional, if needed
             fragmentTransaction.commit();
+
+
         }
     }
 
