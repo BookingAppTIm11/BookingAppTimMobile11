@@ -4,17 +4,10 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="ui.AmenityCardsFragment">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <SearchView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        </SearchView>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,30 +19,56 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="8dp">
-
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Check In Date" />
                 <EditText
                     android:id="@+id/checkInTextDate"
                     android:layout_width="188dp"
                     android:layout_height="48dp"
+                    android:allowClickWhenDisabled="true"
                     android:ems="10"
                     android:inputType="date"
-                    android:text="Select check in date" />
+                    android:text=""
+                    android:enabled="false"
+                    />
 
-                <EditText
-                    android:id="@+id/checkOutTextDate"
+                <TextView
+                    android:id="@+id/textView4"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:ems="10"
-                    android:inputType="date"
-                    android:text="Select check out date" />
+                    android:layout_height="wrap_content"
+                    android:text="Location" />
 
                 <EditText
-                    android:id="@+id/editTextText"
+                    android:id="@+id/locationText"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:ems="10"
                     android:inputType="text"
-                    android:text="Location" />
+                    android:text="" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/baseline_accessibility_24" />
+
+                    <EditText
+                        android:id="@+id/guestsNumber2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:inputType="numberSigned"
+                        android:text="2" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -58,35 +77,29 @@
                 android:orientation="vertical"
                 android:padding="8dp">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/textView3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:text="Check Out Date" />
 
-                    <TextView
-                        android:id="@+id/textView2"
-                        android:layout_width="73dp"
-                        android:layout_height="wrap_content"
-                        android:text="Sort by:"
-                        android:textSize="20sp" />
-
-                    <Spinner
-                        android:id="@+id/spinner"
-                        android:layout_width="153dp"
-                        android:layout_height="61dp"
-                        android:layout_weight="1"
-                        android:entries="@array/sort_by_attributes" />
-
-                </LinearLayout>
+                <EditText
+                    android:id="@+id/checkOutTextDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:allowClickWhenDisabled="true"
+                    android:ems="10"
+                    android:enabled="false"
+                    android:inputType="date" />
 
                 <Button
-                    android:id="@+id/detailsButton2"
+                    android:id="@+id/searchButton"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginRight="0dp"
                     android:backgroundTint="@color/light_orange"
                     android:shadowRadius="30"
-                    android:text="FILTER"
+                    android:text="SEARCH"
                     android:textColor="@color/white"
                     android:textColorHighlight="#FFFFFF"
                     android:textColorHint="#FFFFFF"
@@ -95,6 +108,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.497"
                     app:layout_constraintStart_toStartOf="parent" />
+
+
             </LinearLayout>
 
         </LinearLayout>
@@ -109,5 +124,4 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </LinearLayout>
-
 </FrameLayout>

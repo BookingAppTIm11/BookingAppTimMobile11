@@ -3,11 +3,12 @@ package com.example.bookingapptim11;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
-import models.Accommodation;
+
+import com.example.bookingapptim11.models.AccommodationDetailsDTO;
+
+import com.example.bookingapptim11.models.Accommodation;
+
 import ui.AmenityCardsFragment;
 import ui.AmenityDetailsFragment;
 
@@ -34,7 +35,7 @@ public class AmenitiesActivity extends AppCompatActivity implements AmenityCards
     }
 
     @Override
-    public void onAmenityClick(Accommodation accommodation) {
+    public void onAmenityClick(AccommodationDetailsDTO accommodation) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer, new AmenityDetailsFragment(accommodation))
                 .addToBackStack("name")

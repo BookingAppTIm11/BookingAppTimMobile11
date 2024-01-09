@@ -1,9 +1,7 @@
-package models;
+package com.example.bookingapptim11.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import androidx.annotation.NonNull;
 
 public class Accommodation implements Parcelable {
     String name;

@@ -6,9 +6,11 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.provider.MediaStore;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +20,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.util.Objects;
+import clients.ClientUtils;
+import login.AuthManager;
+import com.example.bookingapptim11.models.Profile;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class ProfileFragment extends Fragment {
@@ -26,7 +33,9 @@ public class ProfileFragment extends Fragment {
     private static final int PICK_IMAGE_REQUEST = 1;
     private ImageView profileImageView;
     private EditText emailInput, firstNameInput, lastNameInput, addressInput, phoneNumberInput, passwordInput;
-    private CheckBox showPasswordCheckbox;
+    private CheckBox showPasswordCheckbox, notificationsCheckBox;
+
+    private Profile profile;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -44,13 +53,21 @@ public class ProfileFragment extends Fragment {
         phoneNumberInput = view.findViewById(R.id.phoneNumberInput);
         passwordInput = view.findViewById(R.id.passwordInput);
         showPasswordCheckbox = view.findViewById(R.id.showPasswordCheckbox);
+        notificationsCheckBox = view.findViewById(R.id.notificationsCheckbox);
+
 
         Button saveButton = view.findViewById(R.id.saveButton);
+        Button deleteButton = view.findViewById(R.id.deleteButton);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 saveChanges();
             }
+        });
+
+        deleteButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){deleteProfile();}
         });
 
         profileImageView.setOnClickListener(new View.OnClickListener() {
@@ -70,21 +87,21 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        loadUserProfileInfo();
+        getProfileData();
+
 
         return view;
     }
 
     private void loadUserProfileInfo() {
-        // Logic to be added in future with backend info
 
         profileImageView.setImageResource(R.drawable.ic_person);
-        emailInput.setText("vladimir123@gmail.com");
-        firstNameInput.setText("Vladimir");
-        lastNameInput.setText("Cornenki");
-        addressInput.setText("Bulevar Oslobodjenja 23");
-        phoneNumberInput.setText("0631234567");
-        passwordInput.setText("password123");
+        emailInput.setText(this.profile.getEmail());
+        firstNameInput.setText(this.profile.getName());
+        lastNameInput.setText(this.profile.getLastName());
+        addressInput.setText(this.profile.getAddress());
+        phoneNumberInput.setText(this.profile.getPhoneNumber());
+        notificationsCheckBox.setChecked(this.profile.isNotifications());
     }
 
     private void changeProfilePicture() {
@@ -103,8 +120,86 @@ public class ProfileFragment extends Fragment {
     }
 
     private void saveChanges() {
-        // Logic needs to be added with backend
 
+        updateProfile();
+        this.passwordInput.setText("");
         Toast.makeText(requireActivity(), "Profile Saved", Toast.LENGTH_SHORT).show();
+    }
+
+    private void deleteProfile(){
+        Call<Void> call = ClientUtils.profileService.delete(AuthManager.getUserEmail());
+        call.enqueue(new Callback<Void>(){
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.code() == 200){
+
+                    Log.d("REZ","Meesage recieved");
+                }else{
+                    Log.d("REZ","Meesage recieved: "+response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.d("REZ", t.getMessage() != null?t.getMessage():"error");
+            }
+        });
+        AuthManager.logOut(getActivity());
+        Navigation.findNavController(getView()).navigate(R.id.nav_home);
+    }
+
+    private Profile collectFormData(){
+        return new Profile(this.emailInput.getText().toString(), this.passwordInput.getText().toString(),
+                this.firstNameInput.getText().toString(), this.lastNameInput.getText().toString(), this.addressInput.getText().toString(),
+                this.phoneNumberInput.getText().toString(), this.notificationsCheckBox.isChecked(), "");
+    }
+
+    private void updateProfile(){
+
+        Call<Profile> call = ClientUtils.profileService.edit(AuthManager.getUserEmail(), collectFormData());
+        call.enqueue(new Callback<Profile>() {
+            @Override
+            public void onResponse(Call<Profile> call, Response<Profile> response) {
+                if (response.code() == 200){
+                    Log.d("REZ","Meesage recieved");
+                    System.out.println(response.body());
+                    profile = response.body();
+                    loadUserProfileInfo();
+                }else{
+                    Log.d("REZ","Meesage recieved: "+response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Profile> call, Throwable t) {
+                Log.d("REZ", t.getMessage() != null?t.getMessage():"error");
+            }
+
+
+        });
+    }
+
+    private void getProfileData(){
+        Call<Profile> call = ClientUtils.profileService.getById(AuthManager.getUserEmail());
+        call.enqueue(new Callback<Profile>() {
+            @Override
+            public void onResponse(Call<Profile> call, Response<Profile> response) {
+                if (response.code() == 200){
+                    Log.d("REZ","Meesage recieved");
+                    System.out.println(response.body());
+                    profile = response.body();
+                    loadUserProfileInfo();
+                }else{
+                    Log.d("REZ","Meesage recieved: "+response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Profile> call, Throwable t) {
+                Log.d("REZ", t.getMessage() != null?t.getMessage():"error");
+            }
+
+
+        });
     }
 }

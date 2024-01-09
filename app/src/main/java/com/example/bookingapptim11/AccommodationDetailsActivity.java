@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import models.Accommodation;
-import ui.AmenityCardsFragment;
+
+import com.example.bookingapptim11.models.AccommodationDetailsDTO;
+
+import com.example.bookingapptim11.models.Accommodation;
+
 import ui.AmenityDetailsFragment;
 
 public class AccommodationDetailsActivity extends AppCompatActivity {
@@ -15,7 +18,7 @@ public class AccommodationDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accommodation_details);
         if (getIntent().hasExtra("accommodation")) {
-            Accommodation accommodation = getIntent().getParcelableExtra("accommodation");
+            AccommodationDetailsDTO accommodation = getIntent().getParcelableExtra("accommodation");
 
             AmenityDetailsFragment fragment = new AmenityDetailsFragment(accommodation);
 

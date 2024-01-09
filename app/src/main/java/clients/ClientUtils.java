@@ -2,6 +2,11 @@ package clients;
 
 import java.util.concurrent.TimeUnit;
 
+
+import clients.services.AccommodationService;
+import clients.services.ProfileService;
+import clients.services.AccommodationCreationService;
+
 import clients.services.AuthService;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -24,12 +29,20 @@ public class ClientUtils {
 
         return client;
     }
+
     public static Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(SERVICE_API_PATH)
             .addConverterFactory(GsonConverterFactory.create())
             .client(test())
             .build();
 
+    public static ProfileService profileService = retrofit.create(ProfileService.class);
+    public static AccommodationService accommodationService = retrofit.create(AccommodationService.class);
     public static AuthService authService = retrofit.create(AuthService.class);
+
+    //public static AccommodationService accommodationService = retrofit.create(AccommodationService.class);
+
+    public static AccommodationCreationService accommodationCreationService = retrofit.create(AccommodationCreationService.class);
+
 
 }
