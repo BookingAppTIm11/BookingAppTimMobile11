@@ -299,6 +299,88 @@
                     android:name="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"></androidx.fragment.app.FragmentContainerView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/textView13"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Accommodation reviews"
+                        android:textSize="32sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imageView9"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:src="@drawable/baseline_star_24" />
+
+                        <TextView
+                            android:id="@+id/ratingScoreAccommodation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:text="4"
+                            android:textSize="32sp" />
+                        <TextView
+                            android:id="@+id/textForAccommodationRating"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:text="/5"
+                            android:textSize="32sp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/textView131"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Owner reviews"
+                        android:textSize="32sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imageView91"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:src="@drawable/baseline_star_24" />
+
+                        <TextView
+                            android:id="@+id/ratingScoreOwner"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:text="4"
+                            android:textSize="32sp" />
+                        <TextView
+                            android:id="@+id/textForOwnerRating"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:text="/5"
+                            android:textSize="32sp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
             </LinearLayout>
         </ScrollView>
 
