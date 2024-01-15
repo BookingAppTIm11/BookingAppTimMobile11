@@ -27,6 +27,7 @@ import com.denzcoskun.imageslider.models.SlideModel;
 
 import com.example.bookingapptim11.NavigationActivity;
 import com.example.bookingapptim11.R;
+import com.example.bookingapptim11.fragments.OwnerReviewsFragment;
 import com.example.bookingapptim11.models.AccommodationDetailsDTO;
 import com.example.bookingapptim11.models.Availability;
 import com.example.bookingapptim11.models.AvailabilityDateNum;
@@ -81,26 +82,24 @@ public class AmenityDetailsFragment extends Fragment{
                     LOCATION_PERMISSION_REQUEST_CODE);
         }
 
-// Create an instance of MapFragment (replace this with your actual map fragment creation logic)
         MapFragment mapFragment = MapFragment.newInstance();
-
-        // Add the MapFragment to the container
         addMapFragment(mapFragment);
+
+        OwnerReviewsFragment ownerReviewsFragment = OwnerReviewsFragment.newInstance(accommodation.getOwnerEmail());
+        addOwnerReviewsFragment(ownerReviewsFragment);
+
         TextView accommodationName = root.findViewById(R.id.accommodationName);
         TextView locationTextView = root.findViewById(R.id.locationTextView);
         TextView priceTextView = root.findViewById(R.id.priceTextView);
         TextView accommodationCapacityTextView = root.findViewById(R.id.accommodationCapacityTextView);
         TextView ratingTextView = root.findViewById(R.id.ratingTextView);
         ImageSlider imageSlider = root.findViewById(R.id.imageSlider);
-        // ... find other views similarly
 
-        // Set values from the Accommodation object to the views
         accommodationName.setText(accommodation.getName());
         locationTextView.setText(accommodation.getLocation());
         priceTextView.setText("$" + String.valueOf(accommodation.getDefaultPrice()));
         accommodationCapacityTextView.setText(String.valueOf(accommodation.getMinGuests() + "-" + accommodation.getMaxGuests()));
         ratingTextView.setText(String.valueOf("4.8"+"/5.0"));
-        //searchInMap(accommodation.getLocation());
 
         loadImagesToSlider(imageSlider);
 
@@ -133,8 +132,16 @@ public class AmenityDetailsFragment extends Fragment{
             fragmentTransaction.replace(R.id.googleMaps, mapFragment);
             fragmentTransaction.addToBackStack(null); // Optional, if needed
             fragmentTransaction.commit();
+        }
+    }
 
-
+    private void addOwnerReviewsFragment(OwnerReviewsFragment ownerReviewsFragment) {
+        if (ownerReviewsFragment != null) {
+            FragmentManager fragmentManager = getChildFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.ownerReviewsFragment, ownerReviewsFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
         }
     }
 
@@ -148,8 +155,6 @@ public class AmenityDetailsFragment extends Fragment{
         bookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Your action on button click
-                // For example, show a toast message
                 bookReservation();
                 //Toast.makeText(getContext(), "Button Clicked", Toast.LENGTH_SHORT).show();
             }

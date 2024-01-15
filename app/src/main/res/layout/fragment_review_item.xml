@@ -70,6 +70,7 @@ asiogjiasjgjiasgjiasgjiasgjiasgjiasjigjiasgjiasgjiasgjijigsji"
                 android:id="@+id/reportIcon"
                 android:layout_width="25dp"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="150dp"
                 app:srcCompat="@drawable/ic_report" />
 
             <ImageView

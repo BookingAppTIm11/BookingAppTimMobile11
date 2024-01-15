@@ -303,6 +303,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
+                    android:layout_marginTop="25dp"
                     android:orientation="vertical">
 
 
@@ -330,6 +331,7 @@
                             android:layout_height="35dp"
                             android:text="4"
                             android:textSize="32sp" />
+
                         <TextView
                             android:id="@+id/textForAccommodationRating"
                             android:layout_width="wrap_content"
@@ -338,11 +340,12 @@
                             android:textSize="32sp" />
 
                     </LinearLayout>
+
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
 
 
@@ -350,6 +353,7 @@
                         android:id="@+id/textView131"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
                         android:text="Owner reviews"
                         android:textSize="32sp" />
 
@@ -378,6 +382,12 @@
                             android:textSize="32sp" />
 
                     </LinearLayout>
+
+                    <androidx.fragment.app.FragmentContainerView
+                        android:id="@+id/ownerReviewsFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"></androidx.fragment.app.FragmentContainerView>
+
                 </LinearLayout>
 
 
