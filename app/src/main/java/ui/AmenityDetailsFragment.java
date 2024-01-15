@@ -9,9 +9,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,8 +29,10 @@ import com.denzcoskun.imageslider.models.SlideModel;
 
 import com.example.bookingapptim11.NavigationActivity;
 import com.example.bookingapptim11.R;
+import com.example.bookingapptim11.fragments.AccommodationReviewsFragment;
 import com.example.bookingapptim11.fragments.OwnerReviewsFragment;
 import com.example.bookingapptim11.models.AccommodationDetailsDTO;
+import com.example.bookingapptim11.models.AccommodationType;
 import com.example.bookingapptim11.models.Availability;
 import com.example.bookingapptim11.models.AvailabilityDateNum;
 import com.example.bookingapptim11.models.ReservationDTO;
@@ -49,6 +53,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -66,6 +71,8 @@ public class AmenityDetailsFragment extends Fragment{
     private EditText checkOutDateEditText;
     private EditText guestsEditText;
     Button bookButton;
+
+    private Spinner accommodationRatingSpinner,ownerRatingSpinner;
     public AmenityDetailsFragment(AccommodationDetailsDTO accommodation){
         this.accommodation = accommodation;
     }
@@ -88,6 +95,9 @@ public class AmenityDetailsFragment extends Fragment{
         OwnerReviewsFragment ownerReviewsFragment = OwnerReviewsFragment.newInstance(accommodation.getOwnerEmail());
         addOwnerReviewsFragment(ownerReviewsFragment);
 
+        AccommodationReviewsFragment accommodationReviewsFragment = AccommodationReviewsFragment.newInstance(accommodation.getId());
+        addAccommodationReviewsFragment(accommodationReviewsFragment);
+
         TextView accommodationName = root.findViewById(R.id.accommodationName);
         TextView locationTextView = root.findViewById(R.id.locationTextView);
         TextView priceTextView = root.findViewById(R.id.priceTextView);
@@ -103,9 +113,10 @@ public class AmenityDetailsFragment extends Fragment{
 
         loadImagesToSlider(imageSlider);
 
-
-
-
+        accommodationRatingSpinner =  root.findViewById(R.id.accommodationRatingSpinner);
+        ownerRatingSpinner =  root.findViewById(R.id.ownerRatingSpinner);
+        accommodationRatingSpinner.setAdapter(loadRatingSpinner());
+        ownerRatingSpinner.setAdapter(loadRatingSpinner());
         ImageButton homeButton = root.findViewById(R.id.homeAccommodationDetailsImageButton);
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,6 +154,26 @@ public class AmenityDetailsFragment extends Fragment{
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         }
+    }
+
+    private void addAccommodationReviewsFragment(AccommodationReviewsFragment accommodationReviewsFragment) {
+        if (accommodationReviewsFragment != null) {
+            FragmentManager fragmentManager = getChildFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.accommodationReviewsFragment, accommodationReviewsFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
+    }
+
+    private ArrayAdapter<String> loadRatingSpinner(){
+        List<String> itemList = new ArrayList<>();
+        for (int i = 1; i <= 5; i++){
+            itemList.add(String.valueOf(i) + " Star");
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, itemList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        return adapter;
     }
 
     private void reservationDialog(View root) {

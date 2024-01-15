@@ -302,7 +302,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
                     android:orientation="vertical">
 
@@ -340,6 +340,66 @@
                             android:textSize="32sp" />
 
                     </LinearLayout>
+
+                    <androidx.fragment.app.FragmentContainerView
+                        android:id="@+id/accommodationReviewsFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"></androidx.fragment.app.FragmentContainerView>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView11"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_weight="1"
+                            android:text="Rating:"
+                            android:textSize="17sp"
+                            android:textColor="@color/blue_text"
+                            android:textStyle="bold" />
+
+                        <Spinner
+                            android:id="@+id/accommodationRatingSpinner"
+                            android:layout_width="150dp"
+                            android:layout_height="40dp">
+                        </Spinner>
+
+                        <TextView
+                            android:id="@+id/textView111"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="Review:"
+                            android:textSize="17sp"
+                            android:textColor="@color/blue_text"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/accommodationReviewDescription"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:ems="10"
+                            android:gravity="start|top"
+                            android:layout_marginBottom="5dp"
+                            android:inputType="textMultiLine"
+                            android:layout_gravity="top"
+                            android:background="@drawable/edit_text_border"/>
+
+                        <Button
+                            android:id="@+id/accommodationReviewButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/light_orange"
+                            android:text="Review accommodation" />
+                    </LinearLayout>
+
+
+
 
                 </LinearLayout>
 
@@ -387,6 +447,57 @@
                         android:id="@+id/ownerReviewsFragment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"></androidx.fragment.app.FragmentContainerView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView115"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_weight="1"
+                            android:text="Rating:"
+                            android:textSize="17sp"
+                            android:textColor="@color/blue_text"
+                            android:textStyle="bold" />
+
+                        <Spinner
+                            android:id="@+id/ownerRatingSpinner"
+                            android:layout_width="150dp"
+                            android:layout_height="40dp">
+                        </Spinner>
+
+                        <TextView
+                            android:id="@+id/textView1114"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="Review:"
+                            android:textSize="17sp"
+                            android:textColor="@color/blue_text"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/ownerReviewDescription"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_gravity="top"
+                            android:layout_marginBottom="5dp"
+                            android:background="@drawable/edit_text_border"
+                            android:ems="10"
+                            android:gravity="start|top"
+                            android:inputType="textMultiLine" />
+
+                        <Button
+                            android:id="@+id/ownerReviewButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/light_orange"
+                            android:text="Review owner" />
+                    </LinearLayout>
 
                 </LinearLayout>
 
