@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="240dp"
+            android:text="Choose guest"
+            android:layout_marginBottom="8dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/reportGuestSpinner"
+            android:layout_width="270dp"
+            android:layout_height="39dp"
+            android:layout_marginBottom="15dp"
+            android:backgroundTint="#FF5722"
+            android:background="@drawable/edit_text_border"
+            android:ems="10"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:text="Report description: "
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"/>
+
+        <EditText
+            android:id="@+id/reportDescription"
+            android:layout_width="270dp"
+            android:layout_height="112dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/edit_text_border"
+            android:backgroundTint="#FF5722"
+            android:ems="10"
+            android:gravity="start|top"
+            android:inputType="textMultiLine"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/reportGuestButton"
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:backgroundTint="#FF5722"
+            android:text="Report guest" />
+    </LinearLayout>
+
+
+
+</LinearLayout>

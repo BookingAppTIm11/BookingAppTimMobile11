@@ -39,4 +39,16 @@
         android:name="com.example.bookingapptim11.fragments.AccommodationCreationFragment"
         android:label="Accommodation Creation"
         tools:layout="@layout/accommodation_creation" />
+
+    <fragment
+        android:id="@+id/owner_report_nav"
+        android:name="com.example.bookingapptim11.fragments.OwnerReportFragment"
+        android:label="Report guests"
+        tools:layout="@layout/fragment_owner_report" />
+
+    <fragment
+        android:id="@+id/guest_report_nav"
+        android:name="com.example.bookingapptim11.fragments.GuestReportFragment"
+        android:label="Report owners"
+        tools:layout="@layout/fragment_guest_report" />
 </navigation>

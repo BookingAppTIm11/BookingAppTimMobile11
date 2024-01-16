@@ -8,6 +8,7 @@ import clients.services.ProfileService;
 import clients.services.AccommodationCreationService;
 
 import clients.services.AuthService;
+import clients.services.ReportService;
 import clients.services.ReviewService;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -45,5 +46,6 @@ public class ClientUtils {
     public static AccommodationCreationService accommodationCreationService = retrofit.create(AccommodationCreationService.class);
     public static ReviewService reviewService = retrofit.create(ReviewService.class);
 
+    public static ReportService reportService = retrofit.create(ReportService.class);
 
 }

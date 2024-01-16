@@ -485,9 +485,9 @@
                     android:text="Uploaded images:" />
 
                 <ListView
+                    android:id="@+id/uploadedImages"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:id="@+id/uploadedImages"/>
+                    android:layout_height="50dp" />
 
 
             </LinearLayout>

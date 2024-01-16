@@ -105,6 +105,8 @@
     <string name="menu_profile">Profile</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="notifications">Notifications</string>
+    <string name="reportGuests">Report guests</string>
+    <string name="reportOwners">Report owners</string>
     <string name="reservations">Reservations</string>
     <string name="log_out">Log out</string>
     <string name="my_accommodations">My accommodations</string>
