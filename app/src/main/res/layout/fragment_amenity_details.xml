@@ -433,7 +433,7 @@
                             android:id="@+id/ratingScoreOwner"
                             android:layout_width="wrap_content"
                             android:layout_height="35dp"
-                            android:text="4"
+                            android:text="0"
                             android:textSize="32sp" />
                         <TextView
                             android:id="@+id/textForOwnerRating"
