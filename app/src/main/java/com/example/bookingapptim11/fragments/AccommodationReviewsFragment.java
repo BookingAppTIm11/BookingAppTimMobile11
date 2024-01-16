@@ -31,11 +31,14 @@ public class AccommodationReviewsFragment extends Fragment {
     List<Review> accommodationReviews;
     ReviewAdapter adapter;
     RecyclerView recyclerView;
+    String ownerEmail;
 
-    public static AccommodationReviewsFragment newInstance(Long accommodationId) {
+
+    public static AccommodationReviewsFragment newInstance(Long accommodationId, String ownerEmail) {
         AccommodationReviewsFragment fragment = new AccommodationReviewsFragment();
         Bundle args = new Bundle();
         args.putLong("accommodationId", accommodationId);
+        args.putString("ownerEmail", ownerEmail);
         fragment.setArguments(args);
         return fragment;
     }
@@ -44,6 +47,7 @@ public class AccommodationReviewsFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_owner_reviews, container, false);
+        ownerEmail = getArguments().getString("ownerEmail", "");
 
         recyclerView = root.findViewById(R.id.ownerReviews);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.VERTICAL,false));
@@ -70,7 +74,7 @@ public class AccommodationReviewsFragment extends Fragment {
         return root;
     }
     private void refreshOwnerReviewsAdapter() {
-        adapter = new ReviewAdapter(getActivity(), accommodationReviews);
+        adapter = new ReviewAdapter(getActivity(), accommodationReviews,ownerEmail);
         recyclerView.setAdapter(adapter);
     }
 }

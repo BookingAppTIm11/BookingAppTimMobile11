@@ -34,6 +34,7 @@ public class OwnerReviewsFragment extends Fragment {
     List<Review> ownerReviews;
     ReviewAdapter adapter;
     RecyclerView recyclerView;
+    String ownerEmail;
 
     public static OwnerReviewsFragment newInstance(String ownerEmail) {
         OwnerReviewsFragment fragment = new OwnerReviewsFragment();
@@ -51,7 +52,7 @@ public class OwnerReviewsFragment extends Fragment {
         recyclerView = root.findViewById(R.id.ownerReviews);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.VERTICAL,false));
         ownerReviews = new ArrayList<>();
-        String ownerEmail = getArguments().getString("ownerEmail", "");
+        ownerEmail = getArguments().getString("ownerEmail", "");
         Call<ArrayList<Review>> call = ClientUtils.reviewService.getReviewsByOwnerEmail(ownerEmail);
         call.enqueue(new Callback<ArrayList<Review>>() {
             @Override
@@ -74,7 +75,7 @@ public class OwnerReviewsFragment extends Fragment {
         return root;
     }
     private void refreshOwnerReviewsAdapter() {
-        adapter = new ReviewAdapter(getActivity(), ownerReviews);
+        adapter = new ReviewAdapter(getActivity(), ownerReviews,ownerEmail);
         recyclerView.setAdapter(adapter);
     }
 }

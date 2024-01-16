@@ -329,7 +329,7 @@
                             android:id="@+id/ratingScoreAccommodation"
                             android:layout_width="wrap_content"
                             android:layout_height="35dp"
-                            android:text="4"
+                            android:text="0"
                             android:textSize="32sp" />
 
                         <TextView
@@ -348,9 +348,11 @@
 
 
                     <LinearLayout
+                        android:id="@+id/accommodationReviewLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="invisible">
 
                         <TextView
                             android:id="@+id/textView11"
@@ -359,15 +361,14 @@
                             android:layout_marginTop="20dp"
                             android:layout_weight="1"
                             android:text="Rating:"
-                            android:textSize="17sp"
                             android:textColor="@color/blue_text"
+                            android:textSize="17sp"
                             android:textStyle="bold" />
 
                         <Spinner
                             android:id="@+id/accommodationRatingSpinner"
                             android:layout_width="150dp"
-                            android:layout_height="40dp">
-                        </Spinner>
+                            android:layout_height="40dp"></Spinner>
 
                         <TextView
                             android:id="@+id/textView111"
@@ -375,20 +376,20 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:text="Review:"
-                            android:textSize="17sp"
                             android:textColor="@color/blue_text"
+                            android:textSize="17sp"
                             android:textStyle="bold" />
 
                         <EditText
                             android:id="@+id/accommodationReviewDescription"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
+                            android:layout_gravity="top"
+                            android:layout_marginBottom="5dp"
+                            android:background="@drawable/edit_text_border"
                             android:ems="10"
                             android:gravity="start|top"
-                            android:layout_marginBottom="5dp"
-                            android:inputType="textMultiLine"
-                            android:layout_gravity="top"
-                            android:background="@drawable/edit_text_border"/>
+                            android:inputType="textMultiLine" />
 
                         <Button
                             android:id="@+id/accommodationReviewButton"
@@ -449,6 +450,7 @@
                         android:layout_height="wrap_content"></androidx.fragment.app.FragmentContainerView>
 
                     <LinearLayout
+                        android:id="@+id/ownerReviewLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">

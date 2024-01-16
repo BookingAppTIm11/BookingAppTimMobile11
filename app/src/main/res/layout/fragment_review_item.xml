@@ -71,12 +71,14 @@ asiogjiasjgjiasgjiasgjiasgjiasgjiasjigjiasgjiasgjiasgjijigsji"
                 android:layout_width="25dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="110dp"
+                android:visibility="invisible"
                 app:srcCompat="@drawable/ic_report" />
 
             <ImageView
                 android:id="@+id/deleteIcon"
                 android:layout_width="25dp"
                 android:layout_height="match_parent"
+                android:visibility="invisible"
                 app:srcCompat="@drawable/ic_trashcan" />
 
 

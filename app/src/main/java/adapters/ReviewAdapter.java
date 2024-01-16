@@ -18,14 +18,18 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import login.AuthManager;
+
 public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder> {
 
     private final List<Review> data;
-    Context context;
+    private Context context;
+    private String accommodationOwnerEmail;
 
-    public ReviewAdapter(Context context,List<Review> data) {
+    public ReviewAdapter(Context context,List<Review> data, String accommodationOwnerEmail) {
         this.data = data;
         this.context = context;
+        this.accommodationOwnerEmail = accommodationOwnerEmail;
     }
 
     @NonNull
@@ -45,7 +49,12 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
                 Instant.ofEpochSecond(data.get(position).getDate()).atZone(ZoneId.systemDefault()).
                         toLocalDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
 
-
+        if (AuthManager.getUserEmail().equals(data.get(position).getGuestEmail())) {
+            holder.deleteIcon.setVisibility(View.VISIBLE);
+        }
+        if(AuthManager.getUserEmail().equals(accommodationOwnerEmail)){
+            holder.reportIcon.setVisibility(View.VISIBLE);
+        }
     }
     @Override
     public int getItemCount() {
@@ -64,6 +73,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
             reviewDate = itemView.findViewById(R.id.reviewDate);
             reportIcon = itemView.findViewById(R.id.reportIcon);
             deleteIcon = itemView.findViewById(R.id.deleteIcon);
+
+
         }
 
     }
