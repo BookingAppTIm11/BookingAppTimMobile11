@@ -55,15 +55,11 @@
                 android:paddingLeft="9dp"
                 android:paddingTop="5dp">
 
-                <ImageView
-                    android:id="@+id/heartView"
-                    android:layout_width="wrap_content"
+                <Switch
+                    android:id="@+id/favoriteAccommodatonSwitch"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginEnd="116dp"
-                    android:layout_marginBottom="-1dp"
-                    android:outlineAmbientShadowColor="#000000"
-                    android:src="@drawable/baseline_volunteer_activism_24" />
+                    android:text="Favorite" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

@@ -10,8 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,18 +29,17 @@ import com.denzcoskun.imageslider.models.SlideModel;
 
 import com.example.bookingapptim11.NavigationActivity;
 import com.example.bookingapptim11.R;
+import com.example.bookingapptim11.dto.FavoriteAccommodationDTO;
 import com.example.bookingapptim11.models.AccommodationDetailsDTO;
 import com.example.bookingapptim11.models.Availability;
-import com.example.bookingapptim11.models.AvailabilityDateNum;
 import com.example.bookingapptim11.models.ReservationDTO;
 import com.example.bookingapptim11.models.ReservationForShowDTO;
 import com.example.bookingapptim11.ui.util.MapFragment;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 
+import java.lang.reflect.Field;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -49,12 +50,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import login.AuthManager;
+import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import com.example.bookingapptim11.models.Accommodation;
-
 
 
 public class AmenityDetailsFragment extends Fragment{
@@ -80,6 +80,8 @@ public class AmenityDetailsFragment extends Fragment{
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     LOCATION_PERMISSION_REQUEST_CODE);
         }
+
+        favoriteSwitchSetUp(root);
 
 // Create an instance of MapFragment (replace this with your actual map fragment creation logic)
         MapFragment mapFragment = MapFragment.newInstance();
@@ -120,6 +122,74 @@ public class AmenityDetailsFragment extends Fragment{
 
         return  root;
     }
+
+    private void favoriteSwitchSetUp(View root) {
+        Switch favoriteAccommodationSwitch = root.findViewById(R.id.favoriteAccommodatonSwitch);
+        String userRole = AuthManager.getUserRole();
+// Check if the logged-in user has the role "Guest"
+        if ("Guest".equals(userRole)) {
+            // If the user has the "Guest" role, show the Switch
+            favoriteAccommodationSwitch.setVisibility(View.VISIBLE);
+
+            isUsersFavoriteAccommodation(favoriteAccommodationSwitch);
+
+            favoriteAccommodationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    // Handle the switch state change here
+                    callSetFavoriteAccommodation(isChecked);
+                }
+            });
+
+        } else {
+            // If not, hide the Switch
+            favoriteAccommodationSwitch.setVisibility(View.GONE);
+        }
+    }
+
+    private void isUsersFavoriteAccommodation( Switch favoriteAccommodationSwitch) {
+        String username = AuthManager.getUserEmail();
+
+        Call<FavoriteAccommodationDTO> originalCall = accommodationService.isUsersFavoriteAccommodation(username, accommodation.getId());
+
+        originalCall.enqueue(new Callback<FavoriteAccommodationDTO>() {
+            @Override
+            public void onResponse(@NonNull Call<FavoriteAccommodationDTO> call, Response<FavoriteAccommodationDTO> response) {
+                if (response.isSuccessful()) {
+                    favoriteAccommodationSwitch.setChecked( response.body().isFavorite());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FavoriteAccommodationDTO> call, Throwable t) {
+                // Handle the failure
+            }
+        });
+    }
+
+    private void callSetFavoriteAccommodation(boolean isFavorite) {
+        String username = AuthManager.getUserEmail();
+        FavoriteAccommodationDTO favoriteAccommodationDTO = new FavoriteAccommodationDTO(accommodation.getId(),isFavorite);
+
+        Call<FavoriteAccommodationDTO> originalCall = accommodationService.setFavoriteAccommodation(username, favoriteAccommodationDTO);
+
+        originalCall.enqueue(new Callback<FavoriteAccommodationDTO>() {
+            @Override
+            public void onResponse(@NonNull Call<FavoriteAccommodationDTO> call, Response<FavoriteAccommodationDTO> response) {
+                if (response.isSuccessful()) {
+                    FavoriteAccommodationDTO result = response.body();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FavoriteAccommodationDTO> call, Throwable t) {
+                // Handle the failure
+            }
+        });
+
+    }
+
 
     private void addMapFragment(MapFragment mapFragment) {
         if (mapFragment != null) {

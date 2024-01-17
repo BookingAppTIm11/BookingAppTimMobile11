@@ -1,5 +1,8 @@
 package clients.services;
 
+import android.database.Observable;
+
+import com.example.bookingapptim11.dto.FavoriteAccommodationDTO;
 import com.example.bookingapptim11.models.AccommodationDetailsDTO;
 import com.example.bookingapptim11.models.Availability;
 import com.example.bookingapptim11.models.AvailabilityDateNum;
@@ -8,6 +11,7 @@ import com.example.bookingapptim11.models.ReservationForShowDTO;
 
 import java.util.ArrayList;
 
+import login.AuthManager;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -37,7 +41,7 @@ public interface AccommodationService {
     @GET("availabilities/accommodation/{accommodation_id}")
     Call<ArrayList<Availability>> getAccommodationAvailability(@Path("accommodation_id") Long accommodationId);
 
-    @POST("reservations") // Replace "your_endpoint_path" with the actual endpoint path
+    @POST("reservations")
     Call<ReservationForShowDTO> createReservation(@Body ReservationDTO reservationDTO);
 
     @Headers({
@@ -69,5 +73,15 @@ public interface AccommodationService {
     Call<AccommodationDetailsDTO> updateAccommodation(@Path("id") Long id, @Body AccommodationDetailsDTO accommodationDetailsDTO);
 
 
+    @PUT("users/{username}/favorite_accommodation")
+    Call<FavoriteAccommodationDTO> setFavoriteAccommodation(
+            @Path("username") String username,
+            @Body FavoriteAccommodationDTO param
+    );
+    @GET("users/{username}/favorite_accommodation/{accommodationId}")
+    Call<FavoriteAccommodationDTO> isUsersFavoriteAccommodation(
+            @Path("username") String username,
+            @Path("accommodationId") Long accommodationId
+    );
 }
 
