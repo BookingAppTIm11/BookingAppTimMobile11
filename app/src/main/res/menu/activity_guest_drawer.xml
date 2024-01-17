@@ -21,6 +21,10 @@
             android:icon="@drawable/ic_phone"
             android:title="@string/reservations" />
         <item
+            android:id="@+id/favorite_accommodations"
+            android:icon="@drawable/baseline_home_24"
+            android:title="Favorite Accommodations" />
+        <item
             android:id="@+id/nav_logOut"
             android:icon="@drawable/baseline_logout_24"
             android:title="@string/log_out" />

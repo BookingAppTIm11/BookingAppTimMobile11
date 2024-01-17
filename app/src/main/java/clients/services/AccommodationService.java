@@ -2,6 +2,7 @@ package clients.services;
 
 import android.database.Observable;
 
+import com.example.bookingapptim11.dto.AccommodationWithAmenitiesDTO;
 import com.example.bookingapptim11.dto.FavoriteAccommodationDTO;
 import com.example.bookingapptim11.models.AccommodationDetailsDTO;
 import com.example.bookingapptim11.models.Availability;
@@ -15,6 +16,7 @@ import login.AuthManager;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -82,6 +84,17 @@ public interface AccommodationService {
     Call<FavoriteAccommodationDTO> isUsersFavoriteAccommodation(
             @Path("username") String username,
             @Path("accommodationId") Long accommodationId
+    );
+
+
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type: application/json"
+    })
+    @GET("users/{username}/favorite_accommodation")
+    Call<ArrayList<AccommodationWithAmenitiesDTO>> getFavoriteAccommodationsForGuest(
+            @Path("username") String userEmail,
+            @Header("Authorization") String authorizationHeader
     );
 }
 

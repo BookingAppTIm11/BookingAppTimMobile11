@@ -106,6 +106,7 @@
     <string name="menu_slideshow">Slideshow</string>
     <string name="notifications">Notifications</string>
     <string name="reservations">Reservations</string>
+
     <string name="log_out">Log out</string>
     <string name="my_accommodations">My accommodations</string>
     <string name="create_accommodation">Create accommodation</string>
