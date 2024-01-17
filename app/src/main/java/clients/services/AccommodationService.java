@@ -2,6 +2,7 @@ package clients.services;
 
 import android.database.Observable;
 
+import com.example.bookingapptim11.dto.AccommodationIsAutomaticApprovalDto;
 import com.example.bookingapptim11.dto.AccommodationWithAmenitiesDTO;
 import com.example.bookingapptim11.dto.FavoriteAccommodationDTO;
 import com.example.bookingapptim11.models.AccommodationDetailsDTO;
@@ -58,7 +59,7 @@ public interface AccommodationService {
             "Content-Type:application/json"
     })
     @GET("accommodations/owner/{email}")
-    Call<ArrayList<AccommodationDetailsDTO>> getOwnersAccommodations(@Path("email") String email);
+    Call<ArrayList<AccommodationDetailsDTO>> getOwnersAccommodations(@Path("email") String email, @Header("Authorization") String authorization);
 
     @Headers({
             "User-Agent: Mobile-Android",
@@ -96,5 +97,13 @@ public interface AccommodationService {
             @Path("username") String userEmail,
             @Header("Authorization") String authorizationHeader
     );
+
+    @PUT("accommodations/approval")
+    Call<AccommodationIsAutomaticApprovalDto> setAccommodationIsAutomaticApproval(
+            @Body AccommodationIsAutomaticApprovalDto dto
+    );
+
+    @GET("accommodations/{id}/approval")
+    Call<AccommodationIsAutomaticApprovalDto> getAccommodationIsAutomaticApprovalById(@Path("id") long id);
 }
 
