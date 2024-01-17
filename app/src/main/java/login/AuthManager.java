@@ -20,7 +20,7 @@ public class AuthManager {
     private static final String SHARED_PREF_NAME = "pref_file";
     private static final String EMAIL_KEY = "username";
     private static final String ROLE_KEY = "role";
-    private static final String TOKEN = "token";
+    private static final String TOKEN = "role";
     private static final String SIGNING_KEY = "korisnickoime";
 
     private static final List<UserRoleChangeListener> listeners = new ArrayList<>();
@@ -66,11 +66,6 @@ public class AuthManager {
     public static String getUserRole() {
         checkSharedPreferences();
         return sharedPreferences.getString(ROLE_KEY, null);
-    }
-
-    public static String getToken() {
-        checkSharedPreferences();
-        return sharedPreferences.getString(TOKEN, null);
     }
 
     public static String logOut(Context context){
