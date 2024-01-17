@@ -210,20 +210,31 @@ public class AmenityDetailsFragment extends Fragment{
 
     private void reservationDialog(View root) {
 
-        Call<ArrayList<Availability>> call = accommodationService.getAccommodationAvailability(accommodation.getId());
         checkInDateEditText = root.findViewById(R.id.checkInTextDate2);
         checkOutDateEditText = root.findViewById(R.id.checkOutTextDate2);
         guestsEditText = root.findViewById(R.id.guestsNumber2);
         bookButton = root.findViewById(R.id.bookButton);
+
+        loadAvailabilitiesIntoDatePickers();
+
         bookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Your action on button click
                 // For example, show a toast message
                 bookReservation();
+                checkInDateEditText.setText("");
+                checkOutDateEditText.setText("");
+
                 //Toast.makeText(getContext(), "Button Clicked", Toast.LENGTH_SHORT).show();
             }
         });
+
+
+    }
+
+    private void loadAvailabilitiesIntoDatePickers() {
+        Call<ArrayList<Availability>> call = accommodationService.getAccommodationAvailability(accommodation.getId());
         call.enqueue(new Callback<ArrayList<Availability>>() {
             @Override
             public void onResponse(Call<ArrayList<Availability>> call, Response<ArrayList<Availability>> response) {
@@ -276,6 +287,7 @@ public class AmenityDetailsFragment extends Fragment{
                     ReservationForShowDTO createdReservation = response.body();
 
                     Toast.makeText(getContext(), "Price: $"+ createdReservation.getPrice() + ", id: " + createdReservation.getId(), Toast.LENGTH_SHORT).show();
+                    loadAvailabilitiesIntoDatePickers();
 
                     // Handle the created reservation data
                 } else {
@@ -292,6 +304,7 @@ public class AmenityDetailsFragment extends Fragment{
                 Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
     }
     private boolean validateInputs() {
         String checkInDateStr = checkInDateEditText.getText().toString();
