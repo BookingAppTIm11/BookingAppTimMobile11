@@ -22,6 +22,7 @@ import java.util.List;
 import adapters.AccommodationRequestAdapter;
 import adapters.ReviewAdapter;
 import clients.ClientUtils;
+import login.AuthManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,7 +54,7 @@ public class OwnerReviewsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.VERTICAL,false));
         ownerReviews = new ArrayList<>();
         ownerEmail = getArguments().getString("ownerEmail", "");
-        Call<ArrayList<Review>> call = ClientUtils.reviewService.getReviewsByOwnerEmail(ownerEmail);
+        Call<ArrayList<Review>> call = ClientUtils.reviewService.getReviewsByOwnerEmail(ownerEmail, "Bearer " + AuthManager.getToken());
         call.enqueue(new Callback<ArrayList<Review>>() {
             @Override
             public void onResponse(Call<ArrayList<Review>> call, Response<ArrayList<Review>> response) {

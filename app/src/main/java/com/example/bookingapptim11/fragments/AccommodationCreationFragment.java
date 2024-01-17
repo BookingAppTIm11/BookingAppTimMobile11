@@ -34,6 +34,7 @@ import android.widget.Toast;
 
 import static clients.ClientUtils.accommodationCreationService;
 import com.example.bookingapptim11.R;
+import com.example.bookingapptim11.RegisterScreenActivity;
 import com.example.bookingapptim11.accommodationCreation.AccommodationDetails;
 import com.example.bookingapptim11.accommodationCreation.TimeSlot;
 import com.example.bookingapptim11.models.AccommodationStatus;
@@ -55,11 +56,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import clients.services.Validate;
 import login.AuthManager;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import registration.UserRegistration;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -228,7 +231,7 @@ public class AccommodationCreationFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 try {
-                    createAccommdoation();
+                    validateAccommodation();
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -261,15 +264,45 @@ public class AccommodationCreationFragment extends Fragment {
                 accommodationType.getSelectedItem().toString(),
                 PriceType.PerNight,
 //                checkPriceType(perUnit,perNight),
-                AccommodationStatus.Pending
+                AccommodationStatus.Pending,
+                Integer.parseInt(cancelationDays.getText().toString())
         );
 
         return accommodation;
     }
 
-    private void createAccommdoation() throws Exception {
+    private void validateAccommodation() throws Exception {
+
         AccommodationDetails accommodation = getAccommodationDetails();
-        Call<AccommodationDetails> call = accommodationCreationService.createAccommodation(accommodation);
+
+        if (!Validate.isValidInputWithSpaces(accommodation.getName())) {
+            Toast.makeText(getContext(), "Name should contain only letters and spaces.", Toast.LENGTH_LONG).show();
+        }
+        else if (!Validate.isValidInputWithSpaces(accommodation.getDescription())) {
+            Toast.makeText(getContext(), "Description should contain only letters and spaces.", Toast.LENGTH_LONG).show();
+        }
+        else if (!Validate.containsOnlyNumbers(accommodation.getDefaultPrice().toString())) {
+            Toast.makeText(getContext(), "Default price should be number!", Toast.LENGTH_LONG).show();
+        }
+        else if (!Validate.containsOnlyNumbers(String.valueOf(accommodation.getMaxGuests()))) {
+            Toast.makeText(getContext(), "Guest number should be number!", Toast.LENGTH_LONG).show();
+        }
+        else if (!Validate.containsOnlyNumbers(String.valueOf(accommodation.getMinGuests()))) {
+            Toast.makeText(getContext(), "Guest number should be number!", Toast.LENGTH_LONG).show();
+        }
+        else if (!Validate.isValidAlphanumericWithSpaces(accommodation.getLocation())) {
+            Toast.makeText(getContext(), "Location should contain only letters, numbers, and spaces.", Toast.LENGTH_LONG).show();
+        }
+        else if (!Validate.containsOnlyNumbers(String.valueOf(accommodation.getCancellationDays()))) {
+            Toast.makeText(getContext(), "Cancellation days should be number!", Toast.LENGTH_LONG).show();
+        }else{
+            createAccommdoation(accommodation);
+        }
+    }
+
+    private void createAccommdoation(AccommodationDetails accommodation) throws Exception {
+
+        Call<AccommodationDetails> call = accommodationCreationService.createAccommodation(accommodation, "Bearer " + AuthManager.getToken());
         call.enqueue(new Callback<AccommodationDetails>() {
             @Override
             public void onResponse(Call<AccommodationDetails> call, Response<AccommodationDetails> response) {

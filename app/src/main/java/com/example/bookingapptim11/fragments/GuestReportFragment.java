@@ -78,7 +78,7 @@ public class GuestReportFragment extends Fragment {
 
 
     private void getOwnersForGuestReport() {
-        Call<List<String>> call = reportService.getOwnersForGuestReport(AuthManager.getUserEmail());
+        Call<List<String>> call = reportService.getOwnersForGuestReport(AuthManager.getUserEmail(), "Bearer " + AuthManager.getToken());
         call.enqueue(new Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {

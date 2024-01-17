@@ -189,7 +189,7 @@ public class AmenityDetailsFragment extends Fragment{
     }
 
     private void loadOwnerReviews(){
-        Call<ArrayList<Review>> call = reviewService.getReviewsByOwnerEmail(accommodation.getOwnerEmail());
+        Call<ArrayList<Review>> call = reviewService.getReviewsByOwnerEmail(accommodation.getOwnerEmail(), "Bearer " + AuthManager.getToken());
         call.enqueue(new Callback<ArrayList<Review>>() {
             @Override
             public void onResponse(Call<ArrayList<Review>> call, Response<ArrayList<Review>> response) {
@@ -208,7 +208,7 @@ public class AmenityDetailsFragment extends Fragment{
     }
 
     private void loadAccommodationReviews(){
-        Call<ArrayList<Review>> call = reviewService.getReviewsByAccommodationId(accommodation.getId());
+        Call<ArrayList<Review>> call = reviewService.getReviewsByAccommodationId(accommodation.getId(),"Bearer " + AuthManager.getToken());
         call.enqueue(new Callback<ArrayList<Review>>() {
             @Override
             public void onResponse(Call<ArrayList<Review>> call, Response<ArrayList<Review>> response) {
@@ -328,7 +328,7 @@ public class AmenityDetailsFragment extends Fragment{
 
     private void createReview(Review reviewDTO){
 
-        Call<Review> call = reviewService.createReview(reviewDTO);
+        Call<Review> call = reviewService.createReview(reviewDTO, "Bearer " + AuthManager.getToken());
         call.enqueue(new Callback<Review>() {
             @Override
             public void onResponse(Call<Review> call, Response<Review> response) {

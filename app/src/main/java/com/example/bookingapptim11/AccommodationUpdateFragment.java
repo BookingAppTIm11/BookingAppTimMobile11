@@ -34,6 +34,8 @@ import com.example.bookingapptim11.models.Amenity;
 import com.example.bookingapptim11.models.Availability;
 import com.example.bookingapptim11.models.Price;
 import com.example.bookingapptim11.models.PriceType;
+
+import login.AuthManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -264,7 +266,7 @@ public class AccommodationUpdateFragment extends Fragment {
     }
 
     private void loadAvailabilities(Long id){
-        Call<List<Availability>> call = accommodationCreationService.getAvailabilitiesByAccommodationId(id);
+        Call<List<Availability>> call = accommodationCreationService.getAvailabilitiesByAccommodationId(id, "Bearer " + AuthManager.getToken());
 
         call.enqueue(new Callback<List<Availability>>() {
             @Override

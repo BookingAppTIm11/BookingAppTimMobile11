@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import clients.services.AuthService;
+import clients.services.Validate;
 import login.AuthManager;
 import login.AuthResponse;
 import registration.UserRegistration;
@@ -24,7 +25,7 @@ import retrofit2.Response;
 public class RegisterScreenActivity extends AppCompatActivity {
 
     private TextView email;
-    private TextView password;
+    private TextView password, confirmPassword;
     private TextView name;
     private TextView lastName;
     private TextView address;
@@ -53,6 +54,7 @@ public class RegisterScreenActivity extends AppCompatActivity {
         logIn = findViewById(R.id.textViewLogIn);
         homeButton = findViewById(R.id.homeRegisterImageButton);
         registerButton = findViewById(R.id.registerBtn);
+        confirmPassword = findViewById(R.id.confirmPassword);
 
 
         logIn.setOnClickListener(new View.OnClickListener() {
@@ -83,9 +85,7 @@ public class RegisterScreenActivity extends AppCompatActivity {
                             phone.getText().toString().trim(),
                             role);
 
-                    registerUser(registeredUser);
-                    Toast.makeText(RegisterScreenActivity.this,"Verification email has been sent. Click on the link to activate the account! ", Toast.LENGTH_LONG).show();
-                    changeToLoginScreen();
+                    validateUser(registeredUser);
 
                 } catch (Exception e) {
                     Toast.makeText(RegisterScreenActivity.this,e.getMessage(), Toast.LENGTH_LONG).show();
@@ -111,6 +111,35 @@ public class RegisterScreenActivity extends AppCompatActivity {
         Intent intent = new Intent(RegisterScreenActivity.this, LoginScreenActivity.class);
         startActivity(intent);
     }
+    private void validateUser(UserRegistration registeredUser) throws Exception {
+
+        if (!Validate.isValidInputWithSpaces(registeredUser.getName())) {
+            Toast.makeText(RegisterScreenActivity.this, "First name should contain only letters and spaces.", Toast.LENGTH_LONG).show();
+        }
+        else if (!Validate.isValidInputWithSpaces(registeredUser.getLastName())) {
+            Toast.makeText(RegisterScreenActivity.this, "Last name should contain only letters and spaces.", Toast.LENGTH_LONG).show();
+        }
+        else if (!Validate.isValidEmail(registeredUser.getEmail())) {
+            Toast.makeText(RegisterScreenActivity.this, "Invalid email address.", Toast.LENGTH_LONG).show();
+        }
+        else if (registeredUser.getPassword().length() < 3) {
+            Toast.makeText(RegisterScreenActivity.this, "Password must have more than 3 letters", Toast.LENGTH_LONG).show();
+        }
+        else if (!Validate.isValidAlphanumericWithSpaces(registeredUser.getAddress())) {
+            Toast.makeText(RegisterScreenActivity.this, "Address should contain only letters, numbers, and spaces.", Toast.LENGTH_LONG).show();
+        }
+        else if (!Validate.containsOnlyNumbers(registeredUser.getPhoneNumber())) {
+            Toast.makeText(RegisterScreenActivity.this, "Phone number should contain only numbers.", Toast.LENGTH_LONG).show();
+        }
+        else if(!registeredUser.getPassword().equals(confirmPassword.getText().toString())){
+            Toast.makeText(RegisterScreenActivity.this, "Passwords must mach", Toast.LENGTH_LONG).show();
+        }else{
+            registerUser(registeredUser);
+            Toast.makeText(RegisterScreenActivity.this,"Verification email has been sent. Click on the link to activate the account! ", Toast.LENGTH_LONG).show();
+            changeToLoginScreen();
+        }
+      }
+
 
     private String checkUserRole(CheckBox guest, CheckBox owner) throws Exception{
         if (guest.isChecked() && !owner.isChecked()) {

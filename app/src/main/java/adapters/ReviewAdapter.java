@@ -73,7 +73,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
             public void onClick(View view) {
 
                 int clickedPosition = holder.getAdapterPosition();
-                Call<Void> call = reviewService.deleteReview(data.get(position).getId());
+                Call<Void> call = reviewService.deleteReview(data.get(position).getId(), "Bearer " + AuthManager.getToken());
                 call.enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
@@ -99,7 +99,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
                 }else{
                     int clickedPosition = holder.getAdapterPosition();
                     data.get(position).setReported(true);
-                    Call<Review> call = reviewService.updateReview(data.get(position).getId(),data.get(position));
+                    Call<Review> call = reviewService.updateReview(data.get(position).getId(),data.get(position), "Bearer " + AuthManager.getToken());
                     call.enqueue(new Callback<Review>() {
                         @Override
                         public void onResponse(Call<Review> call, Response<Review> response) {

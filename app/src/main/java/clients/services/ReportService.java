@@ -56,12 +56,12 @@ public interface ReportService {
             "Content-Type:application/json"
     })
     @GET("users/owners/{guestEmail}")
-    Call<List<String>> getOwnersForGuestReport(@Path("guestEmail") String guestEmail);
+    Call<List<String>> getOwnersForGuestReport(@Path("guestEmail") String guestEmail, @Header("Authorization") String authorizationHeader);
 
     @Headers({
             "User-Agent: Mobile-Android",
             "Content-Type:application/json"
     })
     @GET("users/guests/{ownerEmail}")
-    Call<List<String>> getGuestsForOwnerReport(@Path("ownerEmail") String ownerEmail);
+    Call<List<String>> getGuestsForOwnerReport(@Path("ownerEmail") String ownerEmail, @Header("Authorization") String authorizationHeader);
 }
