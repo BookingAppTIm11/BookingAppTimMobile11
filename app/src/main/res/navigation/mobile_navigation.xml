@@ -44,4 +44,10 @@
         android:name="com.example.bookingapptim11.fragments.FavoriteAccommodationsFragment"
         android:label="Favorite Accommodations"
         tools:layout="@layout/fragment_favorite_accommodations" />
+    <fragment
+        android:id="@+id/profit_statistics"
+        android:name="com.example.bookingapptim11.fragments.StatisticsOwnersFragment"
+        android:label="Profit Statistics"
+        tools:layout="@layout/fragment_statistics_owners" />
+
 </navigation>
