@@ -1,19 +1,28 @@
 package ui;
 
 import static clients.ClientUtils.accommodationService;
+import static clients.ClientUtils.authService;
+import static clients.ClientUtils.reviewService;
 
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+
+import android.widget.LinearLayout;
+import android.widget.Spinner;
+
 import android.widget.Switch;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,11 +38,18 @@ import com.denzcoskun.imageslider.models.SlideModel;
 
 import com.example.bookingapptim11.NavigationActivity;
 import com.example.bookingapptim11.R;
+
+import com.example.bookingapptim11.fragments.AccommodationReviewsFragment;
+import com.example.bookingapptim11.fragments.OwnerReviewsFragment;
+
 import com.example.bookingapptim11.dto.FavoriteAccommodationDTO;
+
 import com.example.bookingapptim11.models.AccommodationDetailsDTO;
+import com.example.bookingapptim11.models.AccommodationType;
 import com.example.bookingapptim11.models.Availability;
 import com.example.bookingapptim11.models.ReservationDTO;
 import com.example.bookingapptim11.models.ReservationForShowDTO;
+import com.example.bookingapptim11.models.Review;
 import com.example.bookingapptim11.ui.util.MapFragment;
 import com.google.android.gms.maps.GoogleMap;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -49,7 +65,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-
+import java.util.List;
+import clients.ClientUtils;
+import login.AuthManager;
 import login.AuthManager;
 import okhttp3.Request;
 import retrofit2.Call;
@@ -64,7 +82,13 @@ public class AmenityDetailsFragment extends Fragment{
     private EditText checkInDateEditText;
     private EditText checkOutDateEditText;
     private EditText guestsEditText;
-    Button bookButton;
+    private Button bookButton,accommodationReviewButton,ownerReviewButton;
+    private Spinner accommodationRatingSpinner,ownerRatingSpinner;
+    private EditText accommodationReviewDescription, ownerReviewDescription;
+    private ArrayList<Review> ownerReviews;
+    private ArrayList<Review> accommodationReviews;
+
+    private TextView ratingScoreAccommodation, ratingScoreOwner;
     public AmenityDetailsFragment(AccommodationDetailsDTO accommodation){
         this.accommodation = accommodation;
     }
@@ -83,33 +107,53 @@ public class AmenityDetailsFragment extends Fragment{
 
         favoriteSwitchSetUp(root);
 
-// Create an instance of MapFragment (replace this with your actual map fragment creation logic)
         MapFragment mapFragment = MapFragment.newInstance();
-
-        // Add the MapFragment to the container
         addMapFragment(mapFragment);
+
+        OwnerReviewsFragment ownerReviewsFragment = OwnerReviewsFragment.newInstance(accommodation.getOwnerEmail());
+        addOwnerReviewsFragment(ownerReviewsFragment);
+
+        AccommodationReviewsFragment accommodationReviewsFragment = AccommodationReviewsFragment.newInstance(accommodation.getId(),accommodation.getOwnerEmail());
+        addAccommodationReviewsFragment(accommodationReviewsFragment);
+
         TextView accommodationName = root.findViewById(R.id.accommodationName);
         TextView locationTextView = root.findViewById(R.id.locationTextView);
         TextView priceTextView = root.findViewById(R.id.priceTextView);
         TextView accommodationCapacityTextView = root.findViewById(R.id.accommodationCapacityTextView);
         TextView ratingTextView = root.findViewById(R.id.ratingTextView);
         ImageSlider imageSlider = root.findViewById(R.id.imageSlider);
-        // ... find other views similarly
 
-        // Set values from the Accommodation object to the views
         accommodationName.setText(accommodation.getName());
         locationTextView.setText(accommodation.getLocation());
         priceTextView.setText("$" + String.valueOf(accommodation.getDefaultPrice()));
         accommodationCapacityTextView.setText(String.valueOf(accommodation.getMinGuests() + "-" + accommodation.getMaxGuests()));
         ratingTextView.setText(String.valueOf("4.8"+"/5.0"));
-        //searchInMap(accommodation.getLocation());
 
         loadImagesToSlider(imageSlider);
-
-
-
-
         ImageButton homeButton = root.findViewById(R.id.homeAccommodationDetailsImageButton);
+
+        accommodationRatingSpinner =  root.findViewById(R.id.accommodationRatingSpinner);
+        ownerRatingSpinner =  root.findViewById(R.id.ownerRatingSpinner);
+        accommodationRatingSpinner.setAdapter(loadRatingSpinner());
+        ownerRatingSpinner.setAdapter(loadRatingSpinner());
+
+        accommodationReviewButton = root.findViewById(R.id.accommodationReviewButton);
+        ownerReviewButton = root.findViewById(R.id.ownerReviewButton);
+        accommodationReviewDescription = root.findViewById(R.id.accommodationReviewDescription);
+        ownerReviewDescription = root.findViewById(R.id.ownerReviewDescription);
+
+        ratingScoreOwner = root.findViewById(R.id.ratingScoreOwner);
+        ratingScoreAccommodation = root.findViewById(R.id.ratingScoreAccommodation);
+
+
+
+        ownerReviews = new ArrayList<>();
+        accommodationReviews = new ArrayList<>();
+
+        checkReviewFieldsVisibility(root);
+        loadOwnerReviews();
+        loadAccommodationReviews();
+
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,11 +162,96 @@ public class AmenityDetailsFragment extends Fragment{
             }
         });
 
+        ownerReviewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reviewOwner();
+            }
+        });
+
+        accommodationReviewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reviewAccommodation();
+            }
+        });
+
         reservationDialog(root);
 
         return  root;
     }
 
+    private void checkReviewFieldsVisibility(View root){
+
+        LinearLayout ownerReviewForm = root.findViewById(R.id.ownerReviewLayout);
+        LinearLayout accommodationReviewForm = root.findViewById(R.id.accommodationReviewLayout);
+        if (AuthManager.getUserRole().equals("Guest")) {
+            ownerReviewForm.setVisibility(View.VISIBLE);
+            accommodationReviewForm.setVisibility(View.VISIBLE);
+        } else {
+            ownerReviewForm.setVisibility(View.INVISIBLE);
+            accommodationReviewForm.setVisibility(View.INVISIBLE);
+        }
+
+    }
+
+    private void loadOwnerReviews(){
+        Call<ArrayList<Review>> call = reviewService.getReviewsByOwnerEmail(accommodation.getOwnerEmail(), "Bearer " + AuthManager.getToken());
+        call.enqueue(new Callback<ArrayList<Review>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Review>> call, Response<ArrayList<Review>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    ownerReviews = response.body();
+                    ratingScoreOwner.setText(String.valueOf(calculateReviewsAverageScore(ownerReviews)));
+
+                } else {
+                }
+            }
+            @Override
+            public void onFailure(Call<ArrayList<Review>> call, Throwable t) {
+                Toast.makeText(getContext(),  t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void loadAccommodationReviews(){
+        Call<ArrayList<Review>> call = reviewService.getReviewsByAccommodationId(accommodation.getId(),"Bearer " + AuthManager.getToken());
+        call.enqueue(new Callback<ArrayList<Review>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Review>> call, Response<ArrayList<Review>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    accommodationReviews = response.body();
+                    ratingScoreAccommodation.setText(String.valueOf(calculateReviewsAverageScore(accommodationReviews)));
+                } else {
+                }
+            }
+            @Override
+            public void onFailure(Call<ArrayList<Review>> call, Throwable t) {
+                Toast.makeText(getContext(),  t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private double calculateReviewsAverageScore(List<Review> reviews){
+        List<Review> filteredReviews = new ArrayList<>();
+        for (Review review : reviews) {
+            if (review.getRating() != 0) {
+                filteredReviews.add(review);
+            }
+        }
+        if (!filteredReviews.isEmpty()) {
+            double sum = 0;
+            for (Review review : filteredReviews) {
+                sum += review.getRating();
+            }
+            return Math.round((sum / filteredReviews.size()) * 10.0) / 10.0;
+        } else {
+            return 0;
+        }
+    }
+
+    private void loadAccommodationAverageScores(View root,ArrayList<Review> reviews){
+    }
     private void favoriteSwitchSetUp(View root) {
         Switch favoriteAccommodationSwitch = root.findViewById(R.id.favoriteAccommodatonSwitch);
         String userRole = AuthManager.getUserRole();
@@ -190,7 +319,6 @@ public class AmenityDetailsFragment extends Fragment{
 
     }
 
-
     private void addMapFragment(MapFragment mapFragment) {
         if (mapFragment != null) {
             Bundle bundleAddress = new Bundle();
@@ -203,9 +331,92 @@ public class AmenityDetailsFragment extends Fragment{
             fragmentTransaction.replace(R.id.googleMaps, mapFragment);
             fragmentTransaction.addToBackStack(null); // Optional, if needed
             fragmentTransaction.commit();
-
-
         }
+    }
+
+    private void addOwnerReviewsFragment(OwnerReviewsFragment ownerReviewsFragment) {
+        if (ownerReviewsFragment != null) {
+            FragmentManager fragmentManager = getChildFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.ownerReviewsFragment, ownerReviewsFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
+    }
+
+    private void addAccommodationReviewsFragment(AccommodationReviewsFragment accommodationReviewsFragment) {
+        if (accommodationReviewsFragment != null) {
+            FragmentManager fragmentManager = getChildFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.accommodationReviewsFragment, accommodationReviewsFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
+    }
+
+    private ArrayAdapter<String> loadRatingSpinner(){
+        List<String> itemList = new ArrayList<>();
+        for (int i = 0; i <= 5; i++){
+            itemList.add(String.valueOf(i));
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, itemList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        return adapter;
+    }
+
+
+    private void reviewOwner(){
+        Review ownerReview = new Review(
+                0L,
+                AuthManager.getUserEmail(),
+                ownerReviewDescription.getText().toString(),
+                Integer.parseInt(ownerRatingSpinner.getSelectedItem().toString()),
+                LocalDate.now().atStartOfDay(ZoneOffset.UTC).toEpochSecond(),
+                false,
+                accommodation.getOwnerEmail(),
+                0L,
+                false
+        );
+
+        createReview(ownerReview);
+        ownerReviewDescription.setText("");
+    }
+
+    private void reviewAccommodation(){
+        Review accommodationReview = new Review(
+                0L,
+                AuthManager.getUserEmail(),
+                accommodationReviewDescription.getText().toString(),
+                Integer.parseInt(accommodationRatingSpinner.getSelectedItem().toString()),
+                LocalDate.now().atStartOfDay(ZoneOffset.UTC).toEpochSecond(),
+                false,
+                "",
+                accommodation.getId(),
+                false
+        );
+
+        createReview(accommodationReview);
+        accommodationReviewDescription.setText("");
+    }
+
+    private void createReview(Review reviewDTO){
+
+        Call<Review> call = reviewService.createReview(reviewDTO, "Bearer " + AuthManager.getToken());
+        call.enqueue(new Callback<Review>() {
+            @Override
+            public void onResponse(Call<Review> call, Response<Review> response) {
+                if (response.isSuccessful()) {
+                    Review createdReview = response.body();
+                    Toast.makeText(getContext(), "Successfully sent a owner review! ", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), response.errorBody().toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<Review> call, Throwable t) {
+                Toast.makeText(getContext(),  t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void reservationDialog(View root) {
@@ -220,8 +431,6 @@ public class AmenityDetailsFragment extends Fragment{
         bookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Your action on button click
-                // For example, show a toast message
                 bookReservation();
                 checkInDateEditText.setText("");
                 checkOutDateEditText.setText("");

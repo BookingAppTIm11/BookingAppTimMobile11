@@ -34,6 +34,7 @@ import android.widget.Toast;
 
 import static clients.ClientUtils.accommodationCreationService;
 import com.example.bookingapptim11.R;
+import com.example.bookingapptim11.RegisterScreenActivity;
 import com.example.bookingapptim11.accommodationCreation.AccommodationDetails;
 import com.example.bookingapptim11.accommodationCreation.TimeSlot;
 import com.example.bookingapptim11.models.AccommodationStatus;
@@ -55,11 +56,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import clients.services.Validate;
 import login.AuthManager;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import registration.UserRegistration;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -192,14 +195,8 @@ public class AccommodationCreationFragment extends Fragment {
         addAvailability.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addAvailabilityToList();
-            }
-        });
-
-        addAvailability.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addAvailabilityToList();
+//                addAvailabilityToList();
+                addAvailability();
             }
         });
 
@@ -228,7 +225,7 @@ public class AccommodationCreationFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 try {
-                    createAccommdoation();
+                    validateAccommodation();
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -261,15 +258,45 @@ public class AccommodationCreationFragment extends Fragment {
                 accommodationType.getSelectedItem().toString(),
                 PriceType.PerNight,
 //                checkPriceType(perUnit,perNight),
-                AccommodationStatus.Pending
+                AccommodationStatus.Pending,
+                Integer.parseInt(cancelationDays.getText().toString())
         );
 
         return accommodation;
     }
 
-    private void createAccommdoation() throws Exception {
-        AccommodationDetails accommodation = getAccommodationDetails();
-        Call<AccommodationDetails> call = accommodationCreationService.createAccommodation(accommodation);
+    private void validateAccommodation() throws Exception {
+
+
+        if (!Validate.isValidInputWithSpaces(name.getText().toString())) {
+            Toast.makeText(getContext(), "Name should contain only letters and spaces.", Toast.LENGTH_LONG).show();
+        }
+        else if (!Validate.isValidInputWithSpaces(description.getText().toString())) {
+            Toast.makeText(getContext(), "Description should contain only letters and spaces.", Toast.LENGTH_LONG).show();
+        }
+        else if (!Validate.containsOnlyNumbers(defaultPrice.getText().toString())) {
+            Toast.makeText(getContext(), "Default price should be number!", Toast.LENGTH_LONG).show();
+        }
+        else if (!Validate.containsOnlyNumbers(maxGuests.getText().toString())) {
+            Toast.makeText(getContext(), "Guest number should be number!", Toast.LENGTH_LONG).show();
+        }
+        else if (!Validate.containsOnlyNumbers(minGuests.getText().toString())) {
+            Toast.makeText(getContext(), "Guest number should be number!", Toast.LENGTH_LONG).show();
+        }
+        else if (!Validate.isValidAlphanumericWithSpaces(location.getText().toString())) {
+            Toast.makeText(getContext(), "Location should contain only letters, numbers, and spaces.", Toast.LENGTH_LONG).show();
+        }
+        else if (!Validate.containsOnlyNumbers(cancelationDays.getText().toString())) {
+            Toast.makeText(getContext(), "Cancellation days should be number!", Toast.LENGTH_LONG).show();
+        }else{
+            AccommodationDetails accommodation = getAccommodationDetails();
+            createAccommdoation(accommodation);
+        }
+    }
+
+    private void createAccommdoation(AccommodationDetails accommodation) throws Exception {
+
+        Call<AccommodationDetails> call = accommodationCreationService.createAccommodation(accommodation, "Bearer " + AuthManager.getToken());
         call.enqueue(new Callback<AccommodationDetails>() {
             @Override
             public void onResponse(Call<AccommodationDetails> call, Response<AccommodationDetails> response) {
@@ -413,20 +440,60 @@ public class AccommodationCreationFragment extends Fragment {
         }
     }
 
-    public void addAvailabilityToList(){
+    private boolean isDateBeforeToday(LocalDate date) {
+        LocalDate currentDate = LocalDate.now();
+        return date.isBefore(currentDate);
+    }
 
+    private boolean isEndDateBeforeStartDate(LocalDate startDate, LocalDate endDate) {
+        return endDate.isBefore(startDate);
+    }
+
+    private boolean isOverlap(Availability newAvailability, List<Availability> availabilities) {
+        for (Availability existingAvailability : availabilities) {
+            if (existingAvailability.getTimeSlot().getEndDate() > newAvailability.getTimeSlot().getStartDate() &&
+                    existingAvailability.getTimeSlot().getStartDate() < newAvailability.getTimeSlot().getEndDate()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isOverlapPrice(Price newPrice, List<Price> prices) {
+        for (Price existingPrice : prices) {
+            if (existingPrice.getTimeSlot().getEndDate() > newPrice.getTimeSlot().getStartDate() &&
+                    existingPrice.getTimeSlot().getStartDate() < newPrice.getTimeSlot().getEndDate()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void checkOvelappingAvailability(Availability newAvailability, List<Availability> availabilities){
+        if (!isOverlap(newAvailability, availabilities)) {
+            availabilities.add(newAvailability);
+            addAvailabilityToTable(availabilityTable, newAvailability);
+        } else {
+            Toast.makeText(getContext(), "Availability is overlapping with another availability!", Toast.LENGTH_LONG).show();
+        }
+    }
+    private void addAvailability() {
         LocalDate from = LocalDate.parse(getDateFromPicker(availabilityStart.getText().toString()), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
         LocalDate to = LocalDate.parse(getDateFromPicker(availabilityEnd.getText().toString()), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 
-        Availability availability = new Availability(new TimeSlot(
-                from.atStartOfDay(ZoneOffset.UTC).toEpochSecond(),
-                to.plusDays(1).atStartOfDay(ZoneOffset.UTC).toEpochSecond()
-        ));
-
-        availabilities.add(availability);
-
-        addAvailabilityToTable(availabilityTable,availability);
+        if (isDateBeforeToday(from)) {
+            Toast.makeText(getContext(), "First date cant be before today! ", Toast.LENGTH_LONG).show();
+        } else if (isEndDateBeforeStartDate(from, to)) {
+            Toast.makeText(getContext(), "Second date cant be after than the first! ", Toast.LENGTH_LONG).show();
+        } else {
+            Availability newAvailability = new Availability(new TimeSlot(
+                    from.atStartOfDay(ZoneOffset.UTC).toEpochSecond(),
+                    to.plusDays(1).atStartOfDay(ZoneOffset.UTC).toEpochSecond()
+            ));
+            checkOvelappingAvailability(newAvailability,availabilities);
+        }
     }
+
 
     public void addAvailabilityToTable(TableLayout table,Availability availability){
 
@@ -463,23 +530,54 @@ public class AccommodationCreationFragment extends Fragment {
             availabilityTable.removeViews(1, childCount - 1);
         }
     }
-    public void addPriceToList(){
 
+    private void checkOvelappingPrice(Price newPrice, List<Price> prices){
+        if (!isOverlapPrice(newPrice, prices)) {
+            prices.add(newPrice);
+            addPricesToTable(pricesTable, newPrice);
+        } else {
+            Toast.makeText(getContext(), "Price date is overlapping with another price date!", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void addPriceToList() {
         LocalDate from = LocalDate.parse(getDateFromPicker(pricesStart.getText().toString()), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
         LocalDate to = LocalDate.parse(getDateFromPicker(pricesEnd.getText().toString()), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 
+        if (isDateBeforeToday(from)) {
+            Toast.makeText(getContext(), "First date can't be before today! ", Toast.LENGTH_LONG).show();
+        } else if (isEndDateBeforeStartDate(from, to)) {
+            Toast.makeText(getContext(), "Second date can't be after than the first! ", Toast.LENGTH_LONG).show();
+        } else {
+            Price newPrice = new Price(
+                    new TimeSlot(
+                            from.atStartOfDay(ZoneOffset.UTC).toEpochSecond(),
+                            to.plusDays(1).atStartOfDay(ZoneOffset.UTC).toEpochSecond()
+                    ),
+                    Double.parseDouble(price.getText().toString())
+            );
 
-        Price p = new Price(
-                new TimeSlot(
-                        from.atStartOfDay(ZoneOffset.UTC).toEpochSecond(),
-                        to.plusDays(1).atStartOfDay(ZoneOffset.UTC).toEpochSecond()
-                ),
-                Double.parseDouble(price.getText().toString())
-        );
-        prices.add(p);
-        addPricesToTable(pricesTable,p);
-        clearPriceInputs();
+            checkOvelappingPrice(newPrice,prices);
+        }
     }
+
+//    public void addPriceToList(){
+//
+//        LocalDate from = LocalDate.parse(getDateFromPicker(pricesStart.getText().toString()), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+//        LocalDate to = LocalDate.parse(getDateFromPicker(pricesEnd.getText().toString()), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+//
+//
+//        Price p = new Price(
+//                new TimeSlot(
+//                        from.atStartOfDay(ZoneOffset.UTC).toEpochSecond(),
+//                        to.plusDays(1).atStartOfDay(ZoneOffset.UTC).toEpochSecond()
+//                ),
+//                Double.parseDouble(price.getText().toString())
+//        );
+//        prices.add(p);
+//        addPricesToTable(pricesTable,p);
+//        clearPriceInputs();
+//    }
 
     public String getDateFromPicker(String date){
 

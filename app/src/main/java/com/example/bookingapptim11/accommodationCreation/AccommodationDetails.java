@@ -56,10 +56,15 @@ public class AccommodationDetails implements Parcelable {
     @Expose
     AccommodationStatus status;
 
+    @SerializedName("cancellationDays")
+    @Expose
+    int cancellationDays;
+
     public AccommodationDetails() {
     }
 
-    public AccommodationDetails(Long id, String ownerEmail, String name, String description, String location, Double defaultPrice, List<String> photos, int minGuests, int maxGuests, Long created, String type, PriceType priceType, AccommodationStatus status) {
+    public AccommodationDetails(Long id, String ownerEmail, String name, String description, String location, Double defaultPrice, List<String> photos, int minGuests,
+                                int maxGuests, Long created, String type, PriceType priceType, AccommodationStatus status,int cancellationDays) {
         this.id = id;
         this.ownerEmail = ownerEmail;
         this.name = name;
@@ -73,6 +78,7 @@ public class AccommodationDetails implements Parcelable {
         this.type = type;
         this.priceType = priceType;
         this.status = status;
+        this.cancellationDays = cancellationDays;
     }
 
     protected AccommodationDetails(Parcel in) {
@@ -107,6 +113,14 @@ public class AccommodationDetails implements Parcelable {
             return new AccommodationDetails[size];
         }
     };
+
+    public int getCancellationDays() {
+        return cancellationDays;
+    }
+
+    public void setCancellationDays(int cancellationDays) {
+        this.cancellationDays = cancellationDays;
+    }
 
     public Long getId() {
         return id;

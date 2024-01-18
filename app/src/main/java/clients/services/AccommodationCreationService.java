@@ -12,6 +12,7 @@ import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -32,14 +33,14 @@ public interface AccommodationCreationService {
             "Content-Type:application/json"
     })
     @POST("accommodations")
-    Call<AccommodationDetails> createAccommodation(@Body AccommodationDetails accommodation);
+    Call<AccommodationDetails> createAccommodation(@Body AccommodationDetails accommodation, @Header("Authorization") String authorizationHeader);
 
     @Headers({
             "User-Agent: Mobile-Android",
             "Content-Type:application/json"
     })
     @GET("accommodations/{id}/amenity")
-    Call<List<Amenity>> getAmenitiesByAccommodationId(@Path("id")Long id);
+    Call<List<Amenity>> getAmenitiesByAccommodationId(@Path("id")Long id, @Header("Authorization") String authorizationHeader);
 
 
     @Headers({
@@ -47,7 +48,7 @@ public interface AccommodationCreationService {
             "Content-Type:application/json"
     })
     @GET("availabilities/available/{id}")
-    Call<List<Availability>> getAvailabilitiesByAccommodationId(@Path("id")Long id);
+    Call<List<Availability>> getAvailabilitiesByAccommodationId(@Path("id")Long id, @Header("Authorization") String authorizationHeader);
 
     @Headers({
             "User-Agent: Mobile-Android",
