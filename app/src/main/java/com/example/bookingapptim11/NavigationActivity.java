@@ -45,7 +45,7 @@ public class NavigationActivity extends AppCompatActivity implements UserRoleCha
         setSupportActionBar(binding.appBarNavigation.toolbar);
 
         DrawerLayout drawer = binding.drawerLayout;
-        NavigationView navigationView = binding.navView;
+        navigationView = binding.navView;
 
         navigationView.getMenu().clear();
 
@@ -114,6 +114,12 @@ public class NavigationActivity extends AppCompatActivity implements UserRoleCha
         NavigationUI.setupWithNavController(navigationView, navController);
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AuthManager.addListener(this);
     }
 
     @Override
