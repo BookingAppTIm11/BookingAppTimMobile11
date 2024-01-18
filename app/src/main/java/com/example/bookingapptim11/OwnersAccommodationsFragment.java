@@ -1,5 +1,7 @@
 package com.example.bookingapptim11;
 
+import static clients.ClientUtils.accommodationService;
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -15,8 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import adapters.OwnersAccommodationsAdapter;
-import clients.ClientUtils;
 import login.AuthManager;
+
 import com.example.bookingapptim11.models.AccommodationDetailsDTO;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,7 +41,7 @@ public class OwnersAccommodationsFragment extends Fragment {
         recyclerView = root.findViewById(R.id.ownersAccommodations);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.VERTICAL,false));
         accommodations = new ArrayList<>();
-        Call<ArrayList<AccommodationDetailsDTO>> call = ClientUtils.accommodationService.getOwnersAccommodations(AuthManager.getUserEmail());
+        Call<ArrayList<AccommodationDetailsDTO>> call = accommodationService.getOwnersAccommodations(AuthManager.getUserEmail(), "Bearer "+AuthManager.getToken());
         call.enqueue(new Callback<ArrayList<AccommodationDetailsDTO>>() {
             @Override
             public void onResponse(Call<ArrayList<AccommodationDetailsDTO>> call, Response<ArrayList<AccommodationDetailsDTO>> response) {
@@ -65,4 +67,6 @@ public class OwnersAccommodationsFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
     }
+
+
 }

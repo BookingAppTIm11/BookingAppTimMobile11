@@ -45,7 +45,7 @@ public class NavigationActivity extends AppCompatActivity implements UserRoleCha
         setSupportActionBar(binding.appBarNavigation.toolbar);
 
         DrawerLayout drawer = binding.drawerLayout;
-        NavigationView navigationView = binding.navView;
+        navigationView = binding.navView;
 
         navigationView.getMenu().clear();
 
@@ -87,7 +87,14 @@ public class NavigationActivity extends AppCompatActivity implements UserRoleCha
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_profile, R.id.accommodation_requests, R.id.my_accommodations, R.id.update_accommodations, R.id.create_accommodations)
+                R.id.nav_home,
+                R.id.nav_profile,
+                R.id.accommodation_requests,
+                R.id.my_accommodations,
+                R.id.update_accommodations,
+                R.id.create_accommodations,
+                R.id.favorite_accommodations,
+                R.id.profit_statistics)
                 .setOpenableLayout(drawer)
                 .build();
 
@@ -107,6 +114,12 @@ public class NavigationActivity extends AppCompatActivity implements UserRoleCha
         NavigationUI.setupWithNavController(navigationView, navController);
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AuthManager.addListener(this);
     }
 
     @Override

@@ -34,6 +34,12 @@ public class AuthManager {
         }
     }
 
+    public static String getToken() {
+        checkSharedPreferences();
+        return sharedPreferences.getString(TOKEN, null);
+    }
+
+
     private static void checkSharedPreferences(){
         if (sharedPreferences == null) {
             throw new IllegalStateException("SharedPreferences not initialized. Call initialize method first.");

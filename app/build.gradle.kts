@@ -69,5 +69,7 @@ dependencies {
     implementation ("com.karumi:dexter:6.2.2")
     implementation ("androidx.activity:activity-ktx:1.4.0")
     implementation ("androidx.fragment:fragment-ktx:1.4.0")
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
 
 }
