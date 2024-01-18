@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:context=".fragments.StatisticsOwnersFragment">
+
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start Date" />
+
+    <EditText
+        android:id="@+id/startTextDate"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:allowClickWhenDisabled="true"
+        android:ems="10"
+        android:enabled="false"
+        android:inputType="date"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/startYearPickerLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="End Date" />
+
+    <EditText
+        android:id="@+id/endTextDate"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:allowClickWhenDisabled="true"
+        android:ems="10"
+        android:enabled="false"
+        android:inputType="date" />
+
+    <TextView
+        android:id="@+id/endYearPickerLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="End Date" />
+
+    <Spinner
+        android:id="@+id/yearPickerSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/getStatisticsButton"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginRight="0dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/light_orange"
+            android:shadowRadius="30"
+            android:text="CALCULATE"
+            android:textColor="@color/white"
+            android:textColorHighlight="#FFFFFF"
+            android:textColorHint="#FFFFFF"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/getPdfButton"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginRight="0dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/light_orange"
+            android:shadowRadius="30"
+            android:text="GET PDF"
+            android:textColor="@color/white"
+            android:textColorHighlight="#FFFFFF"
+            android:textColorHint="#FFFFFF"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/accommodationStatsLabel1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/number_of_reservations_in_time_span"
+                android:textSize="16sp" />
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/reservationsTimeSpan"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
+
+            <TextView
+                android:id="@+id/accommodationStatsLabel2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/profit_in_time_span"
+                android:textSize="16sp" />
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/profitTimeSpan"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
+            <TextView
+                android:id="@+id/accommodationStatsLabel3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/number_of_reservations_yearly"
+                android:textSize="16sp" />
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/reservationsYearly"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
+
+            <TextView
+                android:id="@+id/accommodationStatsLabel4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/profit_yearly"
+                android:textSize="16sp" />
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/profitYearly"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

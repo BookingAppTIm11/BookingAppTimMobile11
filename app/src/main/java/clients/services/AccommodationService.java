@@ -3,7 +3,11 @@ package clients.services;
 import android.database.Observable;
 
 import com.example.bookingapptim11.dto.AccommodationIsAutomaticApprovalDto;
+import com.example.bookingapptim11.dto.AccommodationNumberOfReservations;
+import com.example.bookingapptim11.dto.AccommodationProfitDTO;
 import com.example.bookingapptim11.dto.AccommodationWithAmenitiesDTO;
+import com.example.bookingapptim11.dto.AccommodationYearlyNumberOfReservations;
+import com.example.bookingapptim11.dto.AccommodationYearlyProfitDTO;
 import com.example.bookingapptim11.dto.FavoriteAccommodationDTO;
 import com.example.bookingapptim11.models.AccommodationDetailsDTO;
 import com.example.bookingapptim11.models.Availability;
@@ -12,6 +16,7 @@ import com.example.bookingapptim11.models.ReservationDTO;
 import com.example.bookingapptim11.models.ReservationForShowDTO;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import login.AuthManager;
 import retrofit2.Call;
@@ -105,5 +110,28 @@ public interface AccommodationService {
 
     @GET("accommodations/{id}/approval")
     Call<AccommodationIsAutomaticApprovalDto> getAccommodationIsAutomaticApprovalById(@Path("id") long id);
+
+    @GET("reservations/statistics/number_of_reservations")
+    Call<Collection<AccommodationNumberOfReservations>> getStatisticNumberReservationsTimeSpan(
+            @Query("startDate") Long startDate,
+            @Query("endDate") Long endDate,
+            @Query("username") String username
+    );
+
+    @GET("reservations/statistics/profit")
+    Call<Collection<AccommodationProfitDTO>> getStatisticProfitTimeSpan(
+            @Query("startDate") Long startDate,
+            @Query("endDate") Long endDate,
+            @Query("username") String username
+    );
+
+    @GET("reservations/statistics/yearly_number_of_reservations")
+    Call<Collection<AccommodationYearlyNumberOfReservations>> getStatisticReservationsYearly(
+            @Query("year") Integer year,
+            @Query("username") String username);
+    @GET("reservations/statistics/yearly_profit")
+    Call<Collection<AccommodationYearlyProfitDTO>> getStatisticProfitYearly(
+            @Query("year") Integer year,
+            @Query("username") String username);
 }
 

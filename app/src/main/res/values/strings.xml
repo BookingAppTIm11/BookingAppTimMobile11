@@ -156,4 +156,8 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="number_of_reservations_in_time_span">Number Of Reservations in Time-span</string>
+    <string name="profit_in_time_span">Profit in Time Span</string>
+    <string name="number_of_reservations_yearly">Number of Reservations Yearly</string>
+    <string name="profit_yearly">Profit Yearly</string>
 </resources>
