@@ -1,14 +1,27 @@
 package com.example.bookingapptim11.fragments;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 import static clients.ClientUtils.accommodationService;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
+import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +45,13 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.google.android.material.snackbar.Snackbar;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -44,6 +63,7 @@ import java.util.List;
 import java.util.Random;
 
 import login.AuthManager;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -61,6 +81,7 @@ public class StatisticsOwnersFragment extends Fragment {
 
     private List<BarDataSet> dataSetList;
     private Button calculateButton;
+    private Button pdfButton;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -72,9 +93,110 @@ public class StatisticsOwnersFragment extends Fragment {
         setupCharts(root);
 
         setupCalculateButton(root);
-
+        setupDownloadPdfButton(root);
 
         return root;
+    }
+
+    private void setupDownloadPdfButton(View root) {
+        if(!isStoragePermissionGranted(getActivity())){
+            return;
+        }
+
+        pdfButton = root.findViewById(R.id.getPdfButton);
+        pdfButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText startTextDate = root.findViewById(R.id.startTextDate);
+                EditText endTextDate = root.findViewById(R.id.endTextDate);
+
+                String startDate = startTextDate.getText().toString().trim();
+                String endDate = endTextDate.getText().toString().trim();
+
+                if (!startDate.isEmpty() && !endDate.isEmpty() && !yearSpinner.isSelected()) {
+                    LocalDateTime checkInDateTime = LocalDate.parse(convertDateFormatForBackend(startDate)).atStartOfDay();
+                    LocalDateTime checkOutDateTime = LocalDate.parse(convertDateFormatForBackend(endDate)).atStartOfDay();
+                    Long checkInSeconds = checkInDateTime.atZone(ZoneOffset.UTC).toEpochSecond();
+                    Long checkOutSeconds = checkOutDateTime.atZone(ZoneOffset.UTC).toEpochSecond();
+                    Integer yearSelected = Integer.valueOf(yearSpinner.getSelectedItem().toString());
+
+                    callDownloadPdf(checkInSeconds,checkOutSeconds,yearSelected);
+
+                } else {
+                    // Show a message indicating that the fields are empty
+                    Toast.makeText(getContext(),"Please enter start/end dates and year", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            private void callDownloadPdf(Long checkInSeconds, Long checkOutSeconds, Integer yearSelected) {
+                Call<ResponseBody> call = accommodationService.getStatisticPdf(checkInSeconds, checkOutSeconds, yearSelected, AuthManager.getUserEmail());
+
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                        if (response.isSuccessful() && response.body() != null) {
+
+                            try (ResponseBody responseBody = response.body()) {
+                                // Create a unique file name with timestamp
+                                String fileName = "Statistics_" + System.currentTimeMillis() + ".pdf";
+
+                                // Create a file in the Downloads directory
+                                File futureStudioIconFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName);
+
+                                try (InputStream inputStream = response.body().byteStream();
+                                     OutputStream outputStream = new FileOutputStream(futureStudioIconFile)) {
+
+                                    byte[] fileReader = new byte[4096];
+                                    long fileSize = response.body().contentLength();
+                                    long fileSizeDownloaded = 0;
+
+                                    while (true) {
+                                        int read = inputStream.read(fileReader);
+                                        if (read == -1) {
+                                            break;
+                                        }
+
+                                        outputStream.write(fileReader, 0, read);
+                                        fileSizeDownloaded += read;
+
+                                        Log.d(TAG, "File download: " + fileSizeDownloaded + " of " + fileSize);
+                                    }
+
+                                    outputStream.flush();
+
+                                    try {
+                                        // Use FileProvider to get a content URI
+                                        Uri fileUri = FileProvider.getUriForFile(getContext(), "com.example.bookingapptim11.fileprovider", futureStudioIconFile);
+
+                                        // Create an intent to view the PDF
+                                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                                        intent.setDataAndType(fileUri, "application/pdf");
+                                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // Grant read permission
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+                                        // Start the activity
+                                        startActivity(intent);
+                                    } catch (ActivityNotFoundException e) {
+                                        Snackbar.make(getContext(),getView(), "No PDF reader found to open this file.", Snackbar.LENGTH_LONG).show();
+                                    }
+
+                                } catch (IOException e) {
+                                    Log.e(TAG, "Error during file download", e);
+                                }
+                                // Now you can use pdfBytes as needed, e.g., save it to a file or display it
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        // Handle failure, such as network error
+                        t.printStackTrace();
+                    }
+                });
+            }
+        });
     }
 
     private void setupCalculateButton(View root) {
@@ -482,5 +604,20 @@ public class StatisticsOwnersFragment extends Fragment {
 
         // Format the LocalDate object to the desired output format
         return localDate.format(outputFormatter);
+    }
+
+
+    public static boolean isStoragePermissionGranted(Activity activity) {
+
+        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED) { // Fix here
+            //Log.v(TAG, "Permission is granted");
+            return true;
+        } else {
+            //Toast.makeText(getApplicationContext(), "Permission is revoked",Toast.LENGTH_SHORT).show();
+            //Log.v(TAG, "Permission is revoked");
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            return false;
+        }
     }
 }

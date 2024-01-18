@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import login.AuthManager;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -131,6 +132,13 @@ public interface AccommodationService {
             @Query("username") String username);
     @GET("reservations/statistics/yearly_profit")
     Call<Collection<AccommodationYearlyProfitDTO>> getStatisticProfitYearly(
+            @Query("year") Integer year,
+            @Query("username") String username);
+
+    @GET("reservations/statistics/pdf")
+    Call<ResponseBody> getStatisticPdf(
+            @Query("startDate") Long startDate,
+            @Query("endDate") Long endDate,
             @Query("year") Integer year,
             @Query("username") String username);
 }
