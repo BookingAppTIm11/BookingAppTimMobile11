@@ -74,22 +74,9 @@ public class RegisterScreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    String role = checkUserRole(guestChoice,ownerChoice);
-                    UserRegistration registeredUser = new UserRegistration(
-                            email.getText().toString().trim(),
-                            password.getText().toString().trim(),
-                            false,
-                            name.getText().toString().trim(),
-                            lastName.getText().toString().trim(),
-                            address.getText().toString().trim(),
-                            phone.getText().toString().trim(),
-                            role);
-
-                    validateUser(registeredUser);
-
+                    validateUser();
                 } catch (Exception e) {
-                    Toast.makeText(RegisterScreenActivity.this,e.getMessage(), Toast.LENGTH_LONG).show();
-
+                    throw new RuntimeException(e);
                 }
             }
         });
@@ -111,35 +98,48 @@ public class RegisterScreenActivity extends AppCompatActivity {
         Intent intent = new Intent(RegisterScreenActivity.this, LoginScreenActivity.class);
         startActivity(intent);
     }
-    private void validateUser(UserRegistration registeredUser) throws Exception {
+    private void validateUser() throws Exception {
 
-        if (!Validate.isValidInputWithSpaces(registeredUser.getName())) {
+        if (!Validate.isValidInputWithSpaces(name.getText().toString())) {
             Toast.makeText(RegisterScreenActivity.this, "First name should contain only letters and spaces.", Toast.LENGTH_LONG).show();
         }
-        else if (!Validate.isValidInputWithSpaces(registeredUser.getLastName())) {
+        else if (!Validate.isValidInputWithSpaces(lastName.getText().toString())) {
             Toast.makeText(RegisterScreenActivity.this, "Last name should contain only letters and spaces.", Toast.LENGTH_LONG).show();
         }
-        else if (!Validate.isValidEmail(registeredUser.getEmail())) {
+        else if (!Validate.isValidEmail(email.getText().toString())) {
             Toast.makeText(RegisterScreenActivity.this, "Invalid email address.", Toast.LENGTH_LONG).show();
         }
-        else if (registeredUser.getPassword().length() < 3) {
+        else if (password.getText().toString().trim().length() < 3) {
             Toast.makeText(RegisterScreenActivity.this, "Password must have more than 3 letters", Toast.LENGTH_LONG).show();
         }
-        else if (!Validate.isValidAlphanumericWithSpaces(registeredUser.getAddress())) {
+        else if (!Validate.isValidAlphanumericWithSpaces(address.getText().toString())) {
             Toast.makeText(RegisterScreenActivity.this, "Address should contain only letters, numbers, and spaces.", Toast.LENGTH_LONG).show();
         }
-        else if (!Validate.containsOnlyNumbers(registeredUser.getPhoneNumber())) {
+        else if (!Validate.containsOnlyNumbers(phone.getText().toString())) {
             Toast.makeText(RegisterScreenActivity.this, "Phone number should contain only numbers.", Toast.LENGTH_LONG).show();
         }
-        else if(!registeredUser.getPassword().equals(confirmPassword.getText().toString())){
+        else if(!password.getText().toString().equals(confirmPassword.getText().toString())){
             Toast.makeText(RegisterScreenActivity.this, "Passwords must mach", Toast.LENGTH_LONG).show();
         }else{
-            registerUser(registeredUser);
+            registerUser(getRegisteredUserData());
             Toast.makeText(RegisterScreenActivity.this,"Verification email has been sent. Click on the link to activate the account! ", Toast.LENGTH_LONG).show();
             changeToLoginScreen();
         }
       }
 
+      public UserRegistration getRegisteredUserData() throws Exception {
+          String role = checkUserRole(guestChoice,ownerChoice);
+          UserRegistration registeredUser = new UserRegistration(
+                  email.getText().toString().trim(),
+                  password.getText().toString().trim(),
+                  false,
+                  name.getText().toString().trim(),
+                  lastName.getText().toString().trim(),
+                  address.getText().toString().trim(),
+                  phone.getText().toString().trim(),
+                  role);
+          return registeredUser;
+      }
 
     private String checkUserRole(CheckBox guest, CheckBox owner) throws Exception{
         if (guest.isChecked() && !owner.isChecked()) {
