@@ -469,7 +469,11 @@ public class AmenityDetailsFragment extends Fragment{
     }
 
     private void bookReservation() {
-        if(!validateInputs()) return;
+        if(!validateInputs() ||!AuthManager.getUserRole().equals("Guest")) {
+            Toast.makeText(getContext(), "Failed to create reservation", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         String checkInDateStr = checkInDateEditText.getText().toString();
         String checkOutDateStr = checkOutDateEditText.getText().toString();
         String guestsStr = guestsEditText.getText().toString();
@@ -480,7 +484,7 @@ public class AmenityDetailsFragment extends Fragment{
         Long checkInSeconds = checkInDateTime.atZone(ZoneOffset.UTC).toEpochSecond();
         Long checkOutSeconds = checkOutDateTime.atZone(ZoneOffset.UTC).toEpochSecond();
 
-        createReservation(new ReservationDTO(0,accommodation.getId(),"ognjen_guest@gmail.com",checkInSeconds,checkOutSeconds,Integer.parseInt(guestsStr)));
+        createReservation(new ReservationDTO(0,accommodation.getId(),AuthManager.getUserEmail(),checkInSeconds,checkOutSeconds,Integer.parseInt(guestsStr)));
     }
 
 

@@ -17,6 +17,10 @@
             android:icon="@drawable/baseline_home_24"
             android:title="@string/my_accommodations" />
         <item
+            android:id="@+id/my_reservations"
+            android:icon="@drawable/baseline_home_24"
+            android:title="@string/my_reservations" />
+        <item
             android:id="@+id/create_accommodations"
             android:icon="@drawable/baseline_home_24"
             android:title="@string/create_accommodation" />
