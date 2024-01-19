@@ -19,6 +19,7 @@ import clients.ClientUtils;
 
 import com.example.bookingapptim11.models.AccommodationDetailsDTO;
 
+import login.AuthManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,7 +41,7 @@ public class AccommodationRequestsFragment extends Fragment {
         recyclerView = root.findViewById(R.id.accommodationRequests);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.VERTICAL,false));
         accommodations = new ArrayList<>();
-        Call<ArrayList<AccommodationDetailsDTO>> call = ClientUtils.accommodationService.getInactiveAccommodations();
+        Call<ArrayList<AccommodationDetailsDTO>> call = ClientUtils.accommodationService.getInactiveAccommodations("Bearer " + AuthManager.getToken());
         call.enqueue(new Callback<ArrayList<AccommodationDetailsDTO>>() {
             @Override
             public void onResponse(Call<ArrayList<AccommodationDetailsDTO>> call, Response<ArrayList<AccommodationDetailsDTO>> response) {

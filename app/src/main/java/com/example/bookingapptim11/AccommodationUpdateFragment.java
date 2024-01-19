@@ -217,7 +217,7 @@ public class AccommodationUpdateFragment extends Fragment {
             selectedAccommodation.setDefaultPrice(Double.parseDouble(defaultPrice.getText().toString()));
             selectedAccommodation.setStatus(AccommodationStatus.Pending);
 
-            Call<AccommodationDetailsDTO> call = ClientUtils.accommodationService.updateAccommodation(selectedAccommodation.getId(), selectedAccommodation);
+            Call<AccommodationDetailsDTO> call = ClientUtils.accommodationService.updateAccommodation(selectedAccommodation.getId(), selectedAccommodation, "Bearer " + AuthManager.getToken());
             call.enqueue(new Callback<AccommodationDetailsDTO>() {
                 @Override
                 public void onResponse(Call<AccommodationDetailsDTO> call, Response<AccommodationDetailsDTO> response) {

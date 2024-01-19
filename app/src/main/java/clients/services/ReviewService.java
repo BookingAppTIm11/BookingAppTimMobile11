@@ -27,6 +27,13 @@ public interface ReviewService {
             "User-Agent: Mobile-Android",
             "Content-Type:application/json"
     })
+    @GET("reviews")
+    Call<ArrayList<Review>> getReviews();
+
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type:application/json"
+    })
     @GET("reviews/owner/{email}")
     Call<ArrayList<Review>> getReviewsByOwnerEmail(@Path("email") String email, @Header("Authorization") String authorizationHeader);
 
