@@ -22,6 +22,7 @@ import clients.ClientUtils;
 import com.example.bookingapptim11.models.AccommodationDetailsDTO;
 import com.example.bookingapptim11.models.AccommodationStatus;
 
+import login.AuthManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -70,7 +71,7 @@ public class AccommodationRequestAdapter extends RecyclerView.Adapter<Accommodat
             public void onClick(View view) {
                 int clickedPosition = holder.getAdapterPosition();
                 data.get(clickedPosition).setStatus(AccommodationStatus.Active);
-                Call<AccommodationDetailsDTO> call = ClientUtils.accommodationService.updateAccommodation(data.get(clickedPosition).getId(), data.get(clickedPosition));
+                Call<AccommodationDetailsDTO> call = ClientUtils.accommodationService.updateAccommodation(data.get(clickedPosition).getId(), data.get(clickedPosition), "Bearer " + AuthManager.getToken());
                 call.enqueue(new Callback<AccommodationDetailsDTO>() {
                     @Override
                     public void onResponse(Call<AccommodationDetailsDTO> call, Response<AccommodationDetailsDTO> response) {
@@ -96,7 +97,7 @@ public class AccommodationRequestAdapter extends RecyclerView.Adapter<Accommodat
             public void onClick(View view) {
                 int clickedPosition = holder.getAdapterPosition();
                 data.get(clickedPosition).setStatus(AccommodationStatus.Declined);
-                Call<AccommodationDetailsDTO> call = ClientUtils.accommodationService.updateAccommodation(data.get(clickedPosition).getId(), data.get(clickedPosition));
+                Call<AccommodationDetailsDTO> call = ClientUtils.accommodationService.updateAccommodation(data.get(clickedPosition).getId(), data.get(clickedPosition), "Bearer " + AuthManager.getToken());
                 call.enqueue(new Callback<AccommodationDetailsDTO>() {
                     @Override
                     public void onResponse(Call<AccommodationDetailsDTO> call, Response<AccommodationDetailsDTO> response) {

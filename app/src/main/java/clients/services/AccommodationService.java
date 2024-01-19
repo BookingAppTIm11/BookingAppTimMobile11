@@ -58,7 +58,7 @@ public interface AccommodationService {
             "Content-Type:application/json"
     })
     @GET("accommodations/inactive")
-    Call<ArrayList<AccommodationDetailsDTO>> getInactiveAccommodations();
+    Call<ArrayList<AccommodationDetailsDTO>> getInactiveAccommodations(@Header("Authorization") String authorization);
 
     @Headers({
             "User-Agent: Mobile-Android",
@@ -79,7 +79,7 @@ public interface AccommodationService {
             "Content-Type:application/json"
     })
     @PUT("accommodations/{id}")
-    Call<AccommodationDetailsDTO> updateAccommodation(@Path("id") Long id, @Body AccommodationDetailsDTO accommodationDetailsDTO);
+    Call<AccommodationDetailsDTO> updateAccommodation(@Path("id") Long id, @Body AccommodationDetailsDTO accommodationDetailsDTO, @Header("Authorization") String authorization);
 
 
     @PUT("users/{username}/favorite_accommodation")

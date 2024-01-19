@@ -75,6 +75,11 @@
         android:name="com.example.bookingapptim11.fragments.GuestReservationsFragment"
         android:label="My reservations"
         tools:layout="@layout/fragment_guest_reservations" />
+    <fragment
+        android:id="@+id/admin_reviews"
+        android:name="com.example.bookingapptim11.fragments.AdminRatingsFragment"
+        android:label="Reviews"
+        tools:layout="@layout/fragment_admin_ratings" />
 
 
 </navigation>
