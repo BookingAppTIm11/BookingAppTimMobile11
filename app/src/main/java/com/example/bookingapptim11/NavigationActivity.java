@@ -94,7 +94,8 @@ public class NavigationActivity extends AppCompatActivity implements UserRoleCha
                 R.id.update_accommodations,
                 R.id.create_accommodations,
                 R.id.favorite_accommodations,
-                R.id.profit_statistics)
+                R.id.profit_statistics,
+                R.id.owner_notifications)
                 .setOpenableLayout(drawer)
                 .build();
 
