@@ -1,6 +1,10 @@
 package clients.services;
 
+import com.example.bookingapptim11.dto.NotificationDTO;
 import com.example.bookingapptim11.models.Profile;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -33,4 +37,10 @@ public interface ProfileService {
     Call<Void> delete(@Path("email") String email);
 
 
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type:application/json"
+    })
+    @GET("notifications/user/{email}")
+    Call<Collection<NotificationDTO>> getNotificationsByEmail(@Path("email") String userEmail);
 }

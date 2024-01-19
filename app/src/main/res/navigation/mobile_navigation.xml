@@ -61,6 +61,12 @@
         android:label="Profit Statistics"
         tools:layout="@layout/fragment_statistics_owners" />
     <fragment
+
+        android:id="@+id/owner_notifications"
+        android:name="com.example.bookingapptim11.fragments.NotificationOwnersFragment"
+        android:label="Notifications"
+        tools:layout="@layout/fragment_notification_owners" />
+    <fragment
         android:id="@+id/my_reservations"
         android:name="com.example.bookingapptim11.fragments.OwnerReservationsFragment"
         android:label="My reservations"
