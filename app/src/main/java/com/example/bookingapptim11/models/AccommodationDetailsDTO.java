@@ -22,6 +22,24 @@ public class AccommodationDetailsDTO implements Parcelable {
     String type;
     PriceType priceType;
     AccommodationStatus status;
+    int cancellationDays;
+
+    public AccommodationDetailsDTO(Long id, String ownerEmail, String name, String description, String location, Double defaultPrice, List<String> photos, int minGuests, int maxGuests, Long created, String type, PriceType priceType, AccommodationStatus status, int cancellationDays) {
+        this.id = id;
+        this.ownerEmail = ownerEmail;
+        this.name = name;
+        this.description = description;
+        this.location = location;
+        this.defaultPrice = defaultPrice;
+        this.photos = photos;
+        this.minGuests = minGuests;
+        this.maxGuests = maxGuests;
+        this.created = created;
+        this.type = type;
+        this.priceType = priceType;
+        this.status = status;
+        this.cancellationDays = cancellationDays;
+    }
 
     public AccommodationDetailsDTO(Long id, String ownerEmail, String name, String description, String location, Double defaultPrice, List<String> photos, int minGuests, int maxGuests, Long created) {
         this.id = id;
@@ -52,6 +70,13 @@ public class AccommodationDetailsDTO implements Parcelable {
         this.status = status;
     }
 
+    public int getCancellationDays() {
+        return cancellationDays;
+    }
+
+    public void setCancellationDays(int cancellationDays) {
+        this.cancellationDays = cancellationDays;
+    }
 
     public String getType() {
         return type;
@@ -174,6 +199,7 @@ public class AccommodationDetailsDTO implements Parcelable {
         type = in.readString();
         priceType = PriceType.valueOf(in.readString());
         status = AccommodationStatus.valueOf(in.readString());
+        cancellationDays = in.readInt();
     }
     @Override
     public int describeContents() {
@@ -197,6 +223,7 @@ public class AccommodationDetailsDTO implements Parcelable {
         dest.writeString(type);
         dest.writeString(priceType.name());
         dest.writeString(status.name());
+        dest.writeInt(cancellationDays);
     }
 
     public static final Creator<AccommodationDetailsDTO> CREATOR = new Creator<AccommodationDetailsDTO>() {
