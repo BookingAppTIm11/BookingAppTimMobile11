@@ -480,7 +480,7 @@ public class AmenityDetailsFragment extends Fragment{
         Long checkInSeconds = checkInDateTime.atZone(ZoneOffset.UTC).toEpochSecond();
         Long checkOutSeconds = checkOutDateTime.atZone(ZoneOffset.UTC).toEpochSecond();
 
-        createReservation(new ReservationDTO(0,accommodation.getId(),"ognjen_guest@gmail.com",checkInSeconds,checkOutSeconds,Integer.parseInt(guestsStr)));
+        createReservation(new ReservationDTO(0,accommodation.getId(),AuthManager.getUserEmail(),checkInSeconds,checkOutSeconds,Integer.parseInt(guestsStr)));
     }
 
 
