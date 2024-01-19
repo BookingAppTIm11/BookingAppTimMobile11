@@ -34,10 +34,10 @@ public class AuthManager {
         }
     }
 
-    public static String getToken() {
+    /*public static String getToken() {
         checkSharedPreferences();
         return sharedPreferences.getString(TOKEN, null);
-    }
+    }*/
 
 
     private static void checkSharedPreferences(){
