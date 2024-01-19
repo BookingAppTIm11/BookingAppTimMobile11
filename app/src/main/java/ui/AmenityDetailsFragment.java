@@ -469,7 +469,11 @@ public class AmenityDetailsFragment extends Fragment{
     }
 
     private void bookReservation() {
-        if(!validateInputs()) return;
+        if(!validateInputs() ||!AuthManager.getUserRole().equals("Guest")) {
+            Toast.makeText(getContext(), "Failed to create reservation", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         String checkInDateStr = checkInDateEditText.getText().toString();
         String checkOutDateStr = checkOutDateEditText.getText().toString();
         String guestsStr = guestsEditText.getText().toString();
