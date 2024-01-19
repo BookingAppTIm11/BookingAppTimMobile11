@@ -73,10 +73,7 @@ public class AuthManager {
         checkSharedPreferences();
         return sharedPreferences.getString(ROLE_KEY, null);
     }
-    public static String getToken() {
-        checkSharedPreferences();
-        return sharedPreferences.getString(TOKEN, null);
-    }
+
 
     public static String logOut(Context context){
         checkSharedPreferences();
