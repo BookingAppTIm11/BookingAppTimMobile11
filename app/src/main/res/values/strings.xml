@@ -163,4 +163,11 @@
     <string name="profit_in_time_span">Profit in Time Span</string>
     <string name="number_of_reservations_yearly">Number of Reservations Yearly</string>
     <string name="profit_yearly">Profit Yearly</string>
+    <string name="reservation_requests_notifications">Reservation Requests Notifications</string>
+    <string name="reservation_cancellation_notifications">Reservation Cancellation Notifications</string>
+    <string name="rating_notifications">Rating Notifications</string>
+    <string name="accommodation_rating_notifications">Accommodation Rating Notifications</string>
+    <string name="profit_statistics">Profit Statistics</string>
+    <string name="notifications_owner">Notifications</string>
+    <string name="favorite_accommodations">Favorite Accommodations</string>
 </resources>

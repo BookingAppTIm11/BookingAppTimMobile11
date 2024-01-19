@@ -11,6 +11,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ReservationService {
 
@@ -27,8 +28,17 @@ public interface ReservationService {
     Call<OwnerReservation> declineReservation(
             @Path("reservationId") Long reservationId
     );
+
     @PUT("reservations/cancel/{reservationId}")
     Call<GuestReservation> cancelReservation(
             @Path("reservationId") Long reservationId
+    );
+  
+    @GET("reservations/owner/search")
+    Call<ArrayList<OwnerReservation>> searchOwnersReservations(
+            @Query("startDate") Long startDate,
+            @Query("endDate") Long endDate,
+            @Query("accommodationName") String accommodationName,
+            @Query("email") String email
     );
 }

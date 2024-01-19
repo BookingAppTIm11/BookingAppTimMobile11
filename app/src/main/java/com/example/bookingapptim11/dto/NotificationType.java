@@ -1,0 +1,5 @@
+package com.example.bookingapptim11.dto;
+
+public enum NotificationType {
+    CREATE_RESERVATIONS, CANCEL_RESERVATIONS, RATING_OWNER, RATING_ACCOMMODATIONS, RESERVATION_RESPONSE
+}

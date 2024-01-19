@@ -2,6 +2,7 @@ package ui;
 
 import static clients.ClientUtils.accommodationService;
 import static clients.ClientUtils.authService;
+import static clients.ClientUtils.profileService;
 import static clients.ClientUtils.reviewService;
 
 import android.Manifest;
@@ -39,6 +40,8 @@ import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.bookingapptim11.NavigationActivity;
 import com.example.bookingapptim11.R;
 
+import com.example.bookingapptim11.dto.NotificationDTO;
+import com.example.bookingapptim11.dto.NotificationType;
 import com.example.bookingapptim11.fragments.AccommodationReviewsFragment;
 import com.example.bookingapptim11.fragments.OwnerReviewsFragment;
 
@@ -49,6 +52,7 @@ import com.example.bookingapptim11.models.AccommodationType;
 import com.example.bookingapptim11.models.Availability;
 import com.example.bookingapptim11.models.ReservationDTO;
 import com.example.bookingapptim11.models.ReservationForShowDTO;
+import com.example.bookingapptim11.models.ReservationStatus;
 import com.example.bookingapptim11.models.Review;
 import com.example.bookingapptim11.ui.util.MapFragment;
 import com.google.android.gms.maps.GoogleMap;
@@ -185,6 +189,8 @@ public class AmenityDetailsFragment extends Fragment{
 
         LinearLayout ownerReviewForm = root.findViewById(R.id.ownerReviewLayout);
         LinearLayout accommodationReviewForm = root.findViewById(R.id.accommodationReviewLayout);
+        if (AuthManager.getUserRole() == null) return;
+
         if (AuthManager.getUserRole().equals("Guest")) {
             ownerReviewForm.setVisibility(View.VISIBLE);
             accommodationReviewForm.setVisibility(View.VISIBLE);
@@ -196,6 +202,8 @@ public class AmenityDetailsFragment extends Fragment{
     }
 
     private void loadOwnerReviews(){
+        if(AuthManager.getToken() == null) return;
+
         Call<ArrayList<Review>> call = reviewService.getReviewsByOwnerEmail(accommodation.getOwnerEmail(), "Bearer " + AuthManager.getToken());
         call.enqueue(new Callback<ArrayList<Review>>() {
             @Override
@@ -215,6 +223,7 @@ public class AmenityDetailsFragment extends Fragment{
     }
 
     private void loadAccommodationReviews(){
+        if(AuthManager.getToken() == null) return;
         Call<ArrayList<Review>> call = reviewService.getReviewsByAccommodationId(accommodation.getId(),"Bearer " + AuthManager.getToken());
         call.enqueue(new Callback<ArrayList<Review>>() {
             @Override
@@ -254,6 +263,13 @@ public class AmenityDetailsFragment extends Fragment{
     }
     private void favoriteSwitchSetUp(View root) {
         Switch favoriteAccommodationSwitch = root.findViewById(R.id.favoriteAccommodatonSwitch);
+        if(AuthManager.getUserRole() == null)
+        {
+            favoriteAccommodationSwitch.setVisibility(View.GONE);
+            return;
+        }
+
+
         String userRole = AuthManager.getUserRole();
 // Check if the logged-in user has the role "Guest"
         if ("Guest".equals(userRole)) {
@@ -277,6 +293,8 @@ public class AmenityDetailsFragment extends Fragment{
     }
 
     private void isUsersFavoriteAccommodation( Switch favoriteAccommodationSwitch) {
+        if(AuthManager.getUserEmail() == null) return;
+
         String username = AuthManager.getUserEmail();
 
         Call<FavoriteAccommodationDTO> originalCall = accommodationService.isUsersFavoriteAccommodation(username, accommodation.getId());
@@ -297,6 +315,8 @@ public class AmenityDetailsFragment extends Fragment{
     }
 
     private void callSetFavoriteAccommodation(boolean isFavorite) {
+        if(AuthManager.getUserEmail() == null) return;
+
         String username = AuthManager.getUserEmail();
         FavoriteAccommodationDTO favoriteAccommodationDTO = new FavoriteAccommodationDTO(accommodation.getId(),isFavorite);
 
@@ -366,6 +386,9 @@ public class AmenityDetailsFragment extends Fragment{
 
 
     private void reviewOwner(){
+        if(AuthManager.getUserEmail() == null) return;
+
+
         Review ownerReview = new Review(
                 0L,
                 AuthManager.getUserEmail(),
@@ -383,6 +406,8 @@ public class AmenityDetailsFragment extends Fragment{
     }
 
     private void reviewAccommodation(){
+        if(AuthManager.getUserEmail() == null) return;
+
         Review accommodationReview = new Review(
                 0L,
                 AuthManager.getUserEmail(),
@@ -400,6 +425,7 @@ public class AmenityDetailsFragment extends Fragment{
     }
 
     private void createReview(Review reviewDTO){
+        if(AuthManager.getUserEmail() == null) return;
 
         Call<Review> call = reviewService.createReview(reviewDTO, "Bearer " + AuthManager.getToken());
         call.enqueue(new Callback<Review>() {
@@ -469,7 +495,14 @@ public class AmenityDetailsFragment extends Fragment{
     }
 
     private void bookReservation() {
-        if(!validateInputs()) return;
+        if(AuthManager.getUserEmail() == null) return;
+
+
+        if(!validateInputs() ||!AuthManager.getUserRole().equals("Guest")) {
+            Toast.makeText(getContext(), "Failed to create reservation", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         String checkInDateStr = checkInDateEditText.getText().toString();
         String checkOutDateStr = checkOutDateEditText.getText().toString();
         String guestsStr = guestsEditText.getText().toString();
@@ -480,7 +513,7 @@ public class AmenityDetailsFragment extends Fragment{
         Long checkInSeconds = checkInDateTime.atZone(ZoneOffset.UTC).toEpochSecond();
         Long checkOutSeconds = checkOutDateTime.atZone(ZoneOffset.UTC).toEpochSecond();
 
-        createReservation(new ReservationDTO(0,accommodation.getId(),"ognjen_guest@gmail.com",checkInSeconds,checkOutSeconds,Integer.parseInt(guestsStr)));
+        createReservation(new ReservationDTO(0,accommodation.getId(),AuthManager.getUserEmail(),checkInSeconds,checkOutSeconds,Integer.parseInt(guestsStr)));
     }
 
 
@@ -492,18 +525,72 @@ public class AmenityDetailsFragment extends Fragment{
             @Override
             public void onResponse(Call<ReservationForShowDTO> call, Response<ReservationForShowDTO> response) {
                 if (response.isSuccessful()) {
-                    // Reservation created successfully
                     ReservationForShowDTO createdReservation = response.body();
 
                     Toast.makeText(getContext(), "Price: $"+ createdReservation.getPrice() + ", id: " + createdReservation.getId(), Toast.LENGTH_SHORT).show();
                     loadAvailabilitiesIntoDatePickers();
 
-                    // Handle the created reservation data
+                    callCreateNotification(reservationDTO);
+
+                    if(createdReservation.getStatus().equals(ReservationStatus.Accepted)){
+                        callCreateAcceptedNotification(reservationDTO);
+                    }
                 } else {
-                    // Reservation creation failed
-                    // Handle the error (e.g., display a message)
+
                     Toast.makeText(getContext(), "Failed to create reservation", Toast.LENGTH_SHORT).show();
                 }
+            }
+
+            private void callCreateAcceptedNotification(ReservationDTO reservationDTO) {
+                NotificationDTO notificationCreatedDTO = new NotificationDTO(0L,reservationDTO.getGuest(), NotificationType.RESERVATION_RESPONSE, accommodation.getOwnerEmail()+" accepted reservation!");
+
+                Call<NotificationDTO> call = profileService.createNotification(notificationCreatedDTO);
+
+                call.enqueue(new Callback<NotificationDTO>() {
+                    @Override
+                    public void onResponse(Call<NotificationDTO> call, Response<NotificationDTO> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(getContext(), "Guest notified about acceptance!", Toast.LENGTH_SHORT).show();
+
+                        } else {
+
+                            Toast.makeText(getContext(), "Failed to create notification!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<NotificationDTO> call, Throwable t) {
+                        // Reservation creation request failed
+                        // Handle the failure (e.g., display a message)
+                        Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            private void callCreateNotification(ReservationDTO reservationDTO) {
+                NotificationDTO notificationCreatedDTO = new NotificationDTO(0L,accommodation.getOwnerEmail(), NotificationType.CREATE_RESERVATIONS, reservationDTO.getGuest()+" created reservation!");
+
+                Call<NotificationDTO> call = profileService.createNotification(notificationCreatedDTO);
+
+                call.enqueue(new Callback<NotificationDTO>() {
+                    @Override
+                    public void onResponse(Call<NotificationDTO> call, Response<NotificationDTO> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(getContext(), "Owner notified!", Toast.LENGTH_SHORT).show();
+
+                        } else {
+
+                            Toast.makeText(getContext(), "Failed to create notification!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<NotificationDTO> call, Throwable t) {
+                        // Reservation creation request failed
+                        // Handle the failure (e.g., display a message)
+                        Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override

@@ -10,6 +10,28 @@
     android:background="?android:attr/selectableItemBackground">
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:gravity="end"
+            android:id="@+id/cancellationTextLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Cancellations:" />
+
+        <TextView
+            android:id="@+id/cancellationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/accommodationInfoLayout"
         android:layout_width="362dp"
         android:layout_height="wrap_content"
@@ -106,6 +128,16 @@
                     android:textSize="12sp" />
 
             </LinearLayout>
+
+            <Button
+                android:id="@+id/deleteButton"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:backgroundTint="@color/light_orange"
+                android:text="Delete"
+                android:textSize="12sp" />
 
 
         </LinearLayout>

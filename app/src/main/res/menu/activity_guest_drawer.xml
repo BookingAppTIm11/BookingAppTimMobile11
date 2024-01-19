@@ -12,10 +12,7 @@
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_person"
             android:title="@string/menu_profile" />
-        <item
-            android:id="@+id/nav_notifications"
-            android:icon="@drawable/ic_email"
-            android:title="@string/notifications" />
+
         <item
             android:id="@+id/my_reservations_guest"
             android:icon="@drawable/ic_phone"
@@ -29,8 +26,11 @@
         <item
             android:id="@+id/favorite_accommodations"
             android:icon="@drawable/baseline_home_24"
-            android:title="Favorite Accommodations" />
-
+            android:title="@string/favorite_accommodations" />
+        <item
+            android:id="@+id/owner_notifications"
+            android:icon="@drawable/ic_email"
+            android:title="@string/notifications" />
         <item
             android:id="@+id/nav_logOut"
             android:icon="@drawable/baseline_logout_24"

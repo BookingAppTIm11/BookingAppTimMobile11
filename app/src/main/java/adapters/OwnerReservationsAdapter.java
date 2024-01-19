@@ -47,6 +47,7 @@ public class OwnerReservationsAdapter extends RecyclerView.Adapter<OwnerReservat
         holder.guestTextView.setText(String.valueOf(data.get(position).getGuest()));
         holder.dateTextView.setText(String.valueOf(date));
         holder.statusTextView.setText(String.valueOf(data.get(position).getStatus()));
+        holder.cancellationsTextView.setText(String.valueOf(data.get(position).getCancelledReservations()));
 
         holder.acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +109,7 @@ public class OwnerReservationsAdapter extends RecyclerView.Adapter<OwnerReservat
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView idTextView, guestTextView, dateTextView, statusTextView;
+        TextView idTextView, guestTextView, dateTextView, statusTextView, cancellationsTextView;
         Button acceptButton, declineButton;
 
 
@@ -120,6 +121,7 @@ public class OwnerReservationsAdapter extends RecyclerView.Adapter<OwnerReservat
             statusTextView = itemView.findViewById(R.id.statusTextView);
             acceptButton = itemView.findViewById(R.id.acceptButton);
             declineButton = itemView.findViewById(R.id.declineButton);
+            cancellationsTextView = itemView.findViewById(R.id.cancellationText);
         }
     }
 }
