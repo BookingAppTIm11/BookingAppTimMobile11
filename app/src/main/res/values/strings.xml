@@ -168,4 +168,5 @@
     <string name="accommodation_rating_notifications">Accommodation Rating Notifications</string>
     <string name="profit_statistics">Profit Statistics</string>
     <string name="notifications_owner">Notifications</string>
+    <string name="favorite_accommodations">Favorite Accommodations</string>
 </resources>
