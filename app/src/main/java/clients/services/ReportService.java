@@ -2,6 +2,7 @@ package clients.services;
 
 import com.example.bookingapptim11.models.Report;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -21,7 +22,7 @@ public interface ReportService {
             "Content-Type:application/json"
     })
     @GET("reports")
-    Call<List<Report>> getReports();
+    Call<ArrayList<Report>> getReports();
 
     @Headers({
             "User-Agent: Mobile-Android",
@@ -43,6 +44,13 @@ public interface ReportService {
     })
     @PUT("reports/{id}")
     Call<Report> updateReport(@Path("id") Long id, @Body Report reportDTO);
+
+    @Headers({
+            "User-Agent: Mobile-Android",
+            "Content-Type:application/json"
+    })
+    @PUT("users/{email}/block")
+    Call<Void> blockUser(@Path("email") String email, @Header("Authorization") String authorizationHeader);
 
     @Headers({
             "User-Agent: Mobile-Android",
