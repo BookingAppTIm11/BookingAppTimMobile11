@@ -50,12 +50,8 @@ public interface AccommodationService {
     @GET("availabilities/accommodation/{accommodation_id}")
     Call<ArrayList<Availability>> getAccommodationAvailability(@Path("accommodation_id") Long accommodationId);
 
-    @Headers({
-            "User-Agent: Mobile-Android",
-            "Content-Type:application/json"
-    })
     @POST("reservations")
-    Call<ReservationForShowDTO> createReservation(@Body ReservationDTO reservationDTO, @Header("Authorization") String authorization);
+    Call<ReservationForShowDTO> createReservation(@Body ReservationDTO reservationDTO);
 
     @Headers({
             "User-Agent: Mobile-Android",

@@ -519,7 +519,7 @@ public class AmenityDetailsFragment extends Fragment{
 
     public void createReservation(ReservationDTO reservationDTO) {
         // Assuming retrofitService is your Retrofit API service interface
-        Call<ReservationForShowDTO> call = accommodationService.createReservation(reservationDTO, AuthManager.getToken());
+        Call<ReservationForShowDTO> call = accommodationService.createReservation(reservationDTO);
 
         call.enqueue(new Callback<ReservationForShowDTO>() {
             @Override
