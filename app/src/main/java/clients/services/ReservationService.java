@@ -41,4 +41,11 @@ public interface ReservationService {
             @Query("accommodationName") String accommodationName,
             @Query("email") String email
     );
+    @GET("reservations/guest/search")
+    Call<ArrayList<GuestReservation>> searchGuestReservations(
+            @Query("startDate") Long startDate,
+            @Query("endDate") Long endDate,
+            @Query("accommodationName") String accommodationName,
+            @Query("email") String email
+    );
 }

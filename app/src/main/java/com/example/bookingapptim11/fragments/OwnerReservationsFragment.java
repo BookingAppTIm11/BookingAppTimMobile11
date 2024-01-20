@@ -132,16 +132,20 @@ public class OwnerReservationsFragment extends Fragment {
     }
 
     private void callSearchOwnersReservations() {
+        Long checkInSeconds = null;
+        Long checkOutSeconds = null;
 
-        LocalDateTime checkInDateTime = LocalDate.parse(checkInDateEditText.getText()).atStartOfDay();
-        LocalDateTime checkOutDateTime = LocalDate.parse(checkOutDateEditText.getText()).atStartOfDay();
-        Long checkInSeconds = checkInDateTime.atZone(ZoneOffset.UTC).toEpochSecond();
-        Long checkOutSeconds = checkOutDateTime.atZone(ZoneOffset.UTC).toEpochSecond();
-        if(checkInSeconds > checkOutSeconds){
-            checkInSeconds  = null;
-            checkOutSeconds = null;
+
+        if(!checkInDateEditText.getText().toString().isEmpty() && !checkOutDateEditText.getText().toString().isEmpty()){
+            LocalDateTime checkInDateTime = LocalDate.parse(checkInDateEditText.getText()).atStartOfDay();
+            LocalDateTime checkOutDateTime = LocalDate.parse(checkOutDateEditText.getText()).atStartOfDay();
+            checkInSeconds = checkInDateTime.atZone(ZoneOffset.UTC).toEpochSecond();
+            checkOutSeconds = checkOutDateTime.atZone(ZoneOffset.UTC).toEpochSecond();
+            if(checkInSeconds > checkOutSeconds){
+                checkInSeconds  = null;
+                checkOutSeconds = null;
+            }
         }
-
         String accommodationName = String.valueOf(accommodationNameEditText.getText()); // set your value
         if(accommodationName.isEmpty()) accommodationName = null;
 
