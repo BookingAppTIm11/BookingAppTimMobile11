@@ -163,9 +163,11 @@ public class OwnerReservationsFragment extends Fragment {
                 if (response.isSuccessful() && response.body() != null) {
                     reservations.clear();
                     for (OwnerReservation reservation : response.body()) {
-                        if ("Waiting".equals(reservation.getStatus().toString())) {
+                        if(String.valueOf(reservation.getStatus()).equals(spinner.getSelectedItem().toString()) || spinner.getSelectedItem().toString().equals("Status (default)"))
+                        {
                             reservations.add(reservation);
                         }
+
                     }
                     refreshOwnerReservationsAdapter();
                 } else {

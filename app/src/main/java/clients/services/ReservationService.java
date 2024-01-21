@@ -1,5 +1,6 @@
 package clients.services;
 
+import com.example.bookingapptim11.dto.NumberOfCancellationsDTO;
 import com.example.bookingapptim11.models.Availability;
 import com.example.bookingapptim11.models.GuestReservation;
 import com.example.bookingapptim11.models.OwnerReservation;
@@ -19,6 +20,10 @@ public interface ReservationService {
     Call<ArrayList<OwnerReservation>> getOwnersReservations(@Path("email") String email);
     @GET("reservations/guest/{email}")
     Call<ArrayList<GuestReservation>> getGuestsReservations(@Path("email") String email);
+
+    @GET("reservations/guest/{email}/cancellations")
+    Call<NumberOfCancellationsDTO> getNumberOfCancellations(@Path("email") String email);
+
     @PUT("reservations/accept/{reservationId}")
     Call<OwnerReservation> acceptReservation(
             @Path("reservationId") Long reservationId

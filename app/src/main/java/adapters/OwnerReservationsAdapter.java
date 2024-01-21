@@ -7,11 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bookingapptim11.R;
+import com.example.bookingapptim11.dto.NumberOfCancellationsDTO;
 import com.example.bookingapptim11.models.AccommodationDetailsDTO;
 import com.example.bookingapptim11.models.AccommodationStatus;
 import com.example.bookingapptim11.models.OwnerReservation;
@@ -47,7 +49,20 @@ public class OwnerReservationsAdapter extends RecyclerView.Adapter<OwnerReservat
         holder.guestTextView.setText(String.valueOf(data.get(position).getGuest()));
         holder.dateTextView.setText(String.valueOf(date));
         holder.statusTextView.setText(String.valueOf(data.get(position).getStatus()));
-        holder.cancellationsTextView.setText(String.valueOf(data.get(position).getCancelledReservations()));
+
+        Call<NumberOfCancellationsDTO> call = ClientUtils.reservationService.getNumberOfCancellations(data.get(position).getGuest());
+        call.enqueue(new Callback<NumberOfCancellationsDTO>() {
+            @Override
+            public void onResponse(Call<NumberOfCancellationsDTO> call, Response<NumberOfCancellationsDTO> response) {
+                if (response.isSuccessful() && response.body() != null){
+                    holder.cancellationsTextView.setText(String.valueOf(response.body().getNumberOfCancellations()));
+                }
+            }
+            @Override
+            public void onFailure(Call<NumberOfCancellationsDTO> call, Throwable t) {
+
+            }
+        });
 
         holder.acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
