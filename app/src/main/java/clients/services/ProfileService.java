@@ -11,6 +11,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -29,14 +30,14 @@ public interface ProfileService {
             "Content-Type:application/json"
     })
     @PUT("users/{email}/update")
-    Call<Profile> edit(@Path("email") String email, @Body Profile profile);
+    Call<Profile> edit(@Path("email") String email, @Body Profile profile, @Header("Authorization") String authorizationHeader);
 
     @Headers({
             "User-Agent: Mobile-Android",
             "Content-Type:application/json"
     })
     @DELETE("users/{email}")
-    Call<Void> delete(@Path("email") String email);
+    Call<Void> delete(@Path("email") String email, @Header("Authorization") String authorizationHeader);
 
 
     @Headers({
