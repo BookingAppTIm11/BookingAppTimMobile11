@@ -1,5 +1,7 @@
 package adapters;
 
+import static clients.ClientUtils.profileService;
+
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,10 +14,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bookingapptim11.R;
+import com.example.bookingapptim11.dto.NotificationDTO;
+import com.example.bookingapptim11.dto.NotificationType;
+import com.example.bookingapptim11.models.AccommodationDetailsDTO;
 import com.example.bookingapptim11.models.GuestReservation;
 import com.example.bookingapptim11.models.Review;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import clients.ClientUtils;
 import login.AuthManager;
@@ -38,7 +45,6 @@ public class AdminReviewsAdapter extends RecyclerView.Adapter<AdminReviewsAdapte
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_admin_ratings_item, parent, false);
         return new AdminReviewsAdapter.ViewHolder(view);
     }
-
     @Override
     public long getItemId(int position) {
         return position;
@@ -85,6 +91,64 @@ public class AdminReviewsAdapter extends RecyclerView.Adapter<AdminReviewsAdapte
                         }else{
                             Log.d("REZ","Meesage recieved: "+response.code());
                         }
+
+                        if(data.get(clickedPosition).getOwnerEmail() == null || data.get(clickedPosition).getOwnerEmail() == ""){
+
+                            Call<AccommodationDetailsDTO> call2 = ClientUtils.accommodationService.getAccommodation(data.get(clickedPosition).getAccommodationId());
+                            call2.enqueue(new Callback<AccommodationDetailsDTO>() {
+                                @Override
+                                public void onResponse(Call<AccommodationDetailsDTO> call2, Response<AccommodationDetailsDTO> response) {
+                                    if (response.code() == 200){
+                                        NotificationDTO notificationCreatedDTO = new NotificationDTO(0L,
+                                                response.body().getOwnerEmail(),
+                                                NotificationType.RATING_ACCOMMODATIONS,
+                                                data.get(clickedPosition).getGuestEmail() +" has reviewed your accommodation " + data.get(clickedPosition).getAccommodationId());
+
+                                        Call<NotificationDTO> call1 = profileService.createNotification(notificationCreatedDTO);
+                                        call1.enqueue(new Callback<NotificationDTO>() {
+                                            @Override
+                                            public void onResponse(Call<NotificationDTO> call1, Response<NotificationDTO> response) {
+                                                if (response.isSuccessful()) {
+                                                    data.remove(clickedPosition);
+                                                    notifyItemRemoved(clickedPosition);
+                                                } else {
+                                                }
+                                            }
+                                            @Override
+                                            public void onFailure(Call<NotificationDTO> call1, Throwable t) {
+
+                                            }
+                                        });
+                                    }else{
+                                        Log.d("REZ","Meesage recieved: "+response.code());
+                                    }
+                                }
+                                @Override
+                                public void onFailure(Call<AccommodationDetailsDTO> call, Throwable t) {
+                                }
+                            });
+
+                        }else {
+                            NotificationDTO notificationCreatedDTO = new NotificationDTO(0L,
+                                    data.get(clickedPosition).getOwnerEmail(),
+                                    NotificationType.RATING_ACCOMMODATIONS,
+                                    data.get(clickedPosition).getGuestEmail() + " has reviewed you! ");
+                            Call<NotificationDTO> call1 = profileService.createNotification(notificationCreatedDTO);
+                            call1.enqueue(new Callback<NotificationDTO>() {
+                                @Override
+                                public void onResponse(Call<NotificationDTO> call1, Response<NotificationDTO> response) {
+                                    if (response.isSuccessful()) {
+                                        data.remove(clickedPosition);
+                                        notifyItemRemoved(clickedPosition);
+                                    } else {
+                                    }
+                                }
+                                @Override
+                                public void onFailure(Call<NotificationDTO> call1, Throwable t) {
+
+                                }
+                            });
+                        }
                     }
                     @Override
                     public void onFailure(Call<Review> call, Throwable t) {
@@ -93,7 +157,6 @@ public class AdminReviewsAdapter extends RecyclerView.Adapter<AdminReviewsAdapte
                 });
             }
         });
-
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

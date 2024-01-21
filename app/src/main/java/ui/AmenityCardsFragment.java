@@ -193,7 +193,6 @@ public class AmenityCardsFragment extends Fragment {
             }
         }
 
-
         Call<ArrayList<AccommodationDetailsDTO>> call = accommodationService.searchAccommodations(guests, location, checkInSeconds, checkOutSeconds);
         call.enqueue(new Callback<ArrayList<AccommodationDetailsDTO>>() {
             @Override
