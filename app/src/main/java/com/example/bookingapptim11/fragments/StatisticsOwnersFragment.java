@@ -99,9 +99,8 @@ public class StatisticsOwnersFragment extends Fragment {
     }
 
     private void setupDownloadPdfButton(View root) {
-        if(!isStoragePermissionGranted(getActivity())){
-            return;
-        }
+        isStoragePermissionGranted(getActivity());
+
 
         pdfButton = root.findViewById(R.id.getPdfButton);
         pdfButton.setOnClickListener(new View.OnClickListener() {
