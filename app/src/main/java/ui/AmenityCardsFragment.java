@@ -36,6 +36,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -57,7 +58,7 @@ public class AmenityCardsFragment extends Fragment  implements SensorEventListen
     private Button searchButton;
 
     private SensorManager sensorManager;
-    private static final int SHAKE_THRESHOLD = 100;
+    private static final int SHAKE_THRESHOLD = 500;
     private long lastUpdate;
     private float last_x;
     private float last_y;
@@ -67,7 +68,7 @@ public class AmenityCardsFragment extends Fragment  implements SensorEventListen
     public void onSensorChanged(SensorEvent sensorEvent) {
         if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             long currentTime = System.currentTimeMillis();
-            if ((currentTime - lastUpdate) > 600) {
+            if ((currentTime - lastUpdate) > 200) {
                 long diffTime = (currentTime - lastUpdate);
                 lastUpdate = currentTime;
 
@@ -77,9 +78,19 @@ public class AmenityCardsFragment extends Fragment  implements SensorEventListen
 
                 double acceleration = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
 
+                double tiltAngle = Math.atan2(y, Math.sqrt(x * x + z * z));
+
+                // Convert tilt angle to degrees
+                tiltAngle = Math.toDegrees(tiltAngle);
+
+                // Check if the phone is tilted forward or backward
+                if (tiltAngle < 45 && tiltAngle > -45) {
+
+                    toggleSortingPrice();
+                }
+
 
                 if (acceleration > SHAKE_THRESHOLD) {
-
                     toggleSorting();
                 }
 
@@ -91,7 +102,20 @@ public class AmenityCardsFragment extends Fragment  implements SensorEventListen
         }
     }
 
+    Comparator<AccommodationDetailsDTO> priceComparator = new Comparator<AccommodationDetailsDTO>() {
+        @Override
+        public int compare(AccommodationDetailsDTO accommodation1, AccommodationDetailsDTO accommodation2) {
+
+            return Double.compare(accommodation1.getDefaultPrice(), accommodation2.getDefaultPrice());
+        }
+    };
+    private void toggleSortingPrice(){
+        accommodationList.sort(priceComparator);
+        refreshAccommodationAdapter();
+    }
+
     private void toggleSorting() {
+        accommodationList.sort(priceComparator);
         Collections.reverse(accommodationList);
         refreshAccommodationAdapter();
     }
