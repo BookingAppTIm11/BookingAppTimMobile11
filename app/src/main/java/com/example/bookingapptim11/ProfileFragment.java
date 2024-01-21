@@ -127,7 +127,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void deleteProfile(){
-        Call<Void> call = ClientUtils.profileService.delete(AuthManager.getUserEmail());
+        Call<Void> call = ClientUtils.profileService.delete(AuthManager.getUserEmail(),"Bearer " + AuthManager.getToken());
         call.enqueue(new Callback<Void>(){
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -156,7 +156,7 @@ public class ProfileFragment extends Fragment {
 
     private void updateProfile(){
 
-        Call<Profile> call = ClientUtils.profileService.edit(AuthManager.getUserEmail(), collectFormData());
+        Call<Profile> call = ClientUtils.profileService.edit(AuthManager.getUserEmail(), collectFormData(), "Bearer " + AuthManager.getToken());
         call.enqueue(new Callback<Profile>() {
             @Override
             public void onResponse(Call<Profile> call, Response<Profile> response) {

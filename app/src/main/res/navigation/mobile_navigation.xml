@@ -80,6 +80,11 @@
         android:name="com.example.bookingapptim11.fragments.AdminRatingsFragment"
         android:label="Reviews"
         tools:layout="@layout/fragment_admin_ratings" />
+    <fragment
+        android:id="@+id/admin_reports"
+        android:name="com.example.bookingapptim11.fragments.AdminReportsFragment"
+        android:label="Reports"
+        tools:layout="@layout/fragment_admin_reports" />
 
 
 </navigation>
