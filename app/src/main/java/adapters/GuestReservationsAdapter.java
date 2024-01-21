@@ -1,6 +1,7 @@
 package adapters;
 
 import static clients.ClientUtils.profileService;
+import static clients.ClientUtils.reservationService;
 
 import android.content.Context;
 import android.util.Log;
@@ -21,6 +22,7 @@ import com.example.bookingapptim11.fragments.GuestReservationsFragment;
 import com.example.bookingapptim11.models.AccommodationDetailsDTO;
 import com.example.bookingapptim11.models.GuestReservation;
 import com.example.bookingapptim11.models.OwnerReservation;
+import com.example.bookingapptim11.models.ReservationStatus;
 
 import java.util.Date;
 import java.util.List;
@@ -56,6 +58,10 @@ public class GuestReservationsAdapter  extends RecyclerView.Adapter<GuestReserva
         holder.priceTextView.setText(String.valueOf(data.get(position).getPrice()));
         holder.dateTextView.setText(String.valueOf(date));
         holder.statusTextView.setText(String.valueOf(data.get(position).getStatus()));
+        if(!data.get(position).getStatus().equals(ReservationStatus.Waiting)){
+            holder.deleteButton.setVisibility(View.GONE);
+        }
+
         final AccommodationDetailsDTO[] accommodation = new AccommodationDetailsDTO[1];
         int clickedPosition = holder.getAdapterPosition();
         Call<AccommodationDetailsDTO> call = ClientUtils.accommodationService.getAccommodation(data.get(clickedPosition).getAccommodation());
@@ -136,6 +142,24 @@ public class GuestReservationsAdapter  extends RecyclerView.Adapter<GuestReserva
                 });
             }
         });
+
+        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Call<Void> call = reservationService.deleteReservation(data.get(position).getId());
+                call.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+
+                    }
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+
+                    }
+                });
+                data.remove(position);
+            }
+        });
     }
 
     @Override
@@ -149,7 +173,7 @@ public class GuestReservationsAdapter  extends RecyclerView.Adapter<GuestReserva
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView accommodationIdTextView, priceTextView, dateTextView, statusTextView;
-        Button cancelButton;
+        Button cancelButton, deleteButton;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -159,6 +183,7 @@ public class GuestReservationsAdapter  extends RecyclerView.Adapter<GuestReserva
             dateTextView = itemView.findViewById(R.id.dateTextView);
             statusTextView = itemView.findViewById(R.id.statusTextView);
             cancelButton = itemView.findViewById(R.id.cancelButton);
+            deleteButton = itemView.findViewById(R.id.deleteButton);
         }
     }
 }

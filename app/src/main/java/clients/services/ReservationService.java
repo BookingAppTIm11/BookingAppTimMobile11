@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -28,6 +29,12 @@ public interface ReservationService {
     Call<OwnerReservation> acceptReservation(
             @Path("reservationId") Long reservationId
     );
+
+    @DELETE("reservations/{reservationId}")
+    Call<Void> deleteReservation(
+            @Path("reservationId") Long reservationId
+    );
+
 
     @PUT("reservations/decline/{reservationId}")
     Call<OwnerReservation> declineReservation(

@@ -94,6 +94,28 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/buttonsDeleteLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+
+                <Button
+                    android:id="@+id/deleteButton"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/light_orange"
+                    android:text="@string/delete"
+                    android:textSize="12sp" />
+
+
+            </LinearLayout>
+
 
         </LinearLayout>
 

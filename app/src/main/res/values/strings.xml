@@ -170,4 +170,5 @@
     <string name="profit_statistics">Profit Statistics</string>
     <string name="notifications_owner">Notifications</string>
     <string name="favorite_accommodations">Favorite Accommodations</string>
+    <string name="delete">Delete</string>
 </resources>
