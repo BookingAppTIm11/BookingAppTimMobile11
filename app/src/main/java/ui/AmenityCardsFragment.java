@@ -4,13 +4,19 @@ import com.example.bookingapptim11.models.AccommodationStatus;
 import static clients.ClientUtils.accommodationService;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +35,7 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -39,7 +46,7 @@ import adapters.AmenityCardAdapter;
 import com.example.bookingapptim11.models.Accommodation;
 
 
-public class AmenityCardsFragment extends Fragment {
+public class AmenityCardsFragment extends Fragment  implements SensorEventListener {
     List<AccommodationDetailsDTO> accommodationList;
     AmenityCardAdapter amenityCardAdapter;
     RecyclerView recyclerView;
@@ -48,6 +55,74 @@ public class AmenityCardsFragment extends Fragment {
     private EditText locationEditText;
     private EditText guestsEditText;
     private Button searchButton;
+
+    private SensorManager sensorManager;
+    private static final int SHAKE_THRESHOLD = 100;
+    private long lastUpdate;
+    private float last_x;
+    private float last_y;
+    private float last_z;
+
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            long currentTime = System.currentTimeMillis();
+            if ((currentTime - lastUpdate) > 600) {
+                long diffTime = (currentTime - lastUpdate);
+                lastUpdate = currentTime;
+
+                float x = sensorEvent.values[0];
+                float y = sensorEvent.values[1];
+                float z = sensorEvent.values[2];
+
+                double acceleration = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
+
+
+                if (acceleration > SHAKE_THRESHOLD) {
+
+                    toggleSorting();
+                }
+
+                last_x = x;
+                last_y = y;
+                last_z = z;
+
+            }
+        }
+    }
+
+    private void toggleSorting() {
+        Collections.reverse(accommodationList);
+        refreshAccommodationAdapter();
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        if(sensor.getType() == Sensor.TYPE_ACCELEROMETER){
+            Log.i("REZ_ACCELEROMETER", String.valueOf(accuracy));
+        }
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        sensorManager = (SensorManager) requireActivity().getSystemService(Context.SENSOR_SERVICE);
+        sensorManager.registerListener(this,
+                sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_NORMAL);
+
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+
+        sensorManager.unregisterListener(this);
+
+    }
+
 
 
     public interface OnItemClickListener {
