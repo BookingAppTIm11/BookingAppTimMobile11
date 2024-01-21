@@ -13,8 +13,78 @@
 
     <fragment
         android:id="@+id/nav_profile"
-        android:name="com.example.bookingapptim11.ProfileFragment"
+        android:name="com.example.bookingapptim11.fragments.ProfileFragment"
         android:label="@string/menu_profile"
         tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/accommodation_requests"
+        android:name="com.example.bookingapptim11.fragments.AccommodationRequestsFragment"
+        android:label="@string/accommodation_requests"
+        tools:layout="@layout/fragment_accommodation_requests" />
+
+    <fragment
+        android:id="@+id/my_accommodations"
+        android:name="com.example.bookingapptim11.fragments.OwnersAccommodationsFragment"
+        android:label="My Accommodations"
+        tools:layout="@layout/fragment_owners_accommodations" />
+
+    <fragment
+        android:id="@+id/update_accommodations"
+        android:name="com.example.bookingapptim11.fragments.AccommodationUpdateFragment"
+        android:label="Accommodation Update"
+        tools:layout="@layout/fragment_accommodation_update" />
+    <fragment
+        android:id="@+id/create_accommodations"
+        android:name="com.example.bookingapptim11.fragments.AccommodationCreationFragment"
+        android:label="Accommodation Creation"
+        tools:layout="@layout/accommodation_creation" />
+    <fragment
+        android:id="@+id/owner_report_nav"
+        android:name="com.example.bookingapptim11.fragments.OwnerReportFragment"
+        android:label="Report guests"
+        tools:layout="@layout/fragment_owner_report" />
+
+    <fragment
+        android:id="@+id/guest_report_nav"
+        android:name="com.example.bookingapptim11.fragments.GuestReportFragment"
+        android:label="Report owners"
+        tools:layout="@layout/fragment_guest_report" />
+    <fragment
+        android:id="@+id/favorite_accommodations"
+        android:name="com.example.bookingapptim11.fragments.FavoriteAccommodationsFragment"
+        android:label="Favorite Accommodations"
+        tools:layout="@layout/fragment_favorite_accommodations" />
+    <fragment
+        android:id="@+id/profit_statistics"
+        android:name="com.example.bookingapptim11.fragments.StatisticsOwnersFragment"
+        android:label="Profit Statistics"
+        tools:layout="@layout/fragment_statistics_owners" />
+    <fragment
+        android:id="@+id/owner_notifications"
+        android:name="com.example.bookingapptim11.fragments.NotificationOwnersFragment"
+        android:label="Notifications"
+        tools:layout="@layout/fragment_notification_owners" />
+    <fragment
+        android:id="@+id/my_reservations"
+        android:name="com.example.bookingapptim11.fragments.OwnerReservationsFragment"
+        android:label="My reservations"
+        tools:layout="@layout/fragment_owner_reservations" />
+    <fragment
+        android:id="@+id/my_reservations_guest"
+        android:name="com.example.bookingapptim11.fragments.GuestReservationsFragment"
+        android:label="My reservations"
+        tools:layout="@layout/fragment_guest_reservations" />
+    <fragment
+        android:id="@+id/admin_reviews"
+        android:name="com.example.bookingapptim11.fragments.AdminRatingsFragment"
+        android:label="Reviews"
+        tools:layout="@layout/fragment_admin_ratings" />
+    <fragment
+        android:id="@+id/admin_reports"
+        android:name="com.example.bookingapptim11.fragments.AdminReportsFragment"
+        android:label="Reports"
+        tools:layout="@layout/fragment_admin_reports" />
+
 
 </navigation>

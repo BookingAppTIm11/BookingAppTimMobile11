@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Spinner
+        android:id="@+id/spinner2"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+    <TextView
+        android:id="@+id/accommodationNameText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Accommodation name" />
+    <EditText
+        android:id="@+id/accommodationNameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"/>
+
+    <TextView
+        android:id="@+id/startDateText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start date" />
+
+    <EditText
+        android:id="@+id/checkInTextDate"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:allowClickWhenDisabled="true"
+        android:ems="10"
+        android:enabled="false"
+        android:inputType="date"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/endDateText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="End date" />
+
+    <EditText
+        android:id="@+id/checkOutTextDate"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:allowClickWhenDisabled="true"
+        android:ems="10"
+        android:enabled="false"
+        android:inputType="date" />
+
+    <Button
+        android:id="@+id/searchOwnerReservationsButton"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginRight="0dp"
+        android:backgroundTint="@color/light_orange"
+        android:shadowRadius="30"
+        android:text="SEARCH"
+        android:textColor="@color/white"
+        android:textColorHighlight="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"></LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/guestsReservations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
+
