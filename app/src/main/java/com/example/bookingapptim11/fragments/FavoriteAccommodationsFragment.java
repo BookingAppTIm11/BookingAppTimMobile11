@@ -1,8 +1,7 @@
 package com.example.bookingapptim11.fragments;
 
-import static clients.ClientUtils.accommodationService;
+import static com.example.bookingapptim11.clients.ClientUtils.accommodationService;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,17 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.bookingapptim11.AccommodationDetailsActivity;
 import com.example.bookingapptim11.R;
 import com.example.bookingapptim11.dto.AccommodationWithAmenitiesDTO;
-import com.example.bookingapptim11.models.AccommodationDetailsDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import adapters.AccommodaitonAmenitiesDTOAdapter;
-import adapters.AmenityCardAdapter;
-import login.AuthManager;
+import com.example.bookingapptim11.adapters.AccommodaitonAmenitiesDTOAdapter;
+
+import com.example.bookingapptim11.login.AuthManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

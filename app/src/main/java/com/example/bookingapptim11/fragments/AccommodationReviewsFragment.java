@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +17,9 @@ import com.example.bookingapptim11.models.Review;
 import java.util.ArrayList;
 import java.util.List;
 
-import adapters.ReviewAdapter;
-import clients.ClientUtils;
-import login.AuthManager;
+import com.example.bookingapptim11.adapters.ReviewAdapter;
+import com.example.bookingapptim11.clients.ClientUtils;
+import com.example.bookingapptim11.login.AuthManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

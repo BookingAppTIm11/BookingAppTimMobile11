@@ -1,15 +1,13 @@
 package ui;
 
-import static clients.ClientUtils.accommodationService;
-import static clients.ClientUtils.authService;
-import static clients.ClientUtils.profileService;
-import static clients.ClientUtils.reviewService;
+import static com.example.bookingapptim11.clients.ClientUtils.accommodationService;
+import static com.example.bookingapptim11.clients.ClientUtils.profileService;
+import static com.example.bookingapptim11.clients.ClientUtils.reviewService;
 
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +35,7 @@ import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
 
-import com.example.bookingapptim11.NavigationActivity;
+import com.example.bookingapptim11.activity.NavigationActivity;
 import com.example.bookingapptim11.R;
 
 import com.example.bookingapptim11.dto.NotificationDTO;
@@ -48,7 +46,6 @@ import com.example.bookingapptim11.fragments.OwnerReviewsFragment;
 import com.example.bookingapptim11.dto.FavoriteAccommodationDTO;
 
 import com.example.bookingapptim11.models.AccommodationDetailsDTO;
-import com.example.bookingapptim11.models.AccommodationType;
 import com.example.bookingapptim11.models.Availability;
 import com.example.bookingapptim11.models.ReservationDTO;
 import com.example.bookingapptim11.models.ReservationForShowDTO;
@@ -59,7 +56,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 
-import java.lang.reflect.Field;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -70,10 +66,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import clients.ClientUtils;
-import login.AuthManager;
-import login.AuthManager;
-import okhttp3.Request;
+
+import com.example.bookingapptim11.login.AuthManager;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

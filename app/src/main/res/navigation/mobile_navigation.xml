@@ -13,25 +13,25 @@
 
     <fragment
         android:id="@+id/nav_profile"
-        android:name="com.example.bookingapptim11.ProfileFragment"
+        android:name="com.example.bookingapptim11.fragments.ProfileFragment"
         android:label="@string/menu_profile"
         tools:layout="@layout/fragment_profile" />
 
     <fragment
         android:id="@+id/accommodation_requests"
-        android:name="com.example.bookingapptim11.AccommodationRequestsFragment"
+        android:name="com.example.bookingapptim11.fragments.AccommodationRequestsFragment"
         android:label="@string/accommodation_requests"
         tools:layout="@layout/fragment_accommodation_requests" />
 
     <fragment
         android:id="@+id/my_accommodations"
-        android:name="com.example.bookingapptim11.OwnersAccommodationsFragment"
+        android:name="com.example.bookingapptim11.fragments.OwnersAccommodationsFragment"
         android:label="My Accommodations"
         tools:layout="@layout/fragment_owners_accommodations" />
 
     <fragment
         android:id="@+id/update_accommodations"
-        android:name="com.example.bookingapptim11.AccommodationUpdateFragment"
+        android:name="com.example.bookingapptim11.fragments.AccommodationUpdateFragment"
         android:label="Accommodation Update"
         tools:layout="@layout/fragment_accommodation_update" />
     <fragment

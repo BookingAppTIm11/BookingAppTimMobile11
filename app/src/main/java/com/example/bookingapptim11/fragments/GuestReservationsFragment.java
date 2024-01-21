@@ -1,6 +1,6 @@
 package com.example.bookingapptim11.fragments;
 
-import static clients.ClientUtils.reservationService;
+import static com.example.bookingapptim11.clients.ClientUtils.reservationService;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import com.example.bookingapptim11.R;
 import com.example.bookingapptim11.models.GuestReservation;
-import com.example.bookingapptim11.models.OwnerReservation;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -30,10 +29,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import adapters.GuestReservationsAdapter;
-import adapters.OwnerReservationsAdapter;
-import clients.ClientUtils;
-import login.AuthManager;
+import com.example.bookingapptim11.adapters.GuestReservationsAdapter;
+import com.example.bookingapptim11.clients.ClientUtils;
+import com.example.bookingapptim11.login.AuthManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

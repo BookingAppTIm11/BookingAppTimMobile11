@@ -41,19 +41,19 @@
 
 
         <activity
-            android:name=".AccommodationDetailsActivity"
+            android:name=".activity.AccommodationDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".AmenitiesActivity"
+            android:name=".activity.AmenitiesActivity"
             android:exported="false"
             android:label="Booking App" />
         <activity
-            android:name=".NavigationActivity"
+            android:name=".activity.NavigationActivity"
             android:exported="false"
             android:label="@string/title_activity_navigation"
             android:theme="@style/Theme.BookingAppTim11.NoActionBar" />
         <activity
-            android:name=".SplashScreenActivity"
+            android:name=".activity.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -62,16 +62,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".HomeScreen"
+            android:name=".activity.HomeScreen"
             android:exported="false" />
         <activity
-            android:name=".RegisterScreenActivity"
+            android:name=".activity.RegisterScreenActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginScreenActivity"
+            android:name=".activity.LoginScreenActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:exported="true" />
 
         <meta-data

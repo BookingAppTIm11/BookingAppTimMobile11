@@ -1,7 +1,7 @@
 package ui;
 
 import com.example.bookingapptim11.models.AccommodationStatus;
-import static clients.ClientUtils.accommodationService;
+import static com.example.bookingapptim11.clients.ClientUtils.accommodationService;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -24,9 +24,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.bookingapptim11.AccommodationDetailsActivity;
+import com.example.bookingapptim11.activity.AccommodationDetailsActivity;
 import com.example.bookingapptim11.R;
-import adapters.AmenityCardAdapter;
+import com.example.bookingapptim11.adapters.AmenityCardAdapter;
 import com.example.bookingapptim11.models.AccommodationDetailsDTO;
 
 import java.time.LocalDate;
@@ -42,9 +42,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import adapters.AmenityCardAdapter;
-import com.example.bookingapptim11.models.Accommodation;
 
 
 public class AmenityCardsFragment extends Fragment  implements SensorEventListener {

@@ -5,17 +5,14 @@ import android.app.DatePickerDialog;
 import android.content.ClipData;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
-import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,9 +29,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import static clients.ClientUtils.accommodationCreationService;
+import static com.example.bookingapptim11.clients.ClientUtils.accommodationCreationService;
 import com.example.bookingapptim11.R;
-import com.example.bookingapptim11.RegisterScreenActivity;
 import com.example.bookingapptim11.accommodationCreation.AccommodationDetails;
 import com.example.bookingapptim11.accommodationCreation.TimeSlot;
 import com.example.bookingapptim11.models.AccommodationStatus;
@@ -45,8 +41,6 @@ import com.example.bookingapptim11.models.Price;
 import com.example.bookingapptim11.models.PriceType;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -56,17 +50,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import clients.services.Validate;
-import login.AuthManager;
+import com.example.bookingapptim11.clients.services.Validate;
+import com.example.bookingapptim11.login.AuthManager;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
-import registration.UserRegistration;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.Multipart;
 
 public class AccommodationCreationFragment extends Fragment {
 

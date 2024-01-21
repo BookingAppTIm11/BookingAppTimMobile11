@@ -1,6 +1,6 @@
 package com.example.bookingapptim11.fragments;
 
-import static clients.ClientUtils.reportService;
+import static com.example.bookingapptim11.clients.ClientUtils.reportService;
 
 import android.os.Bundle;
 
@@ -21,7 +21,7 @@ import com.example.bookingapptim11.models.Report;
 
 import java.util.List;
 
-import login.AuthManager;
+import com.example.bookingapptim11.login.AuthManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

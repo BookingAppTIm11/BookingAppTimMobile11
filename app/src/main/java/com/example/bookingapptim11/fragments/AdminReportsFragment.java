@@ -13,14 +13,13 @@ import android.widget.Toast;
 
 import com.example.bookingapptim11.R;
 import com.example.bookingapptim11.models.Report;
-import com.example.bookingapptim11.models.Review;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import adapters.AdminReportsAdapter;
-import adapters.AdminReviewsAdapter;
-import clients.ClientUtils;
+import com.example.bookingapptim11.adapters.AdminReportsAdapter;
+
+import com.example.bookingapptim11.clients.ClientUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

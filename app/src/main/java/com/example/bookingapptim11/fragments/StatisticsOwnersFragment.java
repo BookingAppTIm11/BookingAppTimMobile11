@@ -1,7 +1,7 @@
 package com.example.bookingapptim11.fragments;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-import static clients.ClientUtils.accommodationService;
+import static com.example.bookingapptim11.clients.ClientUtils.accommodationService;
 
 import android.Manifest;
 import android.app.Activity;
@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -62,7 +61,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
-import login.AuthManager;
+import com.example.bookingapptim11.login.AuthManager;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
