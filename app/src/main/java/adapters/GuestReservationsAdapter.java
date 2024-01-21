@@ -1,5 +1,7 @@
 package adapters;
 
+import static clients.ClientUtils.profileService;
+
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,11 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bookingapptim11.R;
+import com.example.bookingapptim11.dto.NotificationDTO;
+import com.example.bookingapptim11.dto.NotificationType;
 import com.example.bookingapptim11.fragments.GuestReservationsFragment;
 import com.example.bookingapptim11.models.AccommodationDetailsDTO;
 import com.example.bookingapptim11.models.GuestReservation;
@@ -22,6 +27,7 @@ import java.util.List;
 import java.util.Objects;
 
 import clients.ClientUtils;
+import login.AuthManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -50,13 +56,14 @@ public class GuestReservationsAdapter  extends RecyclerView.Adapter<GuestReserva
         holder.priceTextView.setText(String.valueOf(data.get(position).getPrice()));
         holder.dateTextView.setText(String.valueOf(date));
         holder.statusTextView.setText(String.valueOf(data.get(position).getStatus()));
-
+        final AccommodationDetailsDTO[] accommodation = new AccommodationDetailsDTO[1];
         int clickedPosition = holder.getAdapterPosition();
         Call<AccommodationDetailsDTO> call = ClientUtils.accommodationService.getAccommodation(data.get(clickedPosition).getAccommodation());
         call.enqueue(new Callback<AccommodationDetailsDTO>() {
             @Override
             public void onResponse(Call<AccommodationDetailsDTO> call, Response<AccommodationDetailsDTO> response) {
                 if (response.code() == 200){
+                    accommodation[0] = response.body();
                     Log.d("REZ",response.toString());
                     String[] dateParts = data.get(clickedPosition).getStartDate().split("-");
                     int day = Integer.parseInt(dateParts[0]);
@@ -98,6 +105,26 @@ public class GuestReservationsAdapter  extends RecyclerView.Adapter<GuestReserva
                         if (response.code() == 200){
                             Log.d("REZ",response.toString());
                             //reload the adapter
+                            NotificationDTO notificationCreatedDTO = new NotificationDTO(0L, accommodation[0].getOwnerEmail(), NotificationType.CANCEL_RESERVATIONS,
+                                    AuthManager.getUserEmail() +" cancelled reservation with id: " + data.get(clickedPosition).getId());
+
+                            Call<NotificationDTO> call1 = profileService.createNotification(notificationCreatedDTO);
+
+                            call1.enqueue(new Callback<NotificationDTO>() {
+                                @Override
+                                public void onResponse(Call<NotificationDTO> call1, Response<NotificationDTO> response) {
+                                    if (response.isSuccessful()) {
+
+                                    } else {
+
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<NotificationDTO> call1, Throwable t) {
+
+                                }
+                            });
                         }else{
                             Log.d("REZ","Meesage recieved: "+response.code());
                         }

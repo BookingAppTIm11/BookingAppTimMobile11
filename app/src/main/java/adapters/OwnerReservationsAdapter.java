@@ -1,5 +1,7 @@
 package adapters;
 
+import static clients.ClientUtils.profileService;
+
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,7 +15,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bookingapptim11.R;
+
+import com.example.bookingapptim11.dto.NotificationDTO;
+import com.example.bookingapptim11.dto.NotificationType;
+
 import com.example.bookingapptim11.dto.NumberOfCancellationsDTO;
+
 import com.example.bookingapptim11.models.AccommodationDetailsDTO;
 import com.example.bookingapptim11.models.AccommodationStatus;
 import com.example.bookingapptim11.models.OwnerReservation;
@@ -21,6 +28,7 @@ import com.example.bookingapptim11.models.OwnerReservation;
 import java.util.List;
 
 import clients.ClientUtils;
+import login.AuthManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -74,8 +82,29 @@ public class OwnerReservationsAdapter extends RecyclerView.Adapter<OwnerReservat
                     public void onResponse(Call<OwnerReservation> call, Response<OwnerReservation> response) {
                         if (response.code() == 200){
                             Log.d("REZ",response.toString());
-                            data.remove(clickedPosition);
-                            notifyItemRemoved(clickedPosition);
+
+
+                            NotificationDTO notificationCreatedDTO = new NotificationDTO(0L, data.get(clickedPosition).getGuest(), NotificationType.RESERVATION_RESPONSE,
+                                    AuthManager.getUserEmail() +" acceppted reservation with id: " + data.get(clickedPosition).getId());
+
+                            Call<NotificationDTO> call1 = profileService.createNotification(notificationCreatedDTO);
+
+                            call1.enqueue(new Callback<NotificationDTO>() {
+                                @Override
+                                public void onResponse(Call<NotificationDTO> call1, Response<NotificationDTO> response) {
+                                    if (response.isSuccessful()) {
+                                        data.remove(clickedPosition);
+                                        notifyItemRemoved(clickedPosition);
+                                    } else {
+
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<NotificationDTO> call1, Throwable t) {
+
+                                }
+                            });
                         }else{
                             Log.d("REZ","Meesage recieved: "+response.code());
                         }
@@ -98,8 +127,29 @@ public class OwnerReservationsAdapter extends RecyclerView.Adapter<OwnerReservat
                     public void onResponse(Call<OwnerReservation> call, Response<OwnerReservation> response) {
                         if (response.code() == 200){
                             Log.d("REZ",response.toString());
-                            data.remove(clickedPosition);
-                            notifyItemRemoved(clickedPosition);
+
+
+                            NotificationDTO notificationCreatedDTO = new NotificationDTO(0L, data.get(clickedPosition).getGuest(), NotificationType.RESERVATION_RESPONSE,
+                                    AuthManager.getUserEmail() +" declined reservation with id: " + data.get(clickedPosition).getId());
+
+                            Call<NotificationDTO> call1 = profileService.createNotification(notificationCreatedDTO);
+
+                            call1.enqueue(new Callback<NotificationDTO>() {
+                                @Override
+                                public void onResponse(Call<NotificationDTO> call1, Response<NotificationDTO> response) {
+                                    if (response.isSuccessful()) {
+                                        data.remove(clickedPosition);
+                                        notifyItemRemoved(clickedPosition);
+                                    } else {
+
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<NotificationDTO> call1, Throwable t) {
+
+                                }
+                            });
                         }else{
                             Log.d("REZ","Meesage recieved: "+response.code());
                         }
